@@ -43,6 +43,8 @@ router.beforeEach(async (to, _from, next) => {
   // 如果用户已经获得其权限角色
   if (userStore.roles.length !== 0) return next()
 
+  console.log(userStore.roles)
+
   // 否则要重新获取权限角色
   try {
     if (routeSettings.async) {

@@ -11,17 +11,23 @@ export function getLoginCodeApi() {
 }
 
 /** 登录并返回 Token */
-export function loginApi(data: Login.LoginRequestData) {
-  return request<Login.LoginResponseData>({
-    url: "user/login",
-    method: "post",
-    data
+export function uploadApi(params) {
+  const formData = new FormData()
+  formData.append('image', params.file)
+  // axios的二次封装
+  return  request({
+    url: '/upload',
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    data: formData
   })
 }
 /** 注册 */
-export function registerApi(data: Login.LoginRequestData) {
+export function modifyUserApi(data: Login.LoginRequestData) {
   return request<Login.LoginResponseData>({
-    url: "user/register",
+    url: "user/modifyUser",
     method: "post",
     data
   })

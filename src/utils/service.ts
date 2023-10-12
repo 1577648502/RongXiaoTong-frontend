@@ -32,11 +32,11 @@ function createService() {
       const code = apiData.code
       // 如果没有 code, 代表这不是项目后端开发的 api
       if (code === undefined) {
-        ElMessage.error("非本系统的接口")
-        return Promise.reject(new Error("非本系统的接口"))
+        ElMessage.error("接口异常")
+        return Promise.reject(new Error("接口异常"))
       }
       switch (code) {
-        case 0:
+        case 200:
           // 本系统采用 code === 0 来表示没有业务错误
           return apiData
         case 401:
@@ -104,7 +104,7 @@ function createRequest(service: AxiosInstance) {
       headers: {
         // 携带 Token
         Authorization: token ? `Bearer ${token}` : undefined,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       timeout: 5000,
       baseURL: import.meta.env.VITE_BASE_API,

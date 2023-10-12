@@ -61,6 +61,7 @@
     "eslint-plugin-vue": "9.17.0",
     "husky": "8.0.3",
     "jsdom": "22.1.0",
+    "less": "^4.2.0",
     "lint-staged": "14.0.1",
     "prettier": "3.0.3",
     "sass": "1.68.0",

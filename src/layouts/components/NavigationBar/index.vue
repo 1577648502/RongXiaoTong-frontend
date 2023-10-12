@@ -44,23 +44,28 @@ const logout = () => {
     <Breadcrumb v-if="!isTop || isMobile" class="breadcrumb" />
     <Sidebar v-if="isTop && !isMobile" class="sidebar" />
     <div class="right-menu">
-      <SearchMenu v-if="showSearchMenu" class="right-menu-item" />
-      <Screenfull v-if="showScreenfull" class="right-menu-item" />
+<!--      <SearchMenu v-if="showSearchMenu" class="right-menu-item" />-->
+<!--      <Screenfull v-if="showScreenfull" class="right-menu-item" />-->
       <ThemeSwitch v-if="showThemeSwitch" class="right-menu-item" />
       <Notify v-if="showNotify" class="right-menu-item" />
       <el-dropdown class="right-menu-item">
         <div class="right-menu-avatar">
-          <el-avatar :icon="UserFilled" :size="30" />
+          <el-avatar :src="'http://127.0.0.1:8080'+userStore.userInfo.avatar" :size="30" />
           <span>{{ userStore.username }}</span>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <a target="_blank" href="https://github.com/un-pany/v3-admin-vite">
-              <el-dropdown-item>GitHub</el-dropdown-item>
-            </a>
-            <a target="_blank" href="https://gitee.com/un-pany/v3-admin-vite">
-              <el-dropdown-item>Gitee</el-dropdown-item>
-            </a>
+            <el-dropdown-item divided @click="router.push('/userInfo')">
+              <span style="display: block">个人中心</span>
+            </el-dropdown-item>
+            <el-dropdown-item v-if="userStore.roles.includes('admin')" divided @click="router.push('/user/user-admin')">
+              <span style="display: block">用户管理</span>
+            </el-dropdown-item>
+            <el-dropdown-item divided @click="router.push('/goods/goods-admin')">
+              <span style="display: block">商品管理</span>
+            </el-dropdown-item>
+
+
             <el-dropdown-item divided @click="logout">
               <span style="display: block">退出登录</span>
             </el-dropdown-item>
