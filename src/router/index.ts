@@ -149,18 +149,74 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "农业知识",
           keepAlive: true
         }
+      },   {
+        path: "/knowledge/:knowledgeId",
+        component: () => import("@/views/knowledge/KnowledgeInfo.vue"),
+        name: "农业知识详情",
+        meta: {
+          elIcon: 'Box',
+          title: "农业知识详情",
+          keepAlive: true,
+          hidden: true
+        }
       }
     ]
   },
   {
-    path: "/order",
+    path: "/guide",
     component: Layouts,
-    redirect: "/order/order-list",
+    redirect: "/guide",
     name: "专家指导",
     meta: {
       title: "专家指导",
       elIcon: "Box",
-    }
+    },
+    children: [
+      {
+        path:  "/guide",
+        component: () => import("@/views/guide/index.vue"),
+        name: "专家指导",
+        meta: {
+          elIcon: 'Box',
+          title: "专家指导",
+          keepAlive: true
+        }
+      },
+      {
+        path:  "/guide/:questionId",
+        component: () => import("@/views/guide/guideInfo.vue"),
+        name: "专家指导详情",
+        meta: {
+          elIcon: 'Box',
+          title: "专家指导详情",
+          keepAlive: true,
+          hidden: true
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/question",
+    component: Layouts,
+    redirect: "/question/",
+    name: "提问页",
+    meta: {
+      title: "提问页",
+      elIcon: "Box",
+    },
+    children:[
+      {
+        path:  "/question/:expertName",
+        component: () => import("@/views/question/index.vue"),
+        name: "提问页",
+        meta: {
+          elIcon: 'Box',
+          title: "提问页",
+          keepAlive: true
+        }
+      }
+    ]
   },
   {
     path: "/order",

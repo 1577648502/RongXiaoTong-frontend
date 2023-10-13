@@ -40,7 +40,7 @@ export function getKnowledgeDataApi(data,params: Knowledge.GetKnowledgeRequestDa
 /** 查 */
 export function getKnowledgeInfoApi(params: Knowledge.GetKnowledgeRequestData) {
   return request<Knowledge.GetKnowledgeResponseData>({
-    url: `knowledge/getKnowledgeInfo?knowledgeId=${params.id}`,
+    url: `knowledge/getKnowledgeInfo?knowledgeId=${params}`,
     method: "get", // 使用POST请求
   })
 }

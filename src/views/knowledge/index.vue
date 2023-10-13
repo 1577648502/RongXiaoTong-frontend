@@ -16,7 +16,7 @@
         <a class="tag-item" @click="handleTopicDetail('樱桃')">樱桃</a>
       </div>
       <el-row :gutter="20">
-        <el-col v-for="knowledge in knowledgeData" :span="12">
+        <el-col v-for="knowledge in knowledgeData" :span="12" @click="toKnowledgeInfo(knowledge.knowledgeId)">
           <el-card style="margin-top: 20px" >
             <el-row :gutter="20">
               <el-col :span="8" >
@@ -86,9 +86,10 @@ const getKnowledgeData = () => {
       loading.value = false
     })
 }
-const toGoodsInfo = (knowledgeId: number) => {
-  router.push({path: "/goods/goods-info/" + knowledgeId})
+const toKnowledgeInfo = (knowledgeId: number) => {
+  router.push({path: "/knowledge/" + knowledgeId})
 }
+
 
 const handleSearch = () => {
   paginationData.currentPage === 1 ? getKnowledgeData() : (paginationData.currentPage = 1)
