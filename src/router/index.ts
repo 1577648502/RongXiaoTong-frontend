@@ -204,6 +204,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     meta: {
       title: "提问页",
       elIcon: "Box",
+      hidden:  true
     },
     children:[
       {
@@ -213,20 +214,57 @@ export const constantRoutes: RouteRecordRaw[] = [
         meta: {
           elIcon: 'Box',
           title: "提问页",
-          keepAlive: true
+          keepAlive: true,
+          hidden: true
         }
       }
     ]
   },
   {
-    path: "/order",
+    path: "/reserve",
     component: Layouts,
-    redirect: "/order/order-list",
+    redirect: "/reserve",
+    name: "预约页",
+    meta: {
+      title: "预约页",
+      elIcon: "Box",
+      hidden:  true
+    },
+    children:[
+      {
+        path:  "/reserve/:expertName",
+        component: () => import("@/views/reserve/index.vue"),
+        name: "预约页",
+        meta: {
+          elIcon: 'Box',
+          title: "预约页",
+          keepAlive: true,
+          hidden: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/shopCart",
+    component: Layouts,
+    redirect: "/shopCart",
     name: "购物车",
     meta: {
       title: "购物车",
       elIcon: "Box",
-    }
+    },
+    children:[
+      {
+        path:  "/shopCart",
+        component: () => import("@/views/shopCart/index.vue"),
+        name: "购物车",
+        meta: {
+          elIcon: 'Box',
+          title: "购物车",
+          keepAlive: true,
+        }
+      }
+    ]
   },
   {
     path: "/order",

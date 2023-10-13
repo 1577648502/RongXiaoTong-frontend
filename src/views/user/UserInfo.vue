@@ -1,57 +1,60 @@
 <!--基本信息-->
 <template>
   <div class="user-info">
-    <el-upload
-      :http-request="handleHttpRequest"
-      class="avatar-uploader"
-      action=""
-      :show-file-list="false"
-      :on-success="handleAvatarSuccess"
-      :before-upload="beforeAvatarUpload"
-      name="image"
-      method="post"
-    >
-      <img v-if="imageUrl" :src="imageUrl" class="avatar"/>
-      <el-icon v-else class="avatar-uploader-icon">
-        <Plus/>
-      </el-icon>
-    </el-upload>
-    <el-form :model="userinfo" ref="ruleForm" label-width="80px" style="margin-top:40px">
-      <el-form-item label="昵称：" prop="userName">
-        <el-input v-model="userinfo.userName" style="width:300px"></el-input>
-      </el-form-item>
-      <el-form-item label="姓名：" prop="userName">
-        <el-input v-model="userinfo.userName" style="width:300px"></el-input>
-      </el-form-item>
-      <el-form-item label="性别：" prop="sex">
-        <el-select
-          style="width:300px"
-          v-model="userinfo.sex"
-          placeholder="性别"
-          clearable
-        >
-          <el-option label="男" value="1"/>
-          <el-option label="女" value="0"/>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="类型：" prop="type">
-        <el-select
-          style="width:300px"
-          v-model="userinfo.type"
-          placeholder="类型"
-          clearable
-        >
-          <el-option label="买家" value="1"/>
-          <el-option label="农民" value="2"/>
-          <el-option label="专家" value="3"/>
-          <el-option label="银行用户" value="4"/>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="手机号：" prop="phone">
-        <el-input v-model="userinfo.phone" style="width:300px"></el-input>
-      </el-form-item>
-    </el-form>
-    <el-button style="margin-left: 310px;" type="success" @click="updateInfo">修改</el-button>
+    <el-card style="display: flex;justify-content: center">
+      <el-upload
+        :http-request="handleHttpRequest"
+        class="avatar-uploader"
+        action=""
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :before-upload="beforeAvatarUpload"
+        name="image"
+        method="post"
+      >
+        <img v-if="imageUrl" :src="imageUrl" class="avatar"/>
+        <el-icon v-else class="avatar-uploader-icon">
+          <Plus/>
+        </el-icon>
+      </el-upload>
+      <el-form :model="userinfo" ref="ruleForm" label-width="80px" style="margin-top:40px">
+        <el-form-item label="昵称：" prop="userName">
+          <el-input v-model="userinfo.userName" style="width:300px"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名：" prop="userName">
+          <el-input v-model="userinfo.userName" style="width:300px"></el-input>
+        </el-form-item>
+        <el-form-item label="性别：" prop="sex">
+          <el-select
+            style="width:300px"
+            v-model="userinfo.sex"
+            placeholder="性别"
+            clearable
+          >
+            <el-option label="男" value="1"/>
+            <el-option label="女" value="0"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="类型：" prop="type">
+          <el-select
+            style="width:300px"
+            v-model="userinfo.type"
+            placeholder="类型"
+            clearable
+          >
+            <el-option label="买家" value="1"/>
+            <el-option label="农民" value="2"/>
+            <el-option label="专家" value="3"/>
+            <el-option label="银行用户" value="4"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="手机号：" prop="phone">
+          <el-input v-model="userinfo.phone" style="width:300px"></el-input>
+        </el-form-item>
+      </el-form>
+      <el-button style="margin-left: 310px;" type="success" @click="updateInfo">修改</el-button>
+    </el-card>
+
   </div>
 </template>
 
@@ -184,10 +187,6 @@ const updateInfo = () => {
 
 .user-info {
   margin: 0px auto;
-  width: 900px;
-  float: left;
-  padding-left: 20px;
   height: 100%;
-  min-height: 600px;
 }
 </style>

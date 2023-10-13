@@ -57,8 +57,8 @@ const handleQuestion = (item) => {
   router.push('/question/' + item.userName)
 
 }
-const handleAppointment = (item) => {
-  router.push(`/guide/appointment?id=${item.userName}`).catch((err) => err);
+const handleReserve = (item) => {
+  router.push('/reserve/'+ item.userName)
 
 }
 const toQuestionInfo = (questionId: number) => {
@@ -144,7 +144,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
             <div class="item-content">单位：{{ item.belong }}</div>
             <div class="item-btn">
               <div class="btn-item" @click="handleQuestion(item)">去提问</div>
-              <div class="btn-item">去预约</div>
+              <div class="btn-item" @click="handleReserve(item)">去预约</div>
             </div>
           </div>
         </div>
