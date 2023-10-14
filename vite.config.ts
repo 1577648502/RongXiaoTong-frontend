@@ -40,7 +40,7 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
           // target: "https://mock.mengxuegu.com/mock/63218b5fb4c53348ed2bc212",
           // target: "https://www.fastmock.site/mock/761e2dda2b8890ab86c928a74e8f6538",
           // target: "http://localhost:8080/",
-          target: "http://api.xiaoliu.lol/",
+          target: "https://api.xiaoliu.lol/",
           ws: true,
           /** 是否允许跨域 */
           changeOrigin: true,
