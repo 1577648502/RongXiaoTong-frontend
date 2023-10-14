@@ -108,7 +108,9 @@ function createRequest(service: AxiosInstance) {
       },
       timeout: 5000,
       baseURL: import.meta.env.VITE_BASE_API,
-      data: {}
+      data: {},
+      //打包不保存登录态
+      withCredentials: true
     }
     // 将默认配置 defaultConfig 和传入的自定义配置 config 进行合并成为 mergeConfig
     const mergeConfig = merge(defaultConfig, config)
