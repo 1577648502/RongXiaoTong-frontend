@@ -37,9 +37,9 @@ export function setDefaultAddressApi(data: Address.UpdateAddressRequestData) {
 
 
 /** 查 */
-export function getAddressDataApi(data,params: Address.GetAddressRequestData) {
+export function getAddressDataApi(data: Address.GetAddressRequestData) {
   return request<Address.GetAddressResponseData>({
-    url: `address/getAddressPageList?size=${params.size}&current=${params.current}`,
+    url: `address/getAddressPageList`,
     method: "post", // 使用POST请求
     data // 将JSON数据放在请求体中
   })

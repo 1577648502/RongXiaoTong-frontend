@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { storeToRefs } from "pinia"
 import { useSettingsStore } from "@/store/modules/settings"
-import logo from "@/assets/layouts/logo.png?url"
-import logoText1 from "@/assets/layouts/logo-text-1.png?url"
-import logoText2 from "@/assets/layouts/logo-text-2.png?url"
+import logo from "@/assets/img/logo.png?url"
+import logoText1 from "@/assets/img/logo.png?url"
+import logoText2 from "@/assets/img/logo.png?url"
 
 interface Props {
   collapse?: boolean
@@ -25,6 +25,7 @@ const { layoutMode } = storeToRefs(settingsStore)
       </router-link>
       <router-link v-else key="expand" to="/">
         <img :src="layoutMode !== 'left' ? logoText2 : logoText1" class="layout-logo-text" />
+        <el-text size="large" style="padding: 0 5px;">融销通</el-text>
       </router-link>
     </transition>
   </div>

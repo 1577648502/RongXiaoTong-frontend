@@ -11,10 +11,11 @@ export function createShoppingCartDataApi(data: ShoppingCart.CreateShoppingCartR
 }
 
 /** 删 */
-export function deleteShoppingCartDataApi(id: string) {
+export function deleteShoppingCartDataApi(data: []) {
   return request({
-    url: `shoppingCart/deleteShoppingCart/?shoppingCartId=`+id,
-    method: "get"
+    url: `shoppingCart/deleteShoppingCart/`,
+    method: "post",
+    data
   })
 }
 
@@ -30,9 +31,9 @@ export function updateShoppingCartDataApi(data: ShoppingCart.UpdateShoppingCartR
 
 
 /** 查 */
-export function getShoppingCartDataApi(data,params: ShoppingCart.GetShoppingCartRequestData) {
+export function getShoppingCartDataApi(data: ShoppingCart.GetShoppingCartRequestData) {
   return request<ShoppingCart.GetShoppingCartResponseData>({
-    url: `shoppingCart/getShoppingCartPageList?size=${params.size}&current=${params.current}`,
+    url: `shoppingCart/getShoppingCartPageList`,
     method: "post", // 使用POST请求
     data // 将JSON数据放在请求体中
   })

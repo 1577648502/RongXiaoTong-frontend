@@ -3,25 +3,26 @@ import {computed, onBeforeMount, ref, watch} from "vue";
 import {CirclePlus, Delete, Download, Refresh, RefreshRight, Search} from "@element-plus/icons-vue";
 import {usePagination} from "@/hooks/usePagination";
 import {getQuestionDataApi} from "@/api/question";
-import {getShoppingCartDataApi} from "@/api/shopCart";
+import {deleteShoppingCartDataApi, getShoppingCartDataApi} from "@/api/shopCart";
 import {getOrderInfoApi} from "@/api/order";
 import {getAddressDataApi, setDefaultAddressApi, updateAddressDataApi} from "@/api/address";
 import {useUserStore} from "@/store/modules/user";
-import {ElMessage} from "element-plus";
-
-const {paginationData, handleCurrentChange, handleSizeChange} = usePagination()
+import {ElMessage, ElMessageBox} from "element-plus";
+import {createSellPurchaseDataApi, getSellPurchaseDataApi} from "@/api/sellPurchase";
 const dialogVisible = ref(false);
 const loading = ref(false)
 const shopCartData = ref([])
 const sums = ref()
 const listTable = ref()
-
+const shopCartIds = ref([])
+const shopCartDataAll = ref([])
 const defaultAddress = ref('')
 const newAddress = ref('')
 
 onBeforeMount(() => {
   getAddressDataAll()
   getAddressData()
+  getShopCartData()
 })
 const NumberHandleChange = (value: number) => {
   console.log(value)
@@ -31,12 +32,8 @@ const addressDataAll = ref([])
 
 const getAddressDataAll = () => {
   loading.value = true
-  getAddressDataApi({ownName: useUserStore().username}, {
-    size: paginationData.pageSize,
-    current: paginationData.currentPage,
-  }).then(res => {
-    addressDataAll.value = res.data.records
-    paginationData.total = res.data.total
+  getAddressDataApi({ownName: useUserStore().username}).then(res => {
+    addressDataAll.value = res.data
   }).catch(() => {
     addressDataAll.value = []
   })
@@ -46,11 +43,8 @@ const getAddressDataAll = () => {
 }
 const getAddressData = () => {
   loading.value = true
-  getAddressDataApi({ownName: useUserStore().username, isDefault: 1}, {
-    size: paginationData.pageSize,
-    current: paginationData.currentPage,
-  }).then(res => {
-    addressData.value = res.data.records[0]
+  getAddressDataApi({ownName: useUserStore().username, isDefault: 1}).then(res => {
+    addressData.value = res.data[0]
     defaultAddress.value = addressData.value.id
   }).catch(() => {
     addressData.value = []
@@ -69,10 +63,27 @@ const handleSelectionChange = (row, column) => {
     addressData.value = Object.assign({}, {...row[0]})
   }
 }
+const handleShopSelectionChange = (val: User[]) => {
+  console.log(val)
+  shopCartDataAll.value = val
+  shopCartIds.value = val.filter((item) => item.shoppingId !== undefined).map((item) => item.shoppingId)
+}
+
+const deleteShopCarts = () => {
+  loading.value = true
+  deleteShoppingCartDataApi(shopCartIds.value).then(res => {
+    ElMessage.success('删除成功')
+    getShopCartData()
+  }).catch(() => {
+    ElMessage.error('删除失败')
+  }).finally(() => {
+    loading.value = false
+  })
+}
 const submitChange = () => {
   loading.value = true
   newAddress.value = addressData.value.id
-  setDefaultAddressApi({"defaultAddress":defaultAddress.value,"newAddress":newAddress.value}).then(res => {
+  setDefaultAddressApi({"defaultAddress": defaultAddress.value, "newAddress": newAddress.value}).then(res => {
     ElMessage.success('修改成功')
     dialogVisible.value = false
     getAddressData()
@@ -85,15 +96,10 @@ const submitChange = () => {
 }
 const getShopCartData = () => {
   loading.value = true
-  getShoppingCartDataApi({}, {
-    size: paginationData.pageSize,
-    current: paginationData.currentPage,
-  }).then(res => {
-    // console.log(res.data.records)
-    // shopCartData.value = res.data.records
-    paginationData.total = res.data.total
-    res.data.records.forEach(item => {
-      getOrderInfoApi({id: item.shoppingId}).then(res => {
+  getShoppingCartDataApi({ownName: useUserStore().username}).then(res => {
+    res.data.forEach(item => {
+      shopCartData.value=[]
+      getOrderInfoApi({id: item.orderId}).then(res => {
         shopCartData.value.push({...item, ...res.data})
       })
     })
@@ -119,13 +125,41 @@ sums.value = computed(() => {
 const handleChange = () => {
   dialogVisible.value = true
 }
+const getPayData = () => {
+  let data = []
+  shopCartData.value.forEach(res => {
+    data.push({
+      "purchaseId": res.shoppingId,
+      "ownName": useUserStore().username,
+      "purchaseType": 2,
+      "uninPricee": res.count * res.price,
+      "sumPrice": sums.value._value,
+      "address": res.address,
+      "purchaseStatus": 1,
+      "orderId": res.orderId
+    })
+  })
+  console.log(data)
+  return data
 
-const handleSearch = () => {
-  paginationData.currentPage === 1 ? getShopCartData() : (paginationData.currentPage = 1)
 }
-/** 监听分页参数的变化 */
-watch([() => paginationData.currentPage, () => paginationData.pageSize], getShopCartData, {immediate: true})
+//提交订单
+const payment = () => {
+  ElMessageBox.confirm('确认支付吗', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    // getPayData()
+    createSellPurchaseDataApi(getPayData()).then(res => {
+      getShopCartData()
+      ElMessage.success('提交成功')
+    })
 
+  }).catch(() => {
+    ElMessage.info('取消支付')
+  })
+}
 </script>
 
 <template>
@@ -159,13 +193,13 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getShop
     </el-card>
 
     <div class="toolbar-wrapper" style="margin: 10px 0">
-      <el-button type="danger" :icon="Delete">批量删除</el-button>
+      <el-button type="danger" :icon="Delete" @click="deleteShopCarts">批量删除</el-button>
       <el-tooltip content="刷新当前页">
         <el-button type="primary" :icon="RefreshRight" circle @click="getTableData"/>
       </el-tooltip>
     </div>
     <div>
-      <el-table :data="shopCartData">
+      <el-table :data="shopCartData" @selection-change="handleShopSelectionChange">
         <el-table-column type="selection" width="50" align="center"/>
         <el-table-column prop="good" label="商品" width="700">
           <template #default="scope">
@@ -206,26 +240,13 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getShop
         </el-table-column>
       </el-table>
       <el-row style="margin: 20px 0">
-        <el-col :offset="20" :span="2" style="padding: 5px 0">
+        <el-col :offset="16" :span="4" style="padding: 5px 0">
           <el-text size="large" style="color: red;font-size: 20px;">总价 ￥{{ sums.value }}</el-text>
         </el-col>
-        <el-col :span="2">
-          <el-button style="" type="danger">提交订单</el-button>
+        <el-col :span="4">
+          <el-button style="" type="danger" @click="payment">提交订单</el-button>
         </el-col>
       </el-row>
-
-    </div>
-    <div class="pager-wrapper">
-      <el-pagination
-        background
-        :layout="paginationData.layout"
-        :page-sizes="paginationData.pageSizes"
-        :total="paginationData.total"
-        :page-size="paginationData.pageSize"
-        :currentPage="paginationData.currentPage"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
     </div>
   </div>
 </template>

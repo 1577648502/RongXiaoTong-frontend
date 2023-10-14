@@ -68,7 +68,7 @@ const handleDelete = (row: GetTableData) => {
   }).then(() => {
     deleteOrderDataApi(row.orderId).then(() => {
       ElMessage.success("删除成功")
-      getOrderDataApi()
+      getTableData()
     })
   })
 }

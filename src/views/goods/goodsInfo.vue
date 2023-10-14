@@ -2,9 +2,12 @@
 import {onBeforeMount, ref} from "vue";
 import {getOrderDataApi, getOrderInfoApi} from "@/api/order";
 import router from "@/router";
-const loading = ref<boolean>(false)
+import {createShoppingCartDataApi} from "@/api/shopCart";
+import {ElMessage} from "element-plus";
 
-let data =ref({
+const loading = ref<boolean>(false)
+const orderId = router.currentRoute.value.params.orderId
+let data = ref({
   "orderId": null,
   "title": "",
   "price": null,
@@ -22,7 +25,7 @@ let data =ref({
 const getOrderInfo = (id) => {
   loading.value = true
   getOrderInfoApi({
-    id:id
+    id: id
   })
     .then((res) => {
       data = res.data
@@ -34,40 +37,51 @@ const getOrderInfo = (id) => {
       loading.value = false
     })
 }
-onBeforeMount(()=>{
-  const orderId = router.currentRoute.value.params.orderId
+onBeforeMount(() => {
   getOrderInfo(orderId)
 })
-
+const addShopcartClick = () => {
+  createShoppingCartDataApi({
+    orderId: orderId,
+  })
+    .then((res) => {
+      console.log(res);
+      ElMessage.success("添加成功")
+    })
+    .catch((err) => {
+      ElMessage.error("添加失败")
+    });
+}
 
 </script>
 
 <template>
   <div class="details-box" v-loading="loading">
-    <img v-if="data.picture" :src="'http://127.0.0.1:8080'+data.picture" alt="" />
-    <img v-else src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" alt="" style="border:1px solid #f2f2f2;"/>
+    <img v-if="data.picture" :src="'http://127.0.0.1:8080'+data.picture" alt=""/>
+    <img v-else src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" alt=""
+         style="border:1px solid #f2f2f2;"/>
     <div class="info">
       <h4 class="title">{{ data.title }}</h4>
       <div class="content" :title="data.content">{{ data.content }}</div>
       <span class="price">￥{{ data.price }}</span>
       <div class="time">
-        <span style="margin-right:30px;">发布时间：{{ data.createTime  }}</span>
-        <span>最近修改时间：{{ data.updateTime  }}</span>
+        <span style="margin-right:30px;">发布时间：{{ data.createTime }}</span>
+        <span>最近修改时间：{{ data.updateTime }}</span>
       </div>
       <div class="item-style">
         <div class="operation">
-          <div class="operation-item"><img src="@/assets/img/good.png" class="operation-img" alt="" /> 点赞</div>
-          <div class="operation-item"><img src="@/assets/img/no-star.png" class="operation-img" alt="" /> 收藏</div>
-          <div class="operation-item"><img src="@/assets/img/fill-in.png" class="operation-img" alt="" />评论</div>
+          <div class="operation-item"><img src="@/assets/img/good.png" class="operation-img" alt=""/> 点赞</div>
+          <div class="operation-item"><img src="@/assets/img/no-star.png" class="operation-img" alt=""/> 收藏</div>
+          <div class="operation-item"><img src="@/assets/img/fill-in.png" class="operation-img" alt=""/>评论</div>
         </div>
         <div class="btn-content">
-          <el-button type="danger" @click="" v-if="data.type == 'goods'">加入购物车</el-button>
+          <el-button type="danger" @click="addShopcartClick" v-if="data.type == 1">加入购物车</el-button>
           <el-popover placement="right" width="320" trigger="hover">
             <div>
-              <div class="item-sales">卖家姓名：<span class="sales-text">{{data.price}}</span></div>
-              <div class="item-sales">卖家地址：<span class="sales-text">{{data.price}}</span></div>
-              <div class="item-sales">卖家手机号码：<span class="sales-text">{{data.price}}</span></div>
-              <div class="item-sales">更新时间：<span class="sales-text">{{data.updateTime | price}}</span></div>
+              <div class="item-sales">卖家姓名：<span class="sales-text">{{ data.price }}</span></div>
+              <div class="item-sales">卖家地址：<span class="sales-text">{{ data.price }}</span></div>
+              <div class="item-sales">卖家手机号码：<span class="sales-text">{{ data.price }}</span></div>
+              <div class="item-sales">更新时间：<span class="sales-text">{{ data.updateTime | price }}</span></div>
             </div>
             <el-button type="danger" slot="reference" @click.once="" v-show="data.type == 'needs'">联系买家</el-button>
           </el-popover>
@@ -86,11 +100,13 @@ onBeforeMount(()=>{
   //background: #fff;
   display: flex;
   justify-content: space-between;
+
   img {
     width: 360px;
     height: 300px;
     border-radius: 6px;
   }
+
   .info {
     position: relative;
     width: 680px;
@@ -99,10 +115,12 @@ onBeforeMount(()=>{
     // box-shadow: 3px 3px 3px rgba(3, 0, 0, 0.07);
     border-radius: 6px;
     padding: 10px 20px;
+
     .title {
       font-size: 22px;
       font-weight: bold;
     }
+
     .content {
       height: 100px;
       //border: 1px dashed #f2f2f2;
@@ -119,18 +137,21 @@ onBeforeMount(()=>{
       /*设置或检索伸缩盒对象的子元素排列方式*/
       -webkit-box-orient: vertical;
     }
+
     .price {
       color: red;
       font-size: 25px;
       font-weight: bold;
     }
+
     .time {
       margin-top: 5px;
       color: #999;
       display: flex;
       justify-content: flex-start;
     }
-    .item-style{
+
+    .item-style {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
@@ -138,17 +159,20 @@ onBeforeMount(()=>{
       align-items: center;
     }
   }
+
   .operation {
     display: flex;
     margin-top: 10px;
     margin-right: 150px;
-    .operation-item{
+
+    .operation-item {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       margin-right: 10px;
-      .operation-img{
+
+      .operation-img {
         width: 20px;
         height: 20px;
         margin-bottom: 5px;
@@ -156,14 +180,17 @@ onBeforeMount(()=>{
       }
     }
   }
-  .btn-content{
+
+  .btn-content {
     margin-top: 10px;
   }
-  .item-sales{
+
+  .item-sales {
     color: #333 !important;
     line-height: 30px;
     max-height: 30px;
-    .sales-text{
+
+    .sales-text {
       color: #666;
     }
   }
