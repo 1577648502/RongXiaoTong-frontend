@@ -57,7 +57,7 @@ const addShopcartClick = () => {
 
 <template>
   <div class="details-box" v-loading="loading">
-    <img v-if="data.picture" :src="'http://127.0.0.1:8080'+data.picture" alt=""/>
+    <img v-if="data.picture" :src="data.picture" alt=""/>
     <img v-else src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" alt=""
          style="border:1px solid #f2f2f2;"/>
     <div class="info">

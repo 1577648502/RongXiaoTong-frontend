@@ -13,7 +13,7 @@ const handleHttpRequest = (params) => {
   uploadApi(params).then((res) => {
     ElMessage({type: 'success', message: '上传成功'})
     // userinfo.avatar.value = res.data
-    params.onSuccess(res)
+    params.onSuccess(res.data.url)
 
   }).catch(() => {
     ElMessage({type: 'error', message: '上传失败'})

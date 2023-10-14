@@ -21,7 +21,7 @@
             <el-row>
               <el-col :span="4" >
                 <img style="width: 200px"
-                     :src="'http://127.0.0.1:8080'+order.picture"
+                     :src="order.picture"
                      class="image"
 
                 />

@@ -13,10 +13,10 @@ export function getLoginCodeApi() {
 /** 登录并返回 Token */
 export function uploadApi(params) {
   const formData = new FormData()
-  formData.append('image', params.file)
+  formData.append('file', params.file)
   // axios的二次封装
   return  request({
-    url: '/upload',
+    url: '/file/upload',
     method: 'post',
     headers: {
       'Content-Type': 'multipart/form-data',

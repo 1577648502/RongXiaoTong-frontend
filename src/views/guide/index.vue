@@ -131,7 +131,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
         </div>
         <div class="epert" v-for="(item,index) in expertData" :key="index"
              :style="index===expertData.length-1?'':'border-bottom: 1px dashed #f2f2f2;'">
-          <img :src="'http://127.0.0.1:8080'+userStore.userInfo.avatar" alt=""/>
+          <img :src="userStore.userInfo.avatar" alt=""/>
           <div class="info">
             <div class="item-style">
               <div class="content">专家姓名：{{ item.realName }}</div>

@@ -9,8 +9,8 @@
     </div>
     <div class="detail-img" style="margin: 10px">
             <video v-if="knowledgeInfo.type==='mp4'||knowledgeInfo.type==='MP4'" id="video" width="900" height="360"
-                   :src="'http://127.0.0.1:8080' + knowledgeInfo.picPath" controls></video>
-            <img v-else :src="'http://127.0.0.1:8080' + knowledgeInfo.picPath"
+                   :src="knowledgeInfo.picPath" controls></video>
+            <img v-else :src="knowledgeInfo.picPath"
                  alt=""/>
     </div>
     <el-card style="margin: 10px 0">

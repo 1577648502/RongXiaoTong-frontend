@@ -79,7 +79,7 @@ const currentUpdateId = ref<undefined | string>(undefined)
 const handleUpdate = (row: GetTableData) => {
   console.log(row)
   orderData.value = row
-  imageUrl.value = 'http://127.0.0.1:8080' + row.picture
+  imageUrl.value = row.picture
 
   currentUpdateId.value = row.orderId
   // formData.userName = row.userName
@@ -133,7 +133,7 @@ const orderData = ref({})
 const handleHttpRequest = (params) => {
   uploadApi(params).then((res) => {
     ElMessage({type: 'success', message: '上传成功'})
-    params.onSuccess(res)
+    params.onSuccess(res.data.url)
   }).catch(() => {
     ElMessage({type: 'error', message: '上传失败'})
     params.onError()
@@ -144,7 +144,7 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
   uploadFile
 ) => {
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-  orderData.value.picture = response.data
+  orderData.value.picture = response
 }
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   if (rawFile.type !== 'image/jpeg') {
@@ -193,7 +193,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
           <el-table-column type="selection" width="50" align="center"/>
           <el-table-column prop="picture" label="头像">
             <template #default="scope">
-              <el-image style="width: 100px; height: 100px" :src="'http://127.0.0.1:8080'+scope.row.picture"/>
+              <el-image style="width: 100px; height: 100px" :src="scope.row.picture"/>
             </template>
 
           </el-table-column>

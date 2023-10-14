@@ -50,7 +50,7 @@ const logout = () => {
       <Notify v-if="showNotify" class="right-menu-item" />
       <el-dropdown class="right-menu-item">
         <div class="right-menu-avatar">
-          <el-avatar :src="'http://127.0.0.1:8080'+userStore.userInfo.avatar" :size="30" />
+          <el-avatar :src="userStore.userInfo.avatar" :size="30" />
           <span>{{ userStore.username }}</span>
         </div>
         <template #dropdown>

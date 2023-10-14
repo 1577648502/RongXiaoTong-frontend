@@ -20,7 +20,7 @@
         >
           <el-card :body-style="{ padding: '0px' }">
             <img
-              :src="'http://127.0.0.1:8080'+o.picture"
+              :src="o.picture"
               class="image"
             />
             <div style="padding: 14px">

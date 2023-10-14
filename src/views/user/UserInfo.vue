@@ -31,8 +31,8 @@
             placeholder="性别"
             clearable
           >
-            <el-option label="男" value="1"/>
-            <el-option label="女" value="0"/>
+            <el-option label="男" :value="1"/>
+            <el-option label="女" :value="0"/>
           </el-select>
         </el-form-item>
         <el-form-item label="类型：" prop="type">
@@ -42,10 +42,10 @@
             placeholder="类型"
             clearable
           >
-            <el-option label="买家" value="1"/>
-            <el-option label="农民" value="2"/>
-            <el-option label="专家" value="3"/>
-            <el-option label="银行用户" value="4"/>
+            <el-option label="买家" :value="1"/>
+            <el-option label="农民" :value="2"/>
+            <el-option label="专家" :value="3"/>
+            <el-option label="银行用户" :value="4"/>
           </el-select>
         </el-form-item>
         <el-form-item label="手机号：" prop="phone">
@@ -87,7 +87,7 @@ const handleHttpRequest = (params) => {
   uploadApi(params).then((res) => {
     ElMessage({type: 'success', message: '上传成功'})
     // userinfo.avatar.value = res.data
-    params.onSuccess(res)
+    params.onSuccess(res.data.url)
 
   }).catch(() => {
     ElMessage({type: 'error', message: '上传失败'})
@@ -98,11 +98,8 @@ const handleHttpRequest = (params) => {
 onBeforeMount(() => {
   getUserInfoApi().then(res => {
     userinfo.value = res.data
-    userinfo.value.sex = sex.value[userinfo.value.sex]
-    userinfo.value.type = types.value[userinfo.value.type]
-    console.log(userinfo.value)
     if (userinfo.value.avatar !== null) {
-      imageUrl.value = 'http://127.0.0.1:8080' + userinfo.value.avatar
+      imageUrl.value = userinfo.value.avatar
     }
 
   })
@@ -112,14 +109,12 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
   response,
   uploadFile
 ) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+  console.log(response)
+  imageUrl.value = response
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('Avatar picture must be JPG format!')
-    return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
+  if (rawFile.size / 1024 / 1024 > 2) {
     ElMessage.error('Avatar picture size can not exceed 2MB!')
     return false
   }
@@ -136,18 +131,15 @@ const updateInfo = () => {
     alert("真实姓名不能为空");
     return;
   }
-
+  userinfo.value.avatar = imageUrl.value
   modifyUserApi(userinfo.value).then(res => {
     if (res.code == 200) {
       ElMessage({type: 'success', message: '修改成功'})
       getUserInfoApi().then(res => {
         userinfo.value = res.data
-        userinfo.value.sex = sex.value[userinfo.value.sex]
-        userinfo.value.type = types.value[userinfo.value.type]
         if (userinfo.value.avatar !== null) {
-          imageUrl.value = 'http://127.0.0.1:8080' + userinfo.value.avatar
+          imageUrl.value = userinfo.value.avatar
         }
-
       })
     }
   })
