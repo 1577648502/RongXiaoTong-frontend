@@ -74,7 +74,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
 </script>
 
 <template>
-  <div class="home-guide-container">
+  <div class="home-guide-container" v-loading="loading">
     <div class="left-guide">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
         <el-form-item>
@@ -91,7 +91,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
         <a class="tag-item">新疆哈密瓜</a>
         <a class="tag-item">樱桃</a>
       </div>
-      <div class="goods" v-for="(item, index) in questionData" :key="index" @click="toQuestionInfo(item.id)">
+      <div  class="goods" v-for="(item, index) in questionData" :key="index" @click="toQuestionInfo(item.id)">
         <div class="info">
           <p class="content">
             <i class="question-text" style="" v-if="item.status == 0">[问]</i>

@@ -164,7 +164,7 @@ const payment = () => {
 
 <template>
   <div class="home-guide-container">
-    <el-card style="margin: 10px 0">
+    <el-card style="margin: 10px 0" v-loading="loading">
       <div class="receiving-address">
         <div class="title">我的收货地址</div>
         <div class="default-address-container">
@@ -192,7 +192,7 @@ const payment = () => {
       </div>
     </el-card>
 
-    <div class="toolbar-wrapper" style="margin: 10px 0">
+    <div class="toolbar-wrapper" style="margin: 10px 0" v-loading="loading">
       <el-button type="danger" :icon="Delete" @click="deleteShopCarts">批量删除</el-button>
       <el-tooltip content="刷新当前页">
         <el-button type="primary" :icon="RefreshRight" circle @click="getTableData"/>
