@@ -56,38 +56,46 @@ const addShopcartClick = () => {
 </script>
 
 <template>
-  <div class="details-box" v-loading="loading">
-    <img v-if="data.picture" :src="data.picture" alt=""/>
-    <img v-else src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" alt=""
-         style="border:1px solid #f2f2f2;"/>
-    <div class="info">
-      <h4 class="title">{{ data.title }}</h4>
-      <div class="content" :title="data.content">{{ data.content }}</div>
-      <span class="price">￥{{ data.price }}</span>
-      <div class="time">
-        <span style="margin-right:30px;">发布时间：{{ data.createTime }}</span>
-        <span>最近修改时间：{{ data.updateTime }}</span>
-      </div>
-      <div class="item-style">
-        <div class="operation">
-          <div class="operation-item"><img src="@/assets/img/good.png" class="operation-img" alt=""/> 点赞</div>
-          <div class="operation-item"><img src="@/assets/img/no-star.png" class="operation-img" alt=""/> 收藏</div>
-          <div class="operation-item"><img src="@/assets/img/fill-in.png" class="operation-img" alt=""/>评论</div>
-        </div>
-        <div class="btn-content">
-          <el-button type="danger" @click="addShopcartClick" v-if="data.type == 1">加入购物车</el-button>
-          <el-popover placement="right" width="320" trigger="hover">
-            <div>
-              <div class="item-sales">卖家姓名：<span class="sales-text">{{ data.price }}</span></div>
-              <div class="item-sales">卖家地址：<span class="sales-text">{{ data.price }}</span></div>
-              <div class="item-sales">卖家手机号码：<span class="sales-text">{{ data.price }}</span></div>
-              <div class="item-sales">更新时间：<span class="sales-text">{{ data.updateTime | price }}</span></div>
+  <div class="details-box" >
+    <el-row v-loading="loading">
+      <el-col :span="8" :offset="4">
+        <img v-if="data.picture" :src="data.picture" alt=""/>
+        <img v-else src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" alt=""
+             style="border:1px solid #f2f2f2;"/>
+      </el-col>
+      <el-col :span="8" :offset="4">
+        <div class="info">
+          <h4 class="title">{{ data.title }}</h4>
+          <div class="content" :title="data.content">{{ data.content }}</div>
+          <span class="price">￥{{ data.price }}</span>
+          <div class="time">
+            <span style="margin-right:30px;">发布时间：{{ data.createTime }}</span>
+            <span>最近修改时间：{{ data.updateTime }}</span>
+          </div>
+          <div class="item-style">
+            <div class="operation">
+              <div class="operation-item"><img src="@/assets/img/good.png" class="operation-img" alt=""/> 点赞</div>
+              <div class="operation-item"><img src="@/assets/img/no-star.png" class="operation-img" alt=""/> 收藏</div>
+              <div class="operation-item"><img src="@/assets/img/fill-in.png" class="operation-img" alt=""/>评论</div>
             </div>
-            <el-button type="danger" slot="reference" @click.once="" v-show="data.type == 'needs'">联系买家</el-button>
-          </el-popover>
+            <div class="btn-content">
+              <el-button type="danger" @click="addShopcartClick" v-if="data.type == 1">加入购物车</el-button>
+              <el-popover placement="right" width="320" trigger="hover">
+                <div>
+                  <div class="item-sales">卖家姓名：<span class="sales-text">{{ data.price }}</span></div>
+                  <div class="item-sales">卖家地址：<span class="sales-text">{{ data.price }}</span></div>
+                  <div class="item-sales">卖家手机号码：<span class="sales-text">{{ data.price }}</span></div>
+                  <div class="item-sales">更新时间：<span class="sales-text">{{ data.updateTime | price }}</span></div>
+                </div>
+                <el-button type="danger" slot="reference" @click.once="" v-show="data.type == 'needs'">联系买家</el-button>
+              </el-popover>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </el-col>
+    </el-row>
+
+
   </div>
 </template>
 
