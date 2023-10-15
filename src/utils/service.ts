@@ -1,8 +1,8 @@
-import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios"
-import { useUserStoreHook } from "@/store/modules/user"
-import { ElMessage } from "element-plus"
-import { get, merge } from "lodash-es"
-import { getToken } from "./cache/cookies"
+import axios, {type AxiosInstance, type AxiosRequestConfig} from "axios"
+import {useUserStoreHook} from "@/store/modules/user"
+import {ElMessage} from "element-plus"
+import {get, merge} from "lodash-es"
+import {getToken} from "./cache/cookies"
 
 /** 退出登录并强制刷新页面（会重定向到登录页） */
 function logout() {
@@ -42,9 +42,14 @@ function createService() {
         case 401:
           // Token 过期时
           return logout()
+        case -1:
+          if (apiData.msg === "未登录") {
+            return logout()
+          }
+          return ElMessage.error(apiData.msg || "Error")
         default:
           // 不是正确的 code
-          ElMessage.error(apiData.message || "Error")
+          ElMessage.error(apiData.msg || "Error")
           return Promise.reject(new Error("Error"))
       }
     },
