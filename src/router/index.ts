@@ -317,6 +317,17 @@ export const asyncRoutes: RouteRecordRaw[] = [
           hidden: true,
           keepAlive: true
         }
+      },
+      {
+        path: "/userAddress",
+        component: () => import("@/views/user/UserAddress.vue"),
+        name: "userAddress",
+        meta: {
+          title: "用户地址",
+          svgIcon: "dashboard",
+          hidden: true,
+          keepAlive: true
+        }
       }
     ]
   },

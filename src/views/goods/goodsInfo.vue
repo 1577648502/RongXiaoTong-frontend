@@ -4,9 +4,11 @@ import {getOrderDataApi, getOrderInfoApi} from "@/api/order";
 import router from "@/router";
 import {createShoppingCartDataApi} from "@/api/shopCart";
 import {ElMessage} from "element-plus";
+import {useUserStore} from "@/store/modules/user";
 
 const loading = ref<boolean>(false)
 const orderId = router.currentRoute.value.params.orderId
+const ownName = useUserStore().username
 const data = ref({})
 const getOrderInfo = (id) => {
   loading.value = true
@@ -30,7 +32,7 @@ onBeforeMount(() => {
 const addShopcartClick = () => {
   createShoppingCartDataApi({
     orderId: orderId,
-  })
+    ownName: ownName })
     .then((res) => {
       console.log(res);
       ElMessage.success("添加成功")

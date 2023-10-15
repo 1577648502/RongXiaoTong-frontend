@@ -58,6 +58,7 @@ const logout = () => {
             <el-dropdown-item divided @click="router.push('/userInfo')">
               <span style="display: block">个人中心</span>
             </el-dropdown-item>
+
             <el-dropdown-item v-if="userStore.roles.includes('admin')" divided @click="router.push('/user/user-admin')">
               <span style="display: block">用户管理</span>
             </el-dropdown-item>
@@ -65,7 +66,9 @@ const logout = () => {
               <span style="display: block">商品管理</span>
             </el-dropdown-item>
 
-
+            <el-dropdown-item divided @click="router.push('/userAddress')">
+              <span style="display: block">收货地址</span>
+            </el-dropdown-item>
             <el-dropdown-item divided @click="logout">
               <span style="display: block">退出登录</span>
             </el-dropdown-item>

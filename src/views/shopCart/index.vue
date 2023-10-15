@@ -10,6 +10,7 @@ import {useUserStore} from "@/store/modules/user";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {createSellPurchaseDataApi, getSellPurchaseDataApi} from "@/api/sellPurchase";
 import {GetTableData} from "@/api/table/types/table";
+
 const dialogVisible = ref(false);
 const loading = ref(false)
 const shopCartData = ref([])
@@ -93,6 +94,10 @@ const handleDelete = (row: GetTableData) => {
     deleteShoppingCartDataApi([row.shoppingId]).then(() => {
       ElMessage.success("删除成功")
       getShopCartData()
+    }).catch(() => {
+      ElMessage.error('删除失败')
+    }).finally(() => {
+      loading.value = false
     })
   })
 }
@@ -114,8 +119,12 @@ const submitChange = () => {
 const getShopCartData = () => {
   loading.value = true
   getShoppingCartDataApi({ownName: useUserStore().username}).then(res => {
+    if (res.data.length === 0){
+      return shopCartData.value = []
+    }
     res.data.forEach(item => {
-      shopCartData.value=[]
+
+      shopCartData.value = []
       getOrderInfoApi({id: item.orderId}).then(res => {
         shopCartData.value.push({...item, ...res.data})
       })
