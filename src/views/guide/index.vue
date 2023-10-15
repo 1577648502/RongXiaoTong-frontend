@@ -108,6 +108,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
             </div>
 
           </div>
+          <el-divider/>
           <div class="pager-wrapper">
             <el-pagination
               background

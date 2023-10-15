@@ -204,6 +204,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           </el-table-column>
         </el-table>
       </div>
+      <el-divider/>
       <div class="pager-wrapper">
         <el-pagination
           background

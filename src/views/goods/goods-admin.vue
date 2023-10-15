@@ -243,6 +243,7 @@ if (rawFile.size / 1024 / 1024 > 2) {
           </el-table-column>
         </el-table>
       </div>
+      <el-divider/>
       <div class="pager-wrapper">
         <el-pagination
           background

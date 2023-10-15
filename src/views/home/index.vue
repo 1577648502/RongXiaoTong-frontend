@@ -42,6 +42,7 @@
           </el-card>
         </el-col>
       </el-row>
+      <el-divider/>
       <div class="pager-wrapper">
         <el-pagination
           background
