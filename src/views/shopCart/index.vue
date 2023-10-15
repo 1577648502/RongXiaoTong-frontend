@@ -9,6 +9,7 @@ import {getAddressDataApi, setDefaultAddressApi, updateAddressDataApi} from "@/a
 import {useUserStore} from "@/store/modules/user";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {createSellPurchaseDataApi, getSellPurchaseDataApi} from "@/api/sellPurchase";
+import {GetTableData} from "@/api/table/types/table";
 const dialogVisible = ref(false);
 const loading = ref(false)
 const shopCartData = ref([])
@@ -80,6 +81,22 @@ const deleteShopCarts = () => {
     loading.value = false
   })
 }
+
+
+const handleDelete = (row: GetTableData) => {
+  console.log(row)
+  ElMessageBox.confirm(`正在删除商品：${row.title}，确认删除？`, "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  }).then(() => {
+    deleteShoppingCartDataApi([row.shoppingId]).then(() => {
+      ElMessage.success("删除成功")
+      getShopCartData()
+    })
+  })
+}
+
 const submitChange = () => {
   loading.value = true
   newAddress.value = addressData.value.id
