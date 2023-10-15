@@ -10,6 +10,7 @@ import {watch} from "vue";
 import {usePagination} from "@/hooks/usePagination";
 import router from "@/router";
 
+
 const userStore = useUserStore()
 const loading = ref(true)
 const expertData = ref([])
@@ -75,81 +76,85 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
 
 <template>
   <div class="home-guide-container" v-loading="loading">
-    <div class="left-guide">
-      <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item>
-          <el-input v-model="searchData.title" placeholder="请输入"/>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
-        </el-form-item>
-      </el-form>
+    <el-row>
+      <el-col :span="10" :offset="2">
+        <div class="left-guide">
+          <el-form ref="searchFormRef" :inline="true" :model="searchData">
+            <el-form-item>
+              <el-input v-model="searchData.title" placeholder="请输入"/>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
+            </el-form-item>
+          </el-form>
 
-      <div style="color:#696969;font-size:12px;margin-top: 10px;">
-        热门搜索：
-        <a class="tag-item">苹果</a>
-        <a class="tag-item">新疆哈密瓜</a>
-        <a class="tag-item">樱桃</a>
-      </div>
-      <div  class="goods" v-for="(item, index) in questionData" :key="index" @click="toQuestionInfo(item.id)">
-        <div class="info">
-          <p class="content">
-            <i class="question-text" style="" v-if="item.status == 0">[问]</i>
-            <i class="question-text" v-else>[答]</i>
-            <span class="question-content" @click="handleDetail(item)">{{ item.title }}</span>
-          </p>
-          <div class="person-contents">
-            <span>提问者：{{ item.questioner }}</span>&nbsp;&nbsp;&nbsp;
-            <span>专家：{{ item.expertName }}</span>
+          <div style="color:#696969;font-size:12px;margin-top: 10px;">
+            热门搜索：
+            <a class="tag-item">苹果</a>
+            <a class="tag-item">新疆哈密瓜</a>
+            <a class="tag-item">樱桃</a>
+          </div>
+          <div  class="goods" v-for="(item, index) in questionData" :key="index" @click="toQuestionInfo(item.id)">
+            <div class="info">
+              <p class="content">
+                <i class="question-text" style="" v-if="item.status == 0">[问]</i>
+                <i class="question-text" v-else>[答]</i>
+                <span class="question-content" @click="handleDetail(item)">{{ item.title }}</span>
+              </p>
+              <div class="person-contents">
+                <span>提问者：{{ item.questioner }}</span>&nbsp;&nbsp;&nbsp;
+                <span>专家：{{ item.expertName }}</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="pager-wrapper">
+            <el-pagination
+              background
+              :layout="paginationData.layout"
+              :page-sizes="paginationData.pageSizes"
+              :total="paginationData.total"
+              :page-size="paginationData.pageSize"
+              :currentPage="paginationData.currentPage"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+            />
+          </div>
+
+        </div>
+      </el-col>
+      <el-col :span="10" :offset="2">
+
+        <div class="right-guide">
+          <div class="professioner-item">
+            <div style="font-size:18px;display: flex;justify-content: space-between;">
+              <strong>专家列表</strong>
+              <a style="font-size:12px;cursor: pointer;">更多专家>></a>
+            </div>
+            <div class="epert" v-for="(item,index) in expertData" :key="index"
+                 :style="index===expertData.length-1?'':'border-bottom: 1px dashed #f2f2f2;'">
+              <img :src="userStore.userInfo.avatar" alt=""/>
+              <div class="info">
+                <div class="item-style">
+                  <div class="content">专家姓名：{{ item.realName }}</div>
+                  <div class="content">职称：{{ item.position }}</div>
+                </div>
+                <div class="item-style">
+                  <div class="content">从事专业：{{ item.profession }}</div>
+                  <div class="content">电话：{{ item.phone }}</div>
+                </div>
+                <div class="item-content">单位：{{ item.belong }}</div>
+                <div class="item-btn">
+                  <div class="btn-item" @click="handleQuestion(item)">去提问</div>
+                  <div class="btn-item" @click="handleReserve(item)">去预约</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      </el-col>
+    </el-row>
 
-      </div>
-      <div class="pager-wrapper">
-        <el-pagination
-          background
-          :layout="paginationData.layout"
-          :page-sizes="paginationData.pageSizes"
-          :total="paginationData.total"
-          :page-size="paginationData.pageSize"
-          :currentPage="paginationData.currentPage"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        />
-      </div>
-
-    </div>
-    <div class="right-guide">
-      <!--      <div class="btn-content" v-if="!$store.getters.isAdmin&&!$store.getters.isExpert">-->
-      <!--        <a @click="AllExBtn" style="cursor: pointer;">在线问答</a> |-->
-      <!--        <a @click="AllExBtn" style="cursor: pointer;">专家预约</a>-->
-      <!--      </div>-->
-      <div class="professioner-item">
-        <div style="font-size:18px;display: flex;justify-content: space-between;">
-          <strong>专家列表</strong>
-          <a style="font-size:12px;cursor: pointer;">更多专家>></a>
-        </div>
-        <div class="epert" v-for="(item,index) in expertData" :key="index"
-             :style="index===expertData.length-1?'':'border-bottom: 1px dashed #f2f2f2;'">
-          <img :src="userStore.userInfo.avatar" alt=""/>
-          <div class="info">
-            <div class="item-style">
-              <div class="content">专家姓名：{{ item.realName }}</div>
-              <div class="content">职称：{{ item.position }}</div>
-            </div>
-            <div class="item-style">
-              <div class="content">从事专业：{{ item.profession }}</div>
-              <div class="content">电话：{{ item.phone }}</div>
-            </div>
-            <div class="item-content">单位：{{ item.belong }}</div>
-            <div class="item-btn">
-              <div class="btn-item" @click="handleQuestion(item)">去提问</div>
-              <div class="btn-item" @click="handleReserve(item)">去预约</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -161,18 +166,13 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
 .home-guide-container {
   width: 1100px;
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-
   .left-guide {
     margin-top: 10px;
   }
 
   .right-guide {
     margin-top: 10px;
-
     .btn-content {
-      width: 350px;
       font-size: 16px;
       text-align: center;
       font-size: 18px;
@@ -182,7 +182,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
     }
 
     .professioner-item {
-      width: 350px;
+      width: 450px;
       font-size: 12px;
       padding: 10px 20px;
       margin-top: 10px;
@@ -226,7 +226,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
   }
 
   .item-content {
-    width: 220px;
+    width: 320px;
     line-height: 25px;
     /*超出的部分隐藏*/
     overflow: hidden;
