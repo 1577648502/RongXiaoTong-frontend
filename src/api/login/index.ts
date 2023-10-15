@@ -55,9 +55,10 @@ export function getUserDataApi(data,params: Login.LoginResponseData) {
 }
 
 /** 删 */
-export function deleteUserDataApi(id: string) {
+export function deleteUserDataApi(data: []) {
   return request({
-    url: `user/delUser/${id}`,
-    method: "delete"
+    url: `user/delUser/`,
+    method: "delete",
+    data
   })
 }

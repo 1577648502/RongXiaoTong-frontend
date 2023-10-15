@@ -17,6 +17,7 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 
 //#region 增
 const dialogVisible = ref<boolean>(false)
+const userDataId = ref<string>([])
 const formRef = ref<FormInstance | null>(null)
 const formData = reactive({
   userName: "",
@@ -70,12 +71,33 @@ const handleDelete = (row: GetTableData) => {
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
-    deleteUserDataApi(row.id).then(() => {
+    deleteUserDataApi([row.id]).then(() => {
       ElMessage.success("删除成功")
       getTableData()
     })
   })
 }
+
+const deleteUsers = () => {
+  ElMessageBox.confirm(`正在批量删除用户，确认删除？`, "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  }).then(() => {
+    deleteUserDataApi(userDataId.value).then(() => {
+      ElMessage.success("删除成功")
+      getTableData()
+    })
+  })
+}
+
+
+const handleShopSelectionChange = (val: User[]) => {
+  console.log(val)
+  userDataId.value = val.filter((item) => item.id !== undefined).map((item) => item.id)
+  console.log(userDataId.value)
+}
+
 //#endregion
 
 //#region 改
@@ -143,7 +165,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <div class="toolbar-wrapper">
         <div>
           <el-button type="primary" :icon="CirclePlus" @click="dialogVisible = true">新增用户</el-button>
-          <el-button type="danger" :icon="Delete">批量删除</el-button>
+          <el-button type="danger" :icon="Delete" @click="deleteUsers">批量删除</el-button>
         </div>
         <div>
           <el-tooltip content="下载">
@@ -155,7 +177,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </div>
       </div>
       <div class="table-wrapper">
-        <el-table :data="tableData">
+        <el-table :data="tableData" @selection-change="handleShopSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="id" label="id" align="center" />
           <el-table-column prop="userName" label="用户名" align="center" />

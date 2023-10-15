@@ -13,6 +13,7 @@ const {paginationData, handleCurrentChange, handleSizeChange} = usePagination()
 
 //#region 增
 const dialogVisible = ref<boolean>(false)
+const orderIds = ref<string[]>([])
 const formRef = ref<FormInstance | null>(null)
 const formData = reactive({
   userName: "",
@@ -21,7 +22,8 @@ const formData = reactive({
 const formRules: FormRules = reactive({
   title: [{required: true, trigger: "blur", message: "请输入标题"}],
   content: [{required: true, trigger: "blur", message: "请输入内容"}],
-  type: [{required: true, trigger: "blur", message: "请选择类型"}]
+  type: [{required: true, trigger: "blur", message: "请选择类型"}],
+  price: [{required: true, trigger: "blur", message: "请输入价格"}]
 })
 const handleCreate = () => {
   formRef.value?.validate((valid: boolean, fields) => {
@@ -59,6 +61,25 @@ const resetForm = () => {
 }
 //#endregion
 
+const handleShopSelectionChange = (val: User[]) => {
+  console.log(val)
+  orderIds.value = val.filter((item) => item.orderId !== undefined).map((item) => item.orderId)
+}
+
+const deleteOrders = () => {
+  ElMessageBox.confirm(`正在批量删除商品，确认删除？`, "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  }).then(() => {
+    deleteOrderDataApi(orderIds.value).then(() => {
+      ElMessage.success("删除成功")
+      getTableData()
+    })
+  })
+}
+
+
 //#region 删
 const handleDelete = (row: GetTableData) => {
   ElMessageBox.confirm(`正在删除用户：${row.userName}，确认删除？`, "提示", {
@@ -66,7 +87,7 @@ const handleDelete = (row: GetTableData) => {
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
-    deleteOrderDataApi(row.orderId).then(() => {
+    deleteOrderDataApi([row.orderId]).then(() => {
       ElMessage.success("删除成功")
       getTableData()
     })
@@ -173,8 +194,8 @@ if (rawFile.size / 1024 / 1024 > 2) {
     <el-card v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="CirclePlus" @click="addOrder">新增用户</el-button>
-          <el-button type="danger" :icon="Delete">批量删除</el-button>
+          <el-button type="primary" :icon="CirclePlus" @click="addOrder">新增商品</el-button>
+          <el-button type="danger" :icon="Delete" @click="deleteOrders">批量删除</el-button>
         </div>
         <div>
           <el-tooltip content="下载">
@@ -186,7 +207,7 @@ if (rawFile.size / 1024 / 1024 > 2) {
         </div>
       </div>
       <div class="table-wrapper">
-        <el-table :data="tableData">
+        <el-table :data="tableData" @selection-change="handleShopSelectionChange">
           <el-table-column type="selection" width="50" align="center"/>
           <el-table-column prop="picture" label="头像">
             <template #default="scope">
@@ -238,7 +259,7 @@ if (rawFile.size / 1024 / 1024 > 2) {
     <!-- 新增/修改 -->
     <el-dialog
       v-model="dialogVisible"
-      :title="currentUpdateId === undefined ? '新增用户' : '修改用户'"
+      :title="currentUpdateId === undefined ? '新增商品' : '修改商品'"
       @close="resetForm"
       width="30%"
     >
@@ -275,7 +296,7 @@ if (rawFile.size / 1024 / 1024 > 2) {
           <el-input v-model="orderData.content" placeholder="请输入"/>
         </el-form-item>
         <el-form-item prop="price" label="价格">
-          <el-input v-model="orderData.price" placeholder="请输入"/>
+          <el-input type="number" v-model="orderData.price" placeholder="请输入"/>
         </el-form-item>
       </el-form>
       <template #footer>

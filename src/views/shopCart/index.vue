@@ -201,16 +201,16 @@ const payment = () => {
     <div>
       <el-table :data="shopCartData" @selection-change="handleShopSelectionChange">
         <el-table-column type="selection" width="50" align="center"/>
-        <el-table-column prop="good" label="商品" width="700">
+        <el-table-column prop="good" label="商品" width="500">
           <template #default="scope">
             <el-row :gutter="20">
-              <el-col :span="8">
-                <img style="width: 200px"
+              <el-col :span="5">
+                <img style="width: 100px"
                      :src="scope.row.picture"
                      class="image"
                 />
               </el-col>
-              <el-col :span="16" style="padding: 15px">
+              <el-col :span="19" style="padding: 15px">
                 <div style="padding: 5px">
                   <span>{{ scope.row.title }}</span>
                 </div>
