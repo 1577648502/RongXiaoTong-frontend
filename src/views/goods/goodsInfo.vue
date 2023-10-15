@@ -7,28 +7,15 @@ import {ElMessage} from "element-plus";
 
 const loading = ref<boolean>(false)
 const orderId = router.currentRoute.value.params.orderId
-let data = ref({
-  "orderId": null,
-  "title": "",
-  "price": null,
-  "content": "",
-  "orderStatus": null,
-  "type": "",
-  "picture": ".jpg",
-  "ownName": "",
-  "cooperationName": null,
-  "createTime": "",
-  "updateTime": "",
-  "address": "",
-  "isDelete": 0
-})
+const data = ref({})
 const getOrderInfo = (id) => {
   loading.value = true
   getOrderInfoApi({
     id: id
   })
     .then((res) => {
-      data = res.data
+      data.value = res.data
+      console.log(data.value)
     })
     .catch(() => {
       data.value = {}
@@ -59,9 +46,7 @@ const addShopcartClick = () => {
   <div class="details-box" >
     <el-row v-loading="loading">
       <el-col :span="8" :offset="4">
-        <img v-if="data.picture" :src="data.picture" alt=""/>
-        <img v-else src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" alt=""
-             style="border:1px solid #f2f2f2;"/>
+        <img :src="data.picture" alt=""/>
       </el-col>
       <el-col :span="8" :offset="4">
         <div class="info">
