@@ -15,7 +15,7 @@
     "dev": "vite",
     "build:stage": "vue-tsc --noEmit && vite build --mode staging",
     "build:prod": "vue-tsc --noEmit && vite build",
-    "build": "vue-tsc && vite build",
+    "build": "vite build",
     "preview:stage": "pnpm build:stage && vite preview",
     "preview:prod": "pnpm build:prod && vite preview",
     "lint:eslint": "eslint --cache --max-warnings 0 \"{src,tests,types}/**/*.{vue,js,jsx,ts,tsx}\" --fix",
