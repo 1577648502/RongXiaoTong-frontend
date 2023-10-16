@@ -59,6 +59,14 @@ export function getUserDataApi(data,params: Login.LoginResponseData) {
     data // 将JSON数据放在请求体中
   })
 }
+/** 改 */
+export function updateUserDataApi(data: Login.UpdateUserData) {
+  return request({
+    url: "user/updateUser",
+    method: "post",
+    data
+  })
+}
 
 /** 删 */
 export function deleteUserDataApi(id: string) {

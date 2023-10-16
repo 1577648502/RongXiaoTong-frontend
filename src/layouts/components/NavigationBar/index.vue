@@ -65,6 +65,9 @@ const logout = () => {
             <el-dropdown-item v-if="userStore.roles.includes('admin')" divided @click="router.push('/goods/goods-admin')">
               <span style="display: block">商品管理</span>
             </el-dropdown-item>
+            <el-dropdown-item v-if="userStore.roles.includes('admin')" divided @click="router.push('/knowledge-admin')">
+              <span style="display: block">农业知识管理</span>
+            </el-dropdown-item>
 
             <el-dropdown-item divided @click="router.push('/userAddress')">
               <span style="display: block">收货地址</span>

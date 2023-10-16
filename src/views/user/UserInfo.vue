@@ -99,7 +99,7 @@ onBeforeMount(() => {
   getUserInfoApi().then(res => {
     userinfo.value = res.data
     if (userinfo.value.avatar !== null) {
-      imageUrl.value = userinfo.value.avatar
+      imageUrl.value = userinfo.value?.avatar
     }
 
   })
@@ -156,6 +156,16 @@ const updateInfo = () => {
 </style>
 
 <style>
+.avatar-uploader{
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 20px 0;
+}
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+}
+
 .avatar-uploader .el-upload {
   border: 1px dashed var(--el-border-color);
   border-radius: 6px;

@@ -11,10 +11,11 @@ export function createKnowledgeDataApi(data: Knowledge.CreateKnowledgeRequestDat
 }
 
 /** 删 */
-export function deleteKnowledgeDataApi(id: string) {
+export function deleteKnowledgeDataApi(ids: []) {
   return request({
-    url: `knowledge/deleteKnowledge/?knowledgeId=`+id,
-    method: "get"
+    url: `knowledge/deleteKnowledge/`,
+    method: "delete",
+    data: ids
   })
 }
 

@@ -44,6 +44,7 @@ function createService() {
           return logout()
         case -1:
           if (apiData.msg === "未登录") {
+            ElMessage.error("登录状态已失效，请重新登录")
             return logout()
           }
           return ElMessage.error(apiData.msg || "Error")

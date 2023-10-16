@@ -119,7 +119,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path:  "/purchase",
+        path: "/purchase",
         component: () => import("@/views/purchase/index.vue"),
         name: "收购需求",
         meta: {
@@ -149,13 +149,23 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "农业知识",
           keepAlive: true
         }
-      },   {
+      }, {
         path: "/knowledge/:knowledgeId",
         component: () => import("@/views/knowledge/KnowledgeInfo.vue"),
         name: "农业知识详情",
         meta: {
           elIcon: 'Box',
           title: "农业知识详情",
+          keepAlive: true,
+          hidden: true
+        }
+      }, {
+        path: "/knowledge-admin/",
+        component: () => import("@/views/knowledge/knowledge-admin.vue"),
+        name: "农业知识管理",
+        meta: {
+          elIcon: 'Box',
+          title: "农业知识管理",
           keepAlive: true,
           hidden: true
         }
@@ -173,7 +183,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path:  "/guide",
+        path: "/guide",
         component: () => import("@/views/guide/index.vue"),
         name: "专家指导",
         meta: {
@@ -183,7 +193,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       },
       {
-        path:  "/guide/:questionId",
+        path: "/guide/:questionId",
         component: () => import("@/views/guide/guideInfo.vue"),
         name: "专家指导详情",
         meta: {
@@ -204,11 +214,11 @@ export const constantRoutes: RouteRecordRaw[] = [
     meta: {
       title: "提问页",
       elIcon: "Box",
-      hidden:  true
+      hidden: true
     },
-    children:[
+    children: [
       {
-        path:  "/question/:expertName",
+        path: "/question/:expertName",
         component: () => import("@/views/question/index.vue"),
         name: "提问页",
         meta: {
@@ -228,11 +238,11 @@ export const constantRoutes: RouteRecordRaw[] = [
     meta: {
       title: "预约页",
       elIcon: "Box",
-      hidden:  true
+      hidden: true
     },
-    children:[
+    children: [
       {
-        path:  "/reserve/:expertName",
+        path: "/reserve/:expertName",
         component: () => import("@/views/reserve/index.vue"),
         name: "预约页",
         meta: {
@@ -253,9 +263,9 @@ export const constantRoutes: RouteRecordRaw[] = [
       title: "购物车",
       elIcon: "Box",
     },
-    children:[
+    children: [
       {
-        path:  "/shopCart",
+        path: "/shopCart",
         component: () => import("@/views/shopCart/index.vue"),
         name: "购物车",
         meta: {

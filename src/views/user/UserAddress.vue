@@ -103,7 +103,6 @@ const getAddressData = () => {
 const getAllAdress = () => {
   loading.value = true
   getAddressDataApi({ownName: ownName}).then(res => {
-    ElMessage.success("获取地址成功")
     loading.value = false
     allAddressData.value = res.data
     console.log(allAddressData.value)

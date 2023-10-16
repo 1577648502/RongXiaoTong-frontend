@@ -82,7 +82,7 @@ const deleteOrders = () => {
 
 //#region 删
 const handleDelete = (row: GetTableData) => {
-  ElMessageBox.confirm(`正在删除用户：${row.userName}，确认删除？`, "提示", {
+  ElMessageBox.confirm(`正在删除商品：${row.userName}，确认删除？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
@@ -213,7 +213,6 @@ if (rawFile.size / 1024 / 1024 > 2) {
             <template #default="scope">
               <el-image style="width: 100px; height: 100px" :src="scope.row.picture"/>
             </template>
-
           </el-table-column>
           <el-table-column prop="title" label="标题" align="center"/>
           <el-table-column prop="ownName" label="发起人" align="center"/>
@@ -238,7 +237,7 @@ if (rawFile.size / 1024 / 1024 > 2) {
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">修改</el-button>
               <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">删除</el-button>
-              <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">下架</el-button>
+<!--              <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">下架</el-button>-->
             </template>
           </el-table-column>
         </el-table>
@@ -317,6 +316,16 @@ if (rawFile.size / 1024 / 1024 > 2) {
 
 
 <style scoped>
+.avatar-uploader{
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 20px 0;
+}
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+
+}
 .avatar-uploader .el-upload {
   border: 1px dashed var(--el-border-color);
   border-radius: 6px;
