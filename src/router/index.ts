@@ -276,6 +276,49 @@ export const constantRoutes: RouteRecordRaw[] = [
       }
     ]
   },
+  {
+    path: "/financing",
+    component: Layouts,
+    redirect: "/financing",
+    name: "融资申请",
+    meta: {
+      title: "融资申请",
+      elIcon: "Box",
+    },
+    children: [
+      {
+        path: "/smartMatch",
+        component: () => import("@/views/financing/SmartMatchUser.vue"),
+        name: "智能匹配",
+        meta: {
+          elIcon: 'Box',
+          title: "智能匹配",
+          keepAlive: true,
+        }
+      },
+      {
+        path: "/financing",
+        component: () => import("@/views/financing/index.vue"),
+        name: "融资申请",
+        meta: {
+          elIcon: 'Box',
+          title: "融资申请",
+          keepAlive: true,
+        }
+      }
+      ,{
+        path: "/financingDetails/:bankId",
+        component: () => import("@/views/financing/FinancingDetails.vue"),
+        name: "贷款中心",
+        meta: {
+          elIcon: 'Box',
+          title: "贷款中心",
+          keepAlive: true,
+          hidden: true
+        }
+      }
+    ]
+  },
   // {
   //   path: "/order",
   //   component: Layouts,
