@@ -49,3 +49,16 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+
+
+      - name: copy file
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_SSH_HOST }}
+          username: ${{ secrets.SERVER_SSH_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          password: ${{ secrets.SERVER_SSH_PASS }}
+          command_timeout: 10m
+          source: "target/dist/*"
+          rm: true
+          target: "/www/wwwroot/target"
