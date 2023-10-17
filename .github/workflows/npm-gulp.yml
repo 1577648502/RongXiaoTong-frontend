@@ -50,7 +50,6 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v1
 
-
       - name: copy file
         uses: appleboy/scp-action@master
         with:
@@ -59,6 +58,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           password: ${{ secrets.SERVER_SSH_PASS }}
           command_timeout: 10m
-          source: "/dist/*"
+          source: "./dist/*"
           rm: true
           target: "/www/wwwroot/dist"
