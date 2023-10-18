@@ -6,7 +6,8 @@
         style="margin-top: 10px"
         v-if="allIntentionData.length!=0"
         @click="lookIntention"
-        >我的融资意向</el-button
+      >我的融资意向
+      </el-button
       >
     </div>
     <div v-if="look === true">
@@ -51,7 +52,8 @@
       style="margin-top: 10px"
       v-if="allIntentionData.length==0"
       @click="handleAdd"
-      >添加融资意向</el-button
+    >添加融资意向
+    </el-button
     >
 
     <el-dialog
@@ -109,7 +111,7 @@
     </el-dialog>
 
     <div class="title">
-      <br />
+      <br/>
       <strong>推荐融资人</strong>
     </div>
 
@@ -136,26 +138,28 @@
 
         <div class="info" style="margin-top: 80px">
           <span class="initiator1" @click="detailsClick(item.userName)"
-            >姓名：{{ item.realName }}</span
-          ><br />
+          >姓名：{{ item.realName }}</span
+          ><br/>
           <span class="initiator2" @click="detailsClick(item.userName)"
-            >联系方式：{{ item.phone }}</span
-          ><br />
+          >联系方式：{{ item.phone }}</span
+          ><br/>
           <span class="initiator3" @click="detailsClick(item.userName)"
-            >地址：{{ item.address }}</span
-          ><br />
+          >地址：{{ item.address }}</span
+          ><br/>
           <span class="initiator4" @click="detailsClick(item.userName)"
-            >农作物：{{ item.item }}</span
-          ><br />
-          <span class="initiator4" @click="detailsClick(item.userName)" v-if="item.amount!=-1">金额：{{ item.amount }}元</span>
-          <span class="initiator4" @click="detailsClick(item.userName)" v-else>金额：- 元</span><br />
+          >农作物：{{ item.item }}</span
+          ><br/>
+          <span class="initiator4" @click="detailsClick(item.userName)" v-if="item.amount!=-1">金额：{{
+              item.amount
+            }}元</span>
+          <span class="initiator4" @click="detailsClick(item.userName)" v-else>金额：- 元</span><br/>
           <!-- <span v-if="item.amount!=-1">金额：{{ item.amount }}元</span>
           <span v-else>金额：-元</span><br /> -->
           <span class="initiator4" @click="detailsClick(item.userName)" v-if="item.area!=-1"
-            >种植面积：{{ item.area }} 亩</span
+          >种植面积：{{ item.area }} 亩</span
           >
           <span class="initiator4" @click="detailsClick(item.userName)" v-else
-            >种植面积：- 亩</span
+          >种植面积：- 亩</span
           >
         </div>
       </div>
@@ -165,7 +169,7 @@
 
 <script lang="ts" setup>
 
-import { ref, reactive, onMounted, onUnmounted, computed } from "vue";
+import {ref, reactive, onMounted, onUnmounted, computed} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {
   createFinancingIntentionDataApi, deleteFinancingIntentionDataApi,
@@ -175,8 +179,10 @@ import {
 import {usePagination} from "@/hooks/usePagination";
 import {useUserStore} from "@/store/modules/user";
 import {getBankUserDataApi} from "@/api/bankUser";
+import {getUserDataApi, getUserImgApi, getUserInfoApi} from "@/api/user";
+
 const {paginationData, handleCurrentChange, handleSizeChange} = usePagination()
-const options=ref([
+const options = ref([
   {
     value: 6,
     label: "六个月",
@@ -194,23 +200,23 @@ const options=ref([
     label: "三年",
   }
 ])
- const value=ref("")
-  const intentionData= ref({
-    realName: "",
-    amount: "",
-    application: "",
-    item: "",
-    repaymentPeriod: "",
-    address: "",
-    area: "",
-    phone: "",
-  })
- const allIntentionData= ref([])
- const allRecommendData= ref([])
- const showAdd=ref(false)
- const look=ref(false)
- const title= ref("添加融资意向")
-const getAllRecommned=()=> {
+const value = ref("")
+const intentionData = ref({
+  realName: "",
+  amount: "",
+  application: "",
+  item: "",
+  repaymentPeriod: "",
+  address: "",
+  area: "",
+  phone: "",
+})
+const allIntentionData = ref([])
+const allRecommendData = ref([])
+const showAdd = ref(false)
+const look = ref(false)
+const title = ref("添加融资意向")
+const getAllRecommned = () => {
   getFinancingIntentionDataApi({}, {
     size: paginationData.pageSize,
     current: paginationData.currentPage,
@@ -218,46 +224,44 @@ const getAllRecommned=()=> {
     .then((res) => {
       console.log("ressss", res);
       allRecommendData.value = res.data.records;
-      allRecommendData.value.forEach(res=>{
-        res.avatar=useUserStore().userInfo.avatar
+      allRecommendData.value.forEach(res => {
+        getUserImgApi(res.userName).then((r) => {
+          res.avatar = r.data
+        })
       })
     })
     .catch((err) => {
       console.log(err);
     });
 }
-const getAllIntention=()=> {
-  getFinancingIntentionDataApi({}, {
+const getAllIntention = () => {
+  getFinancingIntentionDataApi({userName: useUserStore().username}, {
     size: paginationData.pageSize,
     current: paginationData.currentPage,
   })
     .then((res) => {
       console.log("ressss", res);
       allIntentionData.value = res.data.records;
-      allRecommendData.value.forEach(res=>{
-        res.avatar=useUserStore().userInfo.avatar
-      })
-
     })
     .catch((err) => {
       console.log(err);
     });
 }
-const handleAdd=()=> {
-  showAdd.value = true;
-},
-lookIntention=() =>{
-  if (look.value === true) {
-    look.value = false;
-  } else {
-    look.value = true;
+const handleAdd = () => {
+    showAdd.value = true;
+  },
+  lookIntention = () => {
+    if (look.value === true) {
+      look.value = false;
+    } else {
+      look.value = true;
+    }
   }
-}
-const closeAdd=() =>{
+const closeAdd = () => {
   showAdd.value = false;
   intentionData.value = {};
 }
-const updateIntention=()=> {
+const updateIntention = () => {
   console.log(title.value)
   if (intentionData.value.amount == "") {
     alert("金额不能为空");
@@ -282,7 +286,7 @@ const updateIntention=()=> {
     return;
   }
   if (title.value === "编辑意向") {
-    updateFinancingIntentionDataApi({...intentionData.value,repaymentPeriod:value.value}).then((res) => {
+    updateFinancingIntentionDataApi({...intentionData.value, repaymentPeriod: value.value}).then((res) => {
       if (res.code == 200) {
         getAllIntention();
         ElMessage.success(res.message);
@@ -316,14 +320,14 @@ const updateIntention=()=> {
     });
   }
 }
-const handleEdit=(item) =>{
+const handleEdit = (item) => {
   console.log(item)
   showAdd.value = true;
   title.value = "编辑意向";
   intentionData.value = item
   value.value = item.repaymentPeriod
 }
-const handleDel=(item)=> {
+const handleDel = (item) => {
   ElMessageBox.confirm("确认删除该信息?", "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
@@ -344,7 +348,7 @@ const handleDel=(item)=> {
 
             // $router.push("/home/smartMatch").catch((err) => err);
           } else {
-            ElMessage({ type: "error", message: res.message });
+            ElMessage({type: "error", message: res.message});
           }
         })
         .catch((err) => {
@@ -361,7 +365,7 @@ const handleDel=(item)=> {
       });
     });
 }
-onMounted(() =>{
+onMounted(() => {
   getAllIntention();
   getAllRecommned();
 })
@@ -377,15 +381,18 @@ onMounted(() =>{
   //background: #fff;
   height: auto;
   min-height: 100%;
+
   .title {
     border-bottom: 1px solid #f2f2f2;
     padding: 10px 0px;
     font-size: 18px;
   }
+
   .goods-box {
     //background-color: #f9f9f9;
     width: 1100px;
     margin: 0 auto;
+
     .goods {
       float: left;
       text-align: center;
@@ -399,6 +406,7 @@ onMounted(() =>{
       position: relative;
       // margin: 0 auto;
       cursor: pointer;
+
       .goods-img {
         float: left;
         width: 80px;
@@ -409,16 +417,19 @@ onMounted(() =>{
         top: 10px;
         left: 60px;
       }
+
       .info {
         width: 180px;
         top: 180px;
-         float: left;
+        float: left;
+
         .initiator1 {
           // position: absolute;top:80px;
         }
       }
     }
   }
+
   .default-address-container {
     border: 1px dashed #ccc;
     border-radius: 6px;
@@ -427,20 +438,24 @@ onMounted(() =>{
     margin-top: 20px;
     align-items: center;
     justify-content: space-between;
+
     .address-item {
       line-height: 30px;
       height: 30px;
       margin-right: 50px;
     }
+
     .right-btn {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
+
       .marginR20 {
         margin-right: 20px;
         cursor: pointer;
         color: #67c23a;
+
         &:hover {
           color: #035d1c;
           text-decoration: underline;
@@ -463,14 +478,17 @@ onMounted(() =>{
     float: left;
     margin-right: 20px;
   }
+
   .title {
     font-size: 18px;
     line-height: 40px;
   }
+
   .introduce {
     line-height: 25px;
     max-height: 100px;
   }
+
   .item-content {
     display: flex;
     flex-direction: row;
@@ -478,49 +496,61 @@ onMounted(() =>{
     align-items: center;
     height: 30px;
     line-height: 30px;
+
     .item-title {
       font-weight: bold;
     }
+
     .item-text {
     }
   }
+
   .info {
     position: relative;
     width: 340px;
     height: 300px;
     float: left;
+
     .title {
       font-size: 22px;
       font-weight: bold;
     }
+
     .content {
       height: 100px;
     }
+
     .price {
       color: red;
       font-size: 25px;
       font-weight: bold;
     }
+
     .time {
       margin-top: 10px;
+
       .createtime {
         float: left;
       }
+
       .updatetime {
         float: right;
       }
     }
   }
+
   .operation {
     position: absolute;
     bottom: 0;
     margin-top: 20px;
+
     .like,
     .collection,
     .comment {
       display: inline-block;
       width: 30px;
       margin-right: 30px;
+
       img {
         margin: 0;
         width: 20px;
@@ -529,6 +559,7 @@ onMounted(() =>{
       }
     }
   }
+
   .add-shopcart {
     position: absolute;
     right: 20px;

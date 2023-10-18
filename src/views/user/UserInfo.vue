@@ -67,6 +67,7 @@ import type {UploadProps} from 'element-plus'
 import {modifyUserApi, uploadApi} from "@/api/user";
 import {getUserInfoApi} from "@/api/login";
 import * as url from "url";
+import {useUserStore} from "@/store/modules/user";
 
 const imageUrl = ref('')
 const sex = ref({
@@ -137,6 +138,8 @@ const updateInfo = () => {
       ElMessage({type: 'success', message: '修改成功'})
       getUserInfoApi().then(res => {
         userinfo.value = res.data
+        useUserStore().userInfo= res.data
+        useUserStore().username= res.data.userName
         if (userinfo.value.avatar !== null) {
           imageUrl.value = userinfo.value.avatar
         }
