@@ -43,11 +43,11 @@ function createService() {
           // Token 过期时
           return logout()
         case -1:
-          if (apiData.msg === "未登录") {
+          if (apiData.msg === "未登录" || apiData.msg === "用户未登录") {
             ElMessage.error("登录状态已失效，请重新登录")
             return logout()
           }
-          return ElMessage.error(apiData.msg || "Error")
+          return
         default:
           // 不是正确的 code
           ElMessage.error(apiData.msg || "Error")

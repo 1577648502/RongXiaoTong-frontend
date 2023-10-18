@@ -4,7 +4,7 @@
       <el-button
         type="success"
         style="margin-top: 10px"
-        v-if="allIntentionData != ''"
+        v-if="allIntentionData.length!=0"
         @click="lookIntention"
         >我的融资意向</el-button
       >
@@ -30,14 +30,14 @@
         <div class="right-btn">
           <div
             class="marginR20"
-            v-if="allIntentionData != ''"
+            v-if="allIntentionData"
             @click="handleEdit(item)"
           >
             编辑
           </div>
           <div
             class="marginR20"
-            v-if="allIntentionData != ''"
+            v-if="allIntentionData"
             @click="handleDel(item)"
           >
             删除
@@ -49,14 +49,14 @@
     <el-button
       type="success"
       style="margin-top: 10px"
-      v-if="allIntentionData == ''"
+      v-if="allIntentionData.length==0"
       @click="handleAdd"
       >添加融资意向</el-button
     >
 
     <el-dialog
       :title="title"
-      :visible.sync="showAdd"
+      v-model="showAdd"
       width="580px"
       :before-close="closeAdd"
     >
@@ -123,7 +123,7 @@
       >
         <img
           class="goods-img"
-          v-if="item.avatar != ''"
+          v-if="item.avatar"
           :src="item.avatar"
           alt=""
         />
@@ -134,7 +134,7 @@
           style="border: 1px solid #f2f2f2"
         />
 
-        <div class="info">
+        <div class="info" style="margin-top: 80px">
           <span class="initiator1" @click="detailsClick(item.userName)"
             >姓名：{{ item.realName }}</span
           ><br />
@@ -166,13 +166,15 @@
 <script lang="ts" setup>
 
 import { ref, reactive, onMounted, onUnmounted, computed } from "vue";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 import {
   createFinancingIntentionDataApi, deleteFinancingIntentionDataApi,
   getFinancingIntentionDataApi,
   updateFinancingIntentionDataApi
 } from "@/api/financingIntention";
 import {usePagination} from "@/hooks/usePagination";
+import {useUserStore} from "@/store/modules/user";
+import {getBankUserDataApi} from "@/api/bankUser";
 const {paginationData, handleCurrentChange, handleSizeChange} = usePagination()
 const options=ref([
   {
@@ -193,7 +195,7 @@ const options=ref([
   }
 ])
  const value=ref("")
-  const intentionData= ({
+  const intentionData= ref({
     realName: "",
     amount: "",
     application: "",
@@ -216,7 +218,9 @@ const getAllRecommned=()=> {
     .then((res) => {
       console.log("ressss", res);
       allRecommendData.value = res.data.records;
-      allRecommendData.value.avatar="http://110.41.132.124:9000/public/171woUiy-2118faa2503a69e1e9159d7ac2d8a57b.jpeg"
+      allRecommendData.value.forEach(res=>{
+        res.avatar=useUserStore().userInfo.avatar
+      })
     })
     .catch((err) => {
       console.log(err);
@@ -230,7 +234,10 @@ const getAllIntention=()=> {
     .then((res) => {
       console.log("ressss", res);
       allIntentionData.value = res.data.records;
-      allRecommendData.value.avatar="http://110.41.132.124:9000/public/171woUiy-2118faa2503a69e1e9159d7ac2d8a57b.jpeg"
+      allRecommendData.value.forEach(res=>{
+        res.avatar=useUserStore().userInfo.avatar
+      })
+
     })
     .catch((err) => {
       console.log(err);
@@ -251,40 +258,32 @@ const closeAdd=() =>{
   intentionData.value = {};
 }
 const updateIntention=()=> {
-  if (intentionData.amount == "") {
+  console.log(title.value)
+  if (intentionData.value.amount == "") {
     alert("金额不能为空");
     return;
-  } else if (intentionData.application == "") {
+  } else if (intentionData.value.application == "") {
     alert("用途不能为空");
     return;
-  } else if (intentionData.phone == "") {
+  } else if (intentionData.value.phone == "") {
     alert("联系方式不能为空");
     return;
-  } else if (intentionData.item == "") {
+  } else if (intentionData.value.item == "") {
     alert("农作物名称不能为空");
     return;
-  } else if (intentionData.area == "") {
+  } else if (intentionData.value.area == "") {
     alert("种植面积不能为空");
     return;
-  } else if (value == "") {
+  } else if (value.value == "") {
     alert("意向借款期不能为空");
     return;
-  } else if (intentionData.address == "") {
+  } else if (intentionData.value.address == "") {
     alert("住址不能为空");
     return;
   }
-  if (title === "编辑意向") {
-    updateFinancingIntentionDataApi({
-      realName: intentionData.realName,
-      amount: intentionData.amount,
-      application: intentionData.application,
-      item: intentionData.item,
-      repaymentPeriod: value,
-      address: intentionData.address,
-      area: intentionData.area,
-      phone: intentionData.phone,
-    }).then((res) => {
-      if (res.flag == true) {
+  if (title.value === "编辑意向") {
+    updateFinancingIntentionDataApi({...intentionData.value,repaymentPeriod:value.value}).then((res) => {
+      if (res.code == 200) {
         getAllIntention();
         ElMessage.success(res.message);
         showAdd.value = false;
@@ -296,16 +295,16 @@ const updateIntention=()=> {
     });
   } else {
     createFinancingIntentionDataApi({
-      realName: intentionData.realName,
-      amount: intentionData.amount,
-      application: intentionData.application,
-      item: intentionData.item,
-      repaymentPeriod: value,
-      address: intentionData.address,
-      area: intentionData.area,
-      phone: intentionData.phone,
+      realName: intentionData.value.realName,
+      amount: intentionData.value.amount,
+      application: intentionData.value.application,
+      item: intentionData.value.item,
+      repaymentPeriod: value.value,
+      address: intentionData.value.address,
+      area: intentionData.value.area,
+      phone: intentionData.value.phone,
     }).then((res) => {
-      if (res.flag == true) {
+      if (res.code == 200) {
         getAllIntention();
         ElMessage.success(res.message);
         getAllRecommned();
@@ -318,12 +317,14 @@ const updateIntention=()=> {
   }
 }
 const handleEdit=(item) =>{
+  console.log(item)
   showAdd.value = true;
   title.value = "编辑意向";
-  intentionData.value = Object.assign({}, { ...item });
+  intentionData.value = item
+  value.value = item.repaymentPeriod
 }
 const handleDel=(item)=> {
-  $confirm("确认删除该信息?", "提示", {
+  ElMessageBox.confirm("确认删除该信息?", "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     // type: 'warning'
@@ -331,10 +332,10 @@ const handleDel=(item)=> {
     .then(() => {
       deleteFinancingIntentionDataApi(item.id)
         .then((res) => {
-          if (res.flag == true) {
-            reload();
-            // getAllIntention();
-            // getAllRecommned();
+          if (res.code == 200) {
+            // reload();
+            getAllIntention();
+            getAllRecommned();
             // intentionData=
             ElMessage({
               type: "success",
@@ -404,17 +405,15 @@ onMounted(() =>{
         height: 80px;
         margin-right: 10px;
         border-radius: 100%;
-
         position: absolute;
         top: 10px;
         left: 60px;
       }
       .info {
         width: 180px;
-        top: 80px;
-        // float: left;
+        top: 180px;
+         float: left;
         .initiator1 {
-          color: #666;
           // position: absolute;top:80px;
         }
       }
@@ -504,7 +503,6 @@ onMounted(() =>{
     }
     .time {
       margin-top: 10px;
-      color: #999;
       .createtime {
         float: left;
       }
