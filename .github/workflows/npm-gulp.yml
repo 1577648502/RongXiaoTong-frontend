@@ -4,7 +4,7 @@ name: Deploy static content to Pages
 on:
   # 仅在推送到默认分支时运行。
   push:
-    branches: ['main']
+    branches: ['run_out']
 
   # 这个选项可以使你手动在 Action tab 页面触发工作流
   workflow_dispatch:
@@ -50,14 +50,3 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v1
 
-      - name: copy file
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SERVER_SSH_HOST }}
-          username: ${{ secrets.SERVER_SSH_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          password: ${{ secrets.SERVER_SSH_PASS }}
-          command_timeout: 10m
-          source: "./dist/*"
-          rm: true
-          target: "/www/wwwroot/dist"
