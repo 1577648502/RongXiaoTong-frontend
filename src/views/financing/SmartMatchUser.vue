@@ -130,7 +130,7 @@
         <img
           class="goods-img"
           v-else
-          src="../assets/img/wutu.gif"
+          src="@/assets/img/wutu.gif"
           style="border: 1px solid #f2f2f2"
         />
 
