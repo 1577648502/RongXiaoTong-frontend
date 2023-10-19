@@ -13,7 +13,7 @@ export function createDiscussDataApi(data: Discuss.CreateDiscussRequestData) {
 /** 删 */
 export function deleteDiscussDataApi(id: string) {
   return request({
-    url: `discuss/deleteDiscuss/?discussId=`+id,
+    url: `discuss/deleteDiscuss/?discussId=` + id,
     method: "get"
   })
 }
@@ -27,10 +27,8 @@ export function updateDiscussDataApi(data: Discuss.UpdateDiscussRequestData) {
   })
 }
 
-
-
 /** 查 */
-export function getDiscussDataApi(data,params: Discuss.GetDiscussRequestData) {
+export function getDiscussDataApi(data, params: Discuss.GetDiscussRequestData) {
   return request<Discuss.GetDiscussResponseData>({
     url: `discuss/getDiscussPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -41,7 +39,6 @@ export function getDiscussDataApi(data,params: Discuss.GetDiscussRequestData) {
 export function getDiscussInfoApi(params: Discuss.GetDiscussRequestData) {
   return request<Discuss.GetDiscussResponseData>({
     url: `discuss/getDiscussInfo?discussId=${params}`,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }
-

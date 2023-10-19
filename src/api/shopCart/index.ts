@@ -28,8 +28,6 @@ export function updateShoppingCartDataApi(data: ShoppingCart.UpdateShoppingCartR
   })
 }
 
-
-
 /** 查 */
 export function getShoppingCartDataApi(data: ShoppingCart.GetShoppingCartRequestData) {
   return request<ShoppingCart.GetShoppingCartResponseData>({
@@ -42,7 +40,6 @@ export function getShoppingCartDataApi(data: ShoppingCart.GetShoppingCartRequest
 export function getShoppingCartInfoApi(params: ShoppingCart.GetShoppingCartRequestData) {
   return request<ShoppingCart.GetShoppingCartResponseData>({
     url: `shoppingCart/getShoppingCartInfo?shoppingCartId=${params}`,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }
-

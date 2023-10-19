@@ -13,7 +13,7 @@ export function createReserveDataApi(data: Reserve.CreateReserveRequestData) {
 /** 删 */
 export function deleteReserveDataApi(id: string) {
   return request({
-    url: `reserve/deleteReserve/?reserveId=`+id,
+    url: `reserve/deleteReserve/?reserveId=` + id,
     method: "get"
   })
 }
@@ -27,10 +27,8 @@ export function updateReserveDataApi(data: Reserve.UpdateReserveRequestData) {
   })
 }
 
-
-
 /** 查 */
-export function getReserveDataApi(data,params: Reserve.GetReserveRequestData) {
+export function getReserveDataApi(data, params: Reserve.GetReserveRequestData) {
   return request<Reserve.GetReserveResponseData>({
     url: `reserve/getReservePageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -41,7 +39,6 @@ export function getReserveDataApi(data,params: Reserve.GetReserveRequestData) {
 export function getReserveInfoApi(params: Reserve.GetReserveRequestData) {
   return request<Reserve.GetReserveResponseData>({
     url: `reserve/getReserveInfo?reserveId=${params}`,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }
-

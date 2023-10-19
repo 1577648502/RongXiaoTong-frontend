@@ -1,7 +1,3 @@
-
-
-
-
 import { request } from "@/utils/service"
 import type * as Finance from "./types/table"
 
@@ -17,7 +13,7 @@ export function createFinanceDataApi(data: Finance.CreateFinanceRequestData) {
 /** 删 */
 export function deleteFinanceDataApi(id: string) {
   return request({
-    url: `finance/deleteFinance/?financeId=`+id,
+    url: `finance/deleteFinance/?financeId=` + id,
     method: "get"
   })
 }
@@ -31,10 +27,8 @@ export function updateFinanceDataApi(data: Finance.UpdateFinanceRequestData) {
   })
 }
 
-
-
 /** 查 */
-export function getFinanceDataApi(data,params: Finance.GetFinanceRequestData) {
+export function getFinanceDataApi(data, params: Finance.GetFinanceRequestData) {
   return request<Finance.GetFinanceResponseData>({
     url: `finance/getFinancePageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -45,7 +39,6 @@ export function getFinanceDataApi(data,params: Finance.GetFinanceRequestData) {
 export function getFinanceInfoApi(params: Finance.GetFinanceRequestData) {
   return request<Finance.GetFinanceResponseData>({
     url: `finance/getFinanceInfo?bankId=${params}`,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }
-

@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import {onBeforeMount, ref} from "vue";
-import {Search} from "@element-plus/icons-vue";
-import {getExpertDataApi} from "@/api/expert";
-import {getQuestionDataApi} from "@/api/question";
-import {useUserStore} from "@/store/modules/user";
+import { onBeforeMount, ref } from "vue"
+import { Search } from "@element-plus/icons-vue"
+import { getExpertDataApi } from "@/api/expert"
+import { getQuestionDataApi } from "@/api/question"
+import { useUserStore } from "@/store/modules/user"
 
-const {paginationData, handleCurrentChange, handleSizeChange} = usePagination()
-import {watch} from "vue";
-import {usePagination} from "@/hooks/usePagination";
-import router from "@/router";
-
+const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
+import { watch } from "vue"
+import { usePagination } from "@/hooks/usePagination"
+import router from "@/router"
 
 const userStore = useUserStore()
 const loading = ref(true)
@@ -23,15 +22,20 @@ onBeforeMount(() => {
 
 const getExpertData = () => {
   loading.value = true
-  getExpertDataApi({}, {
-    size: 10,
-    current: 1,
-  }).then(res => {
-    expertData.value = res.data.records
-    loading.value = false
-  }).catch(() => {
-    expertData.value = []
-  })
+  getExpertDataApi(
+    {},
+    {
+      size: 10,
+      current: 1
+    }
+  )
+    .then((res) => {
+      expertData.value = res.data.records
+      loading.value = false
+    })
+    .catch(() => {
+      expertData.value = []
+    })
     .finally(() => {
       loading.value = false
     })
@@ -40,38 +44,36 @@ const getQuestionData = () => {
   loading.value = true
   getQuestionDataApi(searchData.value, {
     size: paginationData.pageSize,
-    current: paginationData.currentPage,
-  }).then(res => {
-    questionData.value = res.data.records
-    paginationData.total = res.data.total
-    loading.value = false
-  }).catch(() => {
-    questionData.value = []
+    current: paginationData.currentPage
   })
+    .then((res) => {
+      questionData.value = res.data.records
+      paginationData.total = res.data.total
+      loading.value = false
+    })
+    .catch(() => {
+      questionData.value = []
+    })
     .finally(() => {
       loading.value = false
     })
 }
 
-
 const handleQuestion = (item) => {
-  router.push('/question/' + item.userName)
-
+  router.push("/question/" + item.userName)
 }
 const handleReserve = (item) => {
-  router.push('/reserve/'+ item.userName)
-
+  router.push("/reserve/" + item.userName)
 }
 const toQuestionInfo = (questionId: number) => {
-  router.push({path: "/guide/" + questionId})
+  router.push({ path: "/guide/" + questionId })
 }
 
 const handleSearch = () => {
   paginationData.currentPage === 1 ? getQuestionData() : (paginationData.currentPage = 1)
 }
 /** 监听分页参数的变化 */
-watch([() => paginationData.currentPage, () => paginationData.pageSize], getQuestionData, {immediate: true})
-
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getQuestionData, { immediate: true })
 </script>
 
 <template>
@@ -81,20 +83,20 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
         <div class="left-guide">
           <el-form ref="searchFormRef" :inline="true" :model="searchData">
             <el-form-item>
-              <el-input v-model="searchData.title" placeholder="请输入"/>
+              <el-input v-model="searchData.title" placeholder="请输入" />
             </el-form-item>
             <el-form-item>
               <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
             </el-form-item>
           </el-form>
 
-          <div style="color:#696969;font-size:12px;margin-top: 10px;">
+          <div style="color: #696969; font-size: 12px; margin-top: 10px">
             热门搜索：
             <a class="tag-item">苹果</a>
             <a class="tag-item">新疆哈密瓜</a>
             <a class="tag-item">樱桃</a>
           </div>
-          <div  class="goods" v-for="(item, index) in questionData" :key="index" @click="toQuestionInfo(item.id)">
+          <div class="goods" v-for="(item, index) in questionData" :key="index" @click="toQuestionInfo(item.id)">
             <div class="info">
               <p class="content">
                 <i class="question-text" style="" v-if="item.status == 0">[问]</i>
@@ -102,13 +104,13 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
                 <span class="question-content" @click="handleDetail(item)">{{ item.title }}</span>
               </p>
               <div class="person-contents">
-                <span>提问者：{{ item.questioner }}</span>&nbsp;&nbsp;&nbsp;
+                <span>提问者：{{ item.questioner }}</span
+                >&nbsp;&nbsp;&nbsp;
                 <span>专家：{{ item.expertName }}</span>
               </div>
             </div>
-
           </div>
-          <el-divider/>
+          <el-divider />
           <div class="pager-wrapper">
             <el-pagination
               background
@@ -121,20 +123,22 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
               @current-change="handleCurrentChange"
             />
           </div>
-
         </div>
       </el-col>
       <el-col :span="10" :offset="2">
-
         <div class="right-guide">
           <div class="professioner-item">
-            <div style="font-size:18px;display: flex;justify-content: space-between;">
+            <div style="font-size: 18px; display: flex; justify-content: space-between">
               <strong>专家列表</strong>
-              <a style="font-size:12px;cursor: pointer;">更多专家>></a>
+              <a style="font-size: 12px; cursor: pointer">更多专家>></a>
             </div>
-            <div class="epert" v-for="(item,index) in expertData" :key="index"
-                 :style="index===expertData.length-1?'':'border-bottom: 1px dashed #f2f2f2;'">
-              <img :src="userStore.userInfo.avatar" alt=""/>
+            <div
+              class="epert"
+              v-for="(item, index) in expertData"
+              :key="index"
+              :style="index === expertData.length - 1 ? '' : 'border-bottom: 1px dashed #f2f2f2;'"
+            >
+              <img :src="userStore.userInfo.avatar" alt="" />
               <div class="info">
                 <div class="item-style">
                   <div class="content">专家姓名：{{ item.realName }}</div>
@@ -155,7 +159,6 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
         </div>
       </el-col>
     </el-row>
-
   </div>
 </template>
 
@@ -190,7 +193,6 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
     }
   }
 }
-
 
 .epert {
   min-height: 80px;
@@ -248,7 +250,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
     justify-content: flex-end;
     margin-bottom: 10px;
     margin-right: 10px;
-    color: #67C23A;
+    color: #67c23a;
 
     .btn-item {
       margin-left: 10px;
@@ -256,7 +258,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getQues
 
       &:hover {
         text-decoration: underline;
-        color: #035D1C;
+        color: #035d1c;
       }
     }
   }

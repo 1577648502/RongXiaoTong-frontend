@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import {reactive, ref} from "vue"
-import {useRouter} from "vue-router"
-import {useUserStore} from "@/store/modules/user"
-import {ElMessage, type FormInstance, type FormRules} from "element-plus"
-import {User, Lock, Key, Picture, Loading} from "@element-plus/icons-vue"
-import {getLoginCodeApi} from "@/api/login"
-import {type LoginRequestData} from "@/api/login/types/login"
+import { reactive, ref } from "vue"
+import { useRouter } from "vue-router"
+import { useUserStore } from "@/store/modules/user"
+import { ElMessage, type FormInstance, type FormRules } from "element-plus"
+import { User, Lock, Key, Picture, Loading } from "@element-plus/icons-vue"
+import { getLoginCodeApi } from "@/api/login"
+import { type LoginRequestData } from "@/api/login/types/login"
 import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
 
 const router = useRouter()
@@ -19,14 +19,14 @@ const loading = ref(false)
 /** 登录表单数据 */
 const loginFormData: LoginRequestData = reactive({
   userName: "admin",
-  password: "admin",
+  password: "admin"
 })
 /** 登录表单校验规则 */
 const loginFormRules: FormRules = {
-  userName: [{required: true, message: "请输入用户名", trigger: "blur"}],
+  userName: [{ required: true, message: "请输入用户名", trigger: "blur" }],
   password: [
-    {required: true, message: "请输入密码", trigger: "blur"},
-    {min: 5, max: 16, message: "长度在 5 到 16 个字符", trigger: "blur"}
+    { required: true, message: "请输入密码", trigger: "blur" },
+    { min: 5, max: 16, message: "长度在 5 到 16 个字符", trigger: "blur" }
   ]
 }
 /** 登录逻辑 */
@@ -38,7 +38,7 @@ const handleLogin = () => {
         .login(loginFormData)
         .then(() => {
           ElMessage.success("登录成功")
-          router.push({path: "/"})
+          router.push({ path: "/" })
         })
         .catch(() => {
           ElMessage.error("登录失败")
@@ -62,11 +62,12 @@ const handleRegister = () => {
         .register(loginFormData)
         .then(() => {
           ElMessage.success("注册成功")
-          router.push({path: "/"})
-        }).catch(() => {
-        ElMessage.error("注册失败")
-        loginFormData.password = ""
-      })
+          router.push({ path: "/" })
+        })
+        .catch(() => {
+          ElMessage.error("注册失败")
+          loginFormData.password = ""
+        })
         .finally(() => {
           loading.value = false
         })
@@ -75,12 +76,11 @@ const handleRegister = () => {
     }
   })
 }
-
 </script>
 
 <template>
   <div class="login-container">
-    <ThemeSwitch class="theme-switch"/>
+    <ThemeSwitch class="theme-switch" />
     <div class="login-card">
       <div class="title">
         <h1>登录</h1>
@@ -135,8 +135,13 @@ const handleRegister = () => {
           <!--            </el-input>-->
           <!--          </el-form-item>-->
           <el-button :loading="loading" type="primary" size="large" @click.prevent="handleLogin">登 录</el-button>
-          <el-button style="margin-left: 0px" :loading="loading" type="primary" size="large"
-                     @click.prevent="handleRegister">注 册
+          <el-button
+            style="margin-left: 0px"
+            :loading="loading"
+            type="primary"
+            size="large"
+            @click.prevent="handleRegister"
+            >注 册
           </el-button>
         </el-form>
       </div>

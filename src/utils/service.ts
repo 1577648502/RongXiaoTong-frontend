@@ -1,8 +1,8 @@
-import axios, {type AxiosInstance, type AxiosRequestConfig} from "axios"
-import {useUserStoreHook} from "@/store/modules/user"
-import {ElMessage} from "element-plus"
-import {get, merge} from "lodash-es"
-import {getToken} from "./cache/cookies"
+import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios"
+import { useUserStoreHook } from "@/store/modules/user"
+import { ElMessage } from "element-plus"
+import { get, merge } from "lodash-es"
+import { getToken } from "./cache/cookies"
 
 /** 退出登录并强制刷新页面（会重定向到登录页） */
 function logout() {
@@ -110,7 +110,7 @@ function createRequest(service: AxiosInstance) {
       headers: {
         // 携带 Token
         Authorization: token ? `Bearer ${token}` : undefined,
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       timeout: 10000,
       baseURL: import.meta.env.VITE_BASE_API,

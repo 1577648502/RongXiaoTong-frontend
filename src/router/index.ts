@@ -1,5 +1,5 @@
-import {type RouteRecordRaw, createRouter} from "vue-router"
-import {history, flatMultiLevelRoutes} from "./helper"
+import { type RouteRecordRaw, createRouter } from "vue-router"
+import { history, flatMultiLevelRoutes } from "./helper"
 import routeSettings from "@/config/route"
 
 const Layouts = () => import("@/layouts/index.vue")
@@ -72,7 +72,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "商品管理",
     meta: {
       title: "商品管理",
-      elIcon: "Box",
+      elIcon: "Box"
     },
     children: [
       {
@@ -80,7 +80,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/goods/index.vue"),
         name: "商品货源",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "商品货源",
           keepAlive: true
         }
@@ -90,7 +90,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/goods/goods-admin.vue"),
         name: "商品管理",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "商品管理",
           hidden: true,
           keepAlive: true
@@ -105,7 +105,7 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "商品详情",
           hidden: true
         }
-      },
+      }
     ]
   },
   {
@@ -115,7 +115,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "收购需求",
     meta: {
       title: "收购需求",
-      elIcon: "Box",
+      elIcon: "Box"
     },
     children: [
       {
@@ -123,7 +123,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/purchase/index.vue"),
         name: "收购需求",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "收购需求",
           keepAlive: true
         }
@@ -137,7 +137,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "农业知识",
     meta: {
       title: "农业知识",
-      elIcon: "Box",
+      elIcon: "Box"
     },
     children: [
       {
@@ -145,26 +145,28 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/knowledge/index.vue"),
         name: "农业知识",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "农业知识",
           keepAlive: true
         }
-      }, {
+      },
+      {
         path: "/knowledge/:knowledgeId",
         component: () => import("@/views/knowledge/KnowledgeInfo.vue"),
         name: "农业知识详情",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "农业知识详情",
           keepAlive: true,
           hidden: true
         }
-      }, {
+      },
+      {
         path: "/knowledge-admin/",
         component: () => import("@/views/knowledge/knowledge-admin.vue"),
         name: "农业知识管理",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "农业知识管理",
           keepAlive: true,
           hidden: true
@@ -179,7 +181,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "专家指导",
     meta: {
       title: "专家指导",
-      elIcon: "Box",
+      elIcon: "Box"
     },
     children: [
       {
@@ -187,7 +189,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/guide/index.vue"),
         name: "专家指导",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "专家指导",
           keepAlive: true
         }
@@ -197,12 +199,12 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/guide/guideInfo.vue"),
         name: "专家指导详情",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "专家指导详情",
           keepAlive: true,
           hidden: true
         }
-      },
+      }
     ]
   },
 
@@ -222,7 +224,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/question/index.vue"),
         name: "提问页",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "提问页",
           keepAlive: true,
           hidden: true
@@ -246,7 +248,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/reserve/index.vue"),
         name: "预约页",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "预约页",
           keepAlive: true,
           hidden: true
@@ -261,7 +263,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "购物车",
     meta: {
       title: "购物车",
-      elIcon: "Box",
+      elIcon: "Box"
     },
     children: [
       {
@@ -269,9 +271,9 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/shopCart/index.vue"),
         name: "购物车",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "购物车",
-          keepAlive: true,
+          keepAlive: true
         }
       }
     ]
@@ -283,7 +285,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "融资申请",
     meta: {
       title: "融资申请",
-      elIcon: "Box",
+      elIcon: "Box"
     },
     children: [
       {
@@ -291,9 +293,9 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/financing/SmartMatchUser.vue"),
         name: "智能匹配",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "智能匹配",
-          keepAlive: true,
+          keepAlive: true
         }
       },
       {
@@ -301,24 +303,24 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/financing/index.vue"),
         name: "融资申请",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "融资申请",
-          keepAlive: true,
+          keepAlive: true
         }
-      }
-      ,{
+      },
+      {
         path: "/financingDetails/:bankId",
         component: () => import("@/views/financing/FinancingDetails.vue"),
         name: "贷款中心",
         meta: {
-          elIcon: 'Box',
+          elIcon: "Box",
           title: "贷款中心",
           keepAlive: true,
           hidden: true
         }
       }
     ]
-  },
+  }
   // {
   //   path: "/order",
   //   component: Layouts,
@@ -436,7 +438,7 @@ export function resetRouter() {
   // 注意：所有动态路由路由必须带有 Name 属性，否则可能会不能完全重置干净
   try {
     router.getRoutes().forEach((route) => {
-      const {name, meta} = route
+      const { name, meta } = route
       if (name && meta.roles?.length) {
         router.hasRoute(name) && router.removeRoute(name)
       }

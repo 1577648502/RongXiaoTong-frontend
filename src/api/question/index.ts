@@ -13,7 +13,7 @@ export function createQuestionDataApi(data: Question.CreateQuestionRequestData) 
 /** 删 */
 export function deleteQuestionDataApi(id: string) {
   return request({
-    url: `question/deleteQuestion/?questionId=`+id,
+    url: `question/deleteQuestion/?questionId=` + id,
     method: "get"
   })
 }
@@ -27,10 +27,8 @@ export function updateQuestionDataApi(data: Question.UpdateQuestionRequestData) 
   })
 }
 
-
-
 /** 查 */
-export function getQuestionDataApi(data,params: Question.GetQuestionRequestData) {
+export function getQuestionDataApi(data, params: Question.GetQuestionRequestData) {
   return request<Question.GetQuestionResponseData>({
     url: `question/getQuestionPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -41,7 +39,6 @@ export function getQuestionDataApi(data,params: Question.GetQuestionRequestData)
 export function getQuestionInfoApi(params: Question.GetQuestionRequestData) {
   return request<Question.GetQuestionResponseData>({
     url: `question/getQuestionInfo?questionId=${params}`,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }
-

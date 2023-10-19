@@ -1,21 +1,12 @@
 <template>
   <div class="add-address">
     <div class="title">
-      <el-button
-        type="success"
-        style="margin-top: 10px"
-        v-if="allIntentionData.length!=0"
-        @click="lookIntention"
-      >我的融资意向
-      </el-button
-      >
+      <el-button type="success" style="margin-top: 10px" v-if="allIntentionData.length != 0" @click="lookIntention"
+        >我的融资意向
+      </el-button>
     </div>
     <div v-if="look === true">
-      <div
-        v-for="(item, index) in allIntentionData"
-        :key="index"
-        class="default-address-container"
-      >
+      <div v-for="(item, index) in allIntentionData" :key="index" class="default-address-container">
         <div>
           <div class="address-item">姓名：{{ item.realName }}</div>
           <div class="address-item">地址：{{ item.address }}</div>
@@ -24,83 +15,48 @@
           <div class="address-item">用途：{{ item.application }}</div>
           <div class="address-item">农作物名称：{{ item.item }}</div>
           <div class="address-item">种植面积：{{ item.area }} (单位：亩)</div>
-          <div class="address-item">
-            意向借款期：{{ item.repaymentPeriod }} (单位：月)
-          </div>
+          <div class="address-item">意向借款期：{{ item.repaymentPeriod }} (单位：月)</div>
         </div>
         <div class="right-btn">
-          <div
-            class="marginR20"
-            v-if="allIntentionData"
-            @click="handleEdit(item)"
-          >
-            编辑
-          </div>
-          <div
-            class="marginR20"
-            v-if="allIntentionData"
-            @click="handleDel(item)"
-          >
-            删除
-          </div>
+          <div class="marginR20" v-if="allIntentionData" @click="handleEdit(item)">编辑</div>
+          <div class="marginR20" v-if="allIntentionData" @click="handleDel(item)">删除</div>
         </div>
       </div>
     </div>
 
-    <el-button
-      type="success"
-      style="margin-top: 10px"
-      v-if="allIntentionData.length==0"
-      @click="handleAdd"
-    >添加融资意向
-    </el-button
-    >
+    <el-button type="success" style="margin-top: 10px" v-if="allIntentionData.length == 0" @click="handleAdd"
+      >添加融资意向
+    </el-button>
 
-    <el-dialog
-      :title="title"
-      v-model="showAdd"
-      width="580px"
-      :before-close="closeAdd"
-    >
-      <el-form
-        :model="intentionData"
-        ref="ruleForm"
-        label-width="100px"
-        class="demo-ruleForm"
-      >
+    <el-dialog :title="title" v-model="showAdd" width="580px" :before-close="closeAdd">
+      <el-form :model="intentionData" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="姓名：" prop="realName">
-          <el-input v-model="intentionData.realName"></el-input>
+          <el-input v-model="intentionData.realName" />
         </el-form-item>
         <el-form-item label="金额(单位：元)：" prop="amount">
-          <el-input v-model="intentionData.amount"></el-input>
+          <el-input v-model="intentionData.amount" />
         </el-form-item>
         <el-form-item label="联系方式：" prop="phone">
-          <el-input v-model="intentionData.phone"></el-input>
+          <el-input v-model="intentionData.phone" />
         </el-form-item>
         <el-form-item label="用途：" prop="application">
-          <el-input v-model="intentionData.application"></el-input>
+          <el-input v-model="intentionData.application" />
         </el-form-item>
         <el-form-item label="农作物名称：" prop="item">
-          <el-input v-model="intentionData.item"></el-input>
+          <el-input v-model="intentionData.item" />
         </el-form-item>
         <el-form-item label="种植面积(单位：亩)：" prop="area">
-          <el-input v-model="intentionData.area"></el-input>
+          <el-input v-model="intentionData.area" />
         </el-form-item>
 
         <el-form-item label="意向借款期：" prop="repaymentPeriod">
           <el-select v-model="value" placeholder="意向借款期：">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
 
         <el-form-item label="住址：" prop="address">
-          <el-input v-model="intentionData.address"></el-input>
+          <el-input v-model="intentionData.address" />
         </el-form-item>
       </el-form>
 
@@ -111,7 +67,7 @@
     </el-dialog>
 
     <div class="title">
-      <br/>
+      <br />
       <strong>推荐融资人</strong>
     </div>
 
@@ -123,44 +79,28 @@
         @click="detailsClick(item.userName)"
         :style="'margin-right:10px;'"
       >
-        <img
-          class="goods-img"
-          v-if="item.avatar"
-          :src="item.avatar"
-          alt=""
-        />
-        <img
-          class="goods-img"
-          v-else
-          src="@/assets/img/wutu.gif"
-          style="border: 1px solid #f2f2f2"
-        />
+        <img class="goods-img" v-if="item.avatar" :src="item.avatar" alt="" />
+        <img class="goods-img" v-else src="@/assets/img/wutu.gif" style="border: 1px solid #f2f2f2" />
 
         <div class="info" style="margin-top: 80px">
-          <span class="initiator1" @click="detailsClick(item.userName)"
-          >姓名：{{ item.realName }}</span
-          ><br/>
-          <span class="initiator2" @click="detailsClick(item.userName)"
-          >联系方式：{{ item.phone }}</span
-          ><br/>
-          <span class="initiator3" @click="detailsClick(item.userName)"
-          >地址：{{ item.address }}</span
-          ><br/>
-          <span class="initiator4" @click="detailsClick(item.userName)"
-          >农作物：{{ item.item }}</span
-          ><br/>
-          <span class="initiator4" @click="detailsClick(item.userName)" v-if="item.amount!=-1">金额：{{
-              item.amount
-            }}元</span>
-          <span class="initiator4" @click="detailsClick(item.userName)" v-else>金额：- 元</span><br/>
+          <span class="initiator1" @click="detailsClick(item.userName)">姓名：{{ item.realName }}</span
+          ><br />
+          <span class="initiator2" @click="detailsClick(item.userName)">联系方式：{{ item.phone }}</span
+          ><br />
+          <span class="initiator3" @click="detailsClick(item.userName)">地址：{{ item.address }}</span
+          ><br />
+          <span class="initiator4" @click="detailsClick(item.userName)">农作物：{{ item.item }}</span
+          ><br />
+          <span class="initiator4" @click="detailsClick(item.userName)" v-if="item.amount != -1"
+            >金额：{{ item.amount }}元</span
+          >
+          <span class="initiator4" @click="detailsClick(item.userName)" v-else>金额：- 元</span><br />
           <!-- <span v-if="item.amount!=-1">金额：{{ item.amount }}元</span>
           <span v-else>金额：-元</span><br /> -->
-          <span class="initiator4" @click="detailsClick(item.userName)" v-if="item.area!=-1"
-          >种植面积：{{ item.area }} 亩</span
+          <span class="initiator4" @click="detailsClick(item.userName)" v-if="item.area != -1"
+            >种植面积：{{ item.area }} 亩</span
           >
-          <span class="initiator4" @click="detailsClick(item.userName)" v-else
-          >种植面积：- 亩</span
-          >
+          <span class="initiator4" @click="detailsClick(item.userName)" v-else>种植面积：- 亩</span>
         </div>
       </div>
     </div>
@@ -168,36 +108,36 @@
 </template>
 
 <script lang="ts" setup>
-
-import {ref, reactive, onMounted, onUnmounted, computed} from "vue";
-import {ElMessage, ElMessageBox} from "element-plus";
+import { ref, reactive, onMounted, onUnmounted, computed } from "vue"
+import { ElMessage, ElMessageBox } from "element-plus"
 import {
-  createFinancingIntentionDataApi, deleteFinancingIntentionDataApi,
+  createFinancingIntentionDataApi,
+  deleteFinancingIntentionDataApi,
   getFinancingIntentionDataApi,
   updateFinancingIntentionDataApi
-} from "@/api/financingIntention";
-import {usePagination} from "@/hooks/usePagination";
-import {useUserStore} from "@/store/modules/user";
-import {getBankUserDataApi} from "@/api/bankUser";
-import {getUserDataApi, getUserImgApi, getUserInfoApi} from "@/api/user";
+} from "@/api/financingIntention"
+import { usePagination } from "@/hooks/usePagination"
+import { useUserStore } from "@/store/modules/user"
+import { getBankUserDataApi } from "@/api/bankUser"
+import { getUserDataApi, getUserImgApi, getUserInfoApi } from "@/api/user"
 
-const {paginationData, handleCurrentChange, handleSizeChange} = usePagination()
+const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const options = ref([
   {
     value: 6,
-    label: "六个月",
+    label: "六个月"
   },
   {
     value: 12,
-    label: "一年",
+    label: "一年"
   },
   {
     value: 24,
-    label: "两年",
+    label: "两年"
   },
   {
     value: 36,
-    label: "三年",
+    label: "三年"
   }
 ])
 const value = ref("")
@@ -209,7 +149,7 @@ const intentionData = ref({
   repaymentPeriod: "",
   address: "",
   area: "",
-  phone: "",
+  phone: ""
 })
 const allIntentionData = ref([])
 const allRecommendData = ref([])
@@ -217,86 +157,92 @@ const showAdd = ref(false)
 const look = ref(false)
 const title = ref("添加融资意向")
 const getAllRecommned = () => {
-  getFinancingIntentionDataApi({}, {
-    size: paginationData.pageSize,
-    current: paginationData.currentPage,
-  })
+  getFinancingIntentionDataApi(
+    {},
+    {
+      size: paginationData.pageSize,
+      current: paginationData.currentPage
+    }
+  )
     .then((res) => {
-      console.log("ressss", res);
-      allRecommendData.value = res.data.records;
-      allRecommendData.value.forEach(res => {
+      console.log("ressss", res)
+      allRecommendData.value = res.data.records
+      allRecommendData.value.forEach((res) => {
         getUserImgApi(res.userName).then((r) => {
           res.avatar = r.data
         })
       })
     })
     .catch((err) => {
-      console.log(err);
-    });
+      console.log(err)
+    })
 }
 const getAllIntention = () => {
-  getFinancingIntentionDataApi({userName: useUserStore().username}, {
-    size: paginationData.pageSize,
-    current: paginationData.currentPage,
-  })
+  getFinancingIntentionDataApi(
+    { userName: useUserStore().username },
+    {
+      size: paginationData.pageSize,
+      current: paginationData.currentPage
+    }
+  )
     .then((res) => {
-      console.log("ressss", res);
-      allIntentionData.value = res.data.records;
+      console.log("ressss", res)
+      allIntentionData.value = res.data.records
     })
     .catch((err) => {
-      console.log(err);
-    });
+      console.log(err)
+    })
 }
 const handleAdd = () => {
-    showAdd.value = true;
+    showAdd.value = true
   },
   lookIntention = () => {
     if (look.value === true) {
-      look.value = false;
+      look.value = false
     } else {
-      look.value = true;
+      look.value = true
     }
   }
 const closeAdd = () => {
-  showAdd.value = false;
-  intentionData.value = {};
+  showAdd.value = false
+  intentionData.value = {}
 }
 const updateIntention = () => {
   console.log(title.value)
   if (intentionData.value.amount == "") {
-    alert("金额不能为空");
-    return;
+    alert("金额不能为空")
+    return
   } else if (intentionData.value.application == "") {
-    alert("用途不能为空");
-    return;
+    alert("用途不能为空")
+    return
   } else if (intentionData.value.phone == "") {
-    alert("联系方式不能为空");
-    return;
+    alert("联系方式不能为空")
+    return
   } else if (intentionData.value.item == "") {
-    alert("农作物名称不能为空");
-    return;
+    alert("农作物名称不能为空")
+    return
   } else if (intentionData.value.area == "") {
-    alert("种植面积不能为空");
-    return;
+    alert("种植面积不能为空")
+    return
   } else if (value.value == "") {
-    alert("意向借款期不能为空");
-    return;
+    alert("意向借款期不能为空")
+    return
   } else if (intentionData.value.address == "") {
-    alert("住址不能为空");
-    return;
+    alert("住址不能为空")
+    return
   }
   if (title.value === "编辑意向") {
-    updateFinancingIntentionDataApi({...intentionData.value, repaymentPeriod: value.value}).then((res) => {
+    updateFinancingIntentionDataApi({ ...intentionData.value, repaymentPeriod: value.value }).then((res) => {
       if (res.code == 200) {
-        getAllIntention();
-        ElMessage.success(res.message);
-        showAdd.value = false;
-        getAllRecommned();
+        getAllIntention()
+        ElMessage.success(res.message)
+        showAdd.value = false
+        getAllRecommned()
       } else {
-        showAdd.value = false;
-        ElMessage.error(res.data);
+        showAdd.value = false
+        ElMessage.error(res.data)
       }
-    });
+    })
   } else {
     createFinancingIntentionDataApi({
       realName: intentionData.value.realName,
@@ -306,31 +252,31 @@ const updateIntention = () => {
       repaymentPeriod: value.value,
       address: intentionData.value.address,
       area: intentionData.value.area,
-      phone: intentionData.value.phone,
+      phone: intentionData.value.phone
     }).then((res) => {
       if (res.code == 200) {
-        getAllIntention();
-        ElMessage.success(res.message);
-        getAllRecommned();
-        showAdd.value = false;
+        getAllIntention()
+        ElMessage.success(res.message)
+        getAllRecommned()
+        showAdd.value = false
       } else {
-        showAdd.value = false;
-        ElMessage.error(res.data);
+        showAdd.value = false
+        ElMessage.error(res.data)
       }
-    });
+    })
   }
 }
 const handleEdit = (item) => {
   console.log(item)
-  showAdd.value = true;
-  title.value = "编辑意向";
+  showAdd.value = true
+  title.value = "编辑意向"
   intentionData.value = item
   value.value = item.repaymentPeriod
 }
 const handleDel = (item) => {
   ElMessageBox.confirm("确认删除该信息?", "提示", {
     confirmButtonText: "确定",
-    cancelButtonText: "取消",
+    cancelButtonText: "取消"
     // type: 'warning'
   })
     .then(() => {
@@ -338,42 +284,40 @@ const handleDel = (item) => {
         .then((res) => {
           if (res.code == 200) {
             // reload();
-            getAllIntention();
-            getAllRecommned();
+            getAllIntention()
+            getAllRecommned()
             // intentionData=
             ElMessage({
               type: "success",
-              message: "删除成功!",
-            });
+              message: "删除成功!"
+            })
 
             // $router.push("/home/smartMatch").catch((err) => err);
           } else {
-            ElMessage({type: "error", message: res.message});
+            ElMessage({ type: "error", message: res.message })
           }
         })
         .catch((err) => {
           ElMessage({
             type: "error",
-            message: "删除失败!",
-          });
-        });
+            message: "删除失败!"
+          })
+        })
     })
     .catch(() => {
       ElMessage({
         type: "info",
-        message: "已取消删除",
-      });
-    });
+        message: "已取消删除"
+      })
+    })
 }
 onMounted(() => {
-  getAllIntention();
-  getAllRecommned();
+  getAllIntention()
+  getAllRecommned()
 })
-
 </script>
 
 <style lang="less" scoped>
-
 .add-address {
   width: 1100px;
   float: left;

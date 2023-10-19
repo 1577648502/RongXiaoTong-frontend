@@ -1,16 +1,16 @@
-import {ref} from "vue"
+import { ref } from "vue"
 import store from "@/store"
-import {defineStore} from "pinia"
-import {usePermissionStore} from "./permission"
-import {useTagsViewStore} from "./tags-view"
-import {useSettingsStore} from "./settings"
-import {getToken, removeToken, setToken} from "@/utils/cache/cookies"
-import router, {resetRouter} from "@/router"
-import {loginApi, getUserInfoApi, registerApi} from "@/api/login"
-import {type LoginRequestData} from "@/api/login/types/login"
-import {type RouteRecordRaw} from "vue-router"
+import { defineStore } from "pinia"
+import { usePermissionStore } from "./permission"
+import { useTagsViewStore } from "./tags-view"
+import { useSettingsStore } from "./settings"
+import { getToken, removeToken, setToken } from "@/utils/cache/cookies"
+import router, { resetRouter } from "@/router"
+import { loginApi, getUserInfoApi, registerApi } from "@/api/login"
+import { type LoginRequestData } from "@/api/login/types/login"
+import { type RouteRecordRaw } from "vue-router"
 import routeSettings from "@/config/route"
-import {lowerFirst} from "lodash-es";
+import { lowerFirst } from "lodash-es"
 
 export const useUserStore = defineStore("user", () => {
   const token = ref<string>(getToken() || "")
@@ -27,19 +27,19 @@ export const useUserStore = defineStore("user", () => {
     roles.value = [value]
   }
   /** 登录 */
-  const login = async ({userName, password}: LoginRequestData) => {
-    const {data} = await loginApi({userName, password})
+  const login = async ({ userName, password }: LoginRequestData) => {
+    const { data } = await loginApi({ userName, password })
     setToken(data.id)
     token.value = data.id
     userInfo.value = data
   }
   /** 注册 */
-  const register = async ({userName, password}: LoginRequestData) => {
-    const {data} = await registerApi({userName, password})
+  const register = async ({ userName, password }: LoginRequestData) => {
+    const { data } = await registerApi({ userName, password })
   }
   /** 获取用户详情 */
   const getInfo = async () => {
-    const {data} = await getUserInfoApi()
+    const { data } = await getUserInfoApi()
     username.value = data.userName
     userInfo.value = data
     // 验证返回的 roles 是否为一个非空数组，否则塞入一个没有任何作用的默认角色，防止路由守卫逻辑进入无限循环
@@ -81,7 +81,7 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return {token, roles, username,userInfo, setRoles, login, register, getInfo, changeRoles, logout, resetToken}
+  return { token, roles, username, userInfo, setRoles, login, register, getInfo, changeRoles, logout, resetToken }
 })
 
 /** 在 setup 外使用 */
