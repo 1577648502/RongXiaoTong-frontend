@@ -13,7 +13,7 @@ export function createFinancingIntentionDataApi(data: FinancingIntention.CreateF
 /** 删 */
 export function deleteFinancingIntentionDataApi(id: string) {
   return request({
-    url: `financingIntention/deleteFinancingIntention/?financingIntentionId=`+id,
+    url: `financingIntention/deleteFinancingIntention/?financingIntentionId=` + id,
     method: "get"
   })
 }
@@ -27,10 +27,8 @@ export function updateFinancingIntentionDataApi(data: FinancingIntention.UpdateF
   })
 }
 
-
-
 /** 查 */
-export function getFinancingIntentionDataApi(data,params: FinancingIntention.GetFinancingIntentionRequestData) {
+export function getFinancingIntentionDataApi(data, params: FinancingIntention.GetFinancingIntentionRequestData) {
   return request<FinancingIntention.GetFinancingIntentionResponseData>({
     url: `financingIntention/getFinancingIntentionPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -41,6 +39,6 @@ export function getFinancingIntentionDataApi(data,params: FinancingIntention.Get
 export function getFinancingIntentionInfoApi(params: FinancingIntention.GetFinancingIntentionRequestData) {
   return request<FinancingIntention.GetFinancingIntentionResponseData>({
     url: `financingIntention/getFinancingIntentionInfo?financingIntentionId=${params}`,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }

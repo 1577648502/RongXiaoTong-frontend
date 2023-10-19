@@ -22,7 +22,8 @@
     "lint:prettier": "prettier --write \"{src,tests,types}/**/*.{vue,js,jsx,ts,tsx,json,css,less,scss,html,md}\"",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "prepare": "husky install",
-    "test": "vitest"
+    "test": "vitest",
+    "openapi": "ts-node openapi.config.ts"
   },
   "dependencies": {
     "@element-plus/icons-vue": "2.1.0",
@@ -50,8 +51,9 @@
     "@types/node": "20.6.3",
     "@types/nprogress": "0.2.0",
     "@types/path-browserify": "1.0.0",
-    "@typescript-eslint/eslint-plugin": "6.7.2",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "6.7.2",
+    "@umijs/openapi": "^1.9.1",
     "@vitejs/plugin-vue": "4.3.4",
     "@vitejs/plugin-vue-jsx": "3.0.2",
     "@vue/eslint-config-prettier": "8.0.0",

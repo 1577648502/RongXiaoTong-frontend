@@ -13,7 +13,7 @@ export function createExpertDataApi(data: Expert.CreateExpertRequestData) {
 /** 删 */
 export function deleteExpertDataApi(id: string) {
   return request({
-    url: `expert/deleteExpert/?expertId=`+id,
+    url: `expert/deleteExpert/?expertId=` + id,
     method: "get"
   })
 }
@@ -27,10 +27,8 @@ export function updateExpertDataApi(data: Expert.UpdateExpertRequestData) {
   })
 }
 
-
-
 /** 查 */
-export function getExpertDataApi(data,params: Expert.GetExpertRequestData) {
+export function getExpertDataApi(data, params: Expert.GetExpertRequestData) {
   return request<Expert.GetExpertResponseData>({
     url: `expert/getExpertPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -41,7 +39,6 @@ export function getExpertDataApi(data,params: Expert.GetExpertRequestData) {
 export function getExpertInfoApi(params: Expert.GetExpertRequestData) {
   return request<Expert.GetExpertResponseData>({
     url: `expert/getExpertInfo?expertId=${params}`,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }
-

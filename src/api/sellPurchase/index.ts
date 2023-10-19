@@ -13,7 +13,7 @@ export function createSellPurchaseDataApi(data: SellPurchase.CreateSellPurchaseR
 /** 删 */
 export function deleteSellPurchaseDataApi(id: string) {
   return request({
-    url: `sellPurchase/deleteSellPurchase/?sellPurchaseId=`+id,
+    url: `sellPurchase/deleteSellPurchase/?sellPurchaseId=` + id,
     method: "get"
   })
 }
@@ -27,10 +27,8 @@ export function updateSellPurchaseDataApi(data: SellPurchase.UpdateSellPurchaseR
   })
 }
 
-
-
 /** 查 */
-export function getSellPurchaseDataApi(data,params: SellPurchase.GetSellPurchaseRequestData) {
+export function getSellPurchaseDataApi(data, params: SellPurchase.GetSellPurchaseRequestData) {
   return request<SellPurchase.GetSellPurchaseResponseData>({
     url: `sellPurchase/getSellPurchasePageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -41,7 +39,6 @@ export function getSellPurchaseDataApi(data,params: SellPurchase.GetSellPurchase
 export function getSellPurchaseInfoApi(params: SellPurchase.GetSellPurchaseRequestData) {
   return request<SellPurchase.GetSellPurchaseResponseData>({
     url: `sellPurchase/getSellPurchaseInfo?sellPurchaseId=${params}`,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }
-

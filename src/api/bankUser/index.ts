@@ -13,7 +13,7 @@ export function createBankUserDataApi(data: BankUser.CreateBankUserRequestData) 
 /** 删 */
 export function deleteBankUserDataApi(id: string) {
   return request({
-    url: `bankUser/deleteBankUser/?bankUserId=`+id,
+    url: `bankUser/deleteBankUser/?bankUserId=` + id,
     method: "get"
   })
 }
@@ -27,10 +27,8 @@ export function updateBankUserDataApi(data: BankUser.UpdateBankUserRequestData) 
   })
 }
 
-
-
 /** 查 */
-export function getBankUserDataApi(data,params: BankUser.GetBankUserRequestData) {
+export function getBankUserDataApi(data, params: BankUser.GetBankUserRequestData) {
   return request<BankUser.GetBankUserResponseData>({
     url: `bankUser/getBankUserPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -41,7 +39,6 @@ export function getBankUserDataApi(data,params: BankUser.GetBankUserRequestData)
 export function getBankUserInfoApi(params: BankUser.GetBankUserRequestData) {
   return request<BankUser.GetBankUserResponseData>({
     url: `bankUser/getBankUserInfo?bankUserId=${params}`,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }
-

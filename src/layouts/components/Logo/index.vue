@@ -25,7 +25,7 @@ const { layoutMode } = storeToRefs(settingsStore)
       </router-link>
       <router-link v-else key="expand" to="/">
         <img :src="layoutMode !== 'left' ? logoText2 : logoText1" class="layout-logo-text" />
-        <el-text size="large" style="padding: 0 5px;">融销通</el-text>
+        <el-text size="large" style="padding: 0 5px">融销通</el-text>
       </router-link>
     </transition>
   </div>

@@ -1,15 +1,19 @@
 <script lang="ts" setup>
-import {reactive, ref, watch} from "vue";
-import {usePagination} from "@/hooks/usePagination";
-import {ElMessage, ElMessageBox, FormInstance, FormRules, UploadProps} from "element-plus";
-import {createKnowledgeDataApi, deleteKnowledgeDataApi, getKnowledgeDataApi, updateKnowledgeDataApi} from "@/api/knowledge";
-import {GetTableData} from "@/api/table/types/table";
-import {uploadApi} from "@/api/user";
-import {CirclePlus, Delete, Refresh, RefreshRight, Search} from "@element-plus/icons-vue";
+import { reactive, ref, watch } from "vue"
+import { usePagination } from "@/hooks/usePagination"
+import { ElMessage, ElMessageBox, FormInstance, FormRules, UploadProps } from "element-plus"
+import {
+  createKnowledgeDataApi,
+  deleteKnowledgeDataApi,
+  getKnowledgeDataApi,
+  updateKnowledgeDataApi
+} from "@/api/knowledge"
+import { GetTableData } from "@/api/table/types/table"
+import { uploadApi } from "@/api/user"
+import { CirclePlus, Delete, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
 
 const loading = ref<boolean>(false)
-const {paginationData, handleCurrentChange, handleSizeChange} = usePagination()
-
+const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 //#region 增
 const dialogVisible = ref<boolean>(false)
@@ -20,15 +24,14 @@ const formData = reactive({
   password: ""
 })
 const formRules: FormRules = reactive({
-  title: [{required: true, trigger: "blur", message: "请输入标题"}],
-  content: [{required: true, trigger: "blur", message: "请输入内容"}],
-  type: [{required: true, trigger: "blur", message: "请选择类型"}],
-  price: [{required: true, trigger: "blur", message: "请输入价格"}]
+  title: [{ required: true, trigger: "blur", message: "请输入标题" }],
+  content: [{ required: true, trigger: "blur", message: "请输入内容" }],
+  type: [{ required: true, trigger: "blur", message: "请选择类型" }],
+  price: [{ required: true, trigger: "blur", message: "请输入价格" }]
 })
 const handleCreate = () => {
   formRef.value?.validate((valid: boolean, fields) => {
     if (valid) {
-
       if (currentUpdateId.value === undefined) {
         createKnowledgeDataApi(knowledgeData.value)
           .then(() => {
@@ -48,7 +51,6 @@ const handleCreate = () => {
             dialogVisible.value = false
           })
       }
-
     } else {
       console.error("表单校验不通过", fields)
     }
@@ -78,7 +80,6 @@ const deleteKnowledges = () => {
     })
   })
 }
-
 
 //#region 删
 const handleDelete = (row: GetTableData) => {
@@ -117,7 +118,7 @@ const getTableData = () => {
   loading.value = true
   getKnowledgeDataApi(searchData, {
     size: paginationData.pageSize,
-    current: paginationData.currentPage,
+    current: paginationData.currentPage
   })
     .then((res) => {
       paginationData.total = res.data.total
@@ -138,42 +139,39 @@ const resetSearch = () => {
   handleSearch()
 }
 const addKnowledge = () => {
-  imageUrl.value = ''
+  imageUrl.value = ""
   dialogVisible.value = true
   knowledgeData.value = {}
 }
 //#endregion
 
 /** 监听分页参数的变化 */
-watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, {immediate: true})
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 
-
-const imageUrl = ref('')
+const imageUrl = ref("")
 const knowledgeData = ref({})
 const handleHttpRequest = (params) => {
-  uploadApi(params).then((res) => {
-    ElMessage({type: 'success', message: '上传成功'})
-    params.onSuccess(res.data.url)
-  }).catch(() => {
-    ElMessage({type: 'error', message: '上传失败'})
-    params.onError()
-  })
+  uploadApi(params)
+    .then((res) => {
+      ElMessage({ type: "success", message: "上传成功" })
+      params.onSuccess(res.data.url)
+    })
+    .catch(() => {
+      ElMessage({ type: "error", message: "上传失败" })
+      params.onError()
+    })
 }
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-  response,
-  uploadFile
-) => {
+const handleAvatarSuccess: UploadProps["onSuccess"] = (response, uploadFile) => {
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
   knowledgeData.value.picPath = response
 }
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picPath size can not exceed 2MB!')
+    ElMessage.error("Avatar picPath size can not exceed 2MB!")
     return false
   }
   return true
 }
-
 </script>
 
 <template>
@@ -181,13 +179,13 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
     <el-card v-loading="loading" shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
         <el-form-item prop="ownName" label="用户名">
-          <el-input v-model="searchData.ownName" placeholder="请输入"/>
+          <el-input v-model="searchData.ownName" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="title" label="标题">
-          <el-input v-model="searchData.title" placeholder="请输入"/>
+          <el-input v-model="searchData.title" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="content" label="内容">
-          <el-input v-model="searchData.content" placeholder="请输入"/>
+          <el-input v-model="searchData.content" placeholder="请输入" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
@@ -203,23 +201,23 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
         </div>
         <div>
           <el-tooltip content="刷新当前页">
-            <el-button type="primary" :icon="RefreshRight" circle @click="getTableData"/>
+            <el-button type="primary" :icon="RefreshRight" circle @click="getTableData" />
           </el-tooltip>
         </div>
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData" @selection-change="handleShopSelectionChange">
-          <el-table-column type="selection" width="50" align="center"/>
+          <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="picPath" label="头像">
             <template #default="scope">
-              <el-image style="width: 100px; height: 100px" :src="scope.row.picPath"/>
+              <el-image style="width: 100px; height: 100px" :src="scope.row.picPath" />
             </template>
           </el-table-column>
-          <el-table-column prop="title" label="标题" align="center"/>
-          <el-table-column prop="ownName" label="创建人" align="center"/>
-          <el-table-column prop="content" label="内容"  width="450" align="center">
+          <el-table-column prop="title" label="标题" align="center" />
+          <el-table-column prop="ownName" label="创建人" align="center" />
+          <el-table-column prop="content" label="内容" width="450" align="center">
             <template #default="scope">
-              <el-text size="small">{{scope.row.content}}</el-text>
+              <el-text size="small">{{ scope.row.content }}</el-text>
             </template>
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="150" align="center">
@@ -230,7 +228,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
           </el-table-column>
         </el-table>
       </div>
-      <el-divider/>
+      <el-divider />
       <div class="pager-wrapper">
         <el-pagination
           background
@@ -262,17 +260,16 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
           name="image"
           method="post"
         >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar"/>
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
-            <Plus/>
+            <Plus />
           </el-icon>
         </el-upload>
         <el-form-item prop="title" label="标题">
-          <el-input v-model="knowledgeData.title" placeholder="请输入"/>
+          <el-input v-model="knowledgeData.title" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="content" label="内容">
-
-          <el-input type="textarea" rows="5" v-model="knowledgeData.content" placeholder="请输入"/>
+          <el-input type="textarea" rows="5" v-model="knowledgeData.content" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -284,7 +281,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 </template>
 
 <style scoped>
-.avatar-uploader{
+.avatar-uploader {
   display: flex;
   justify-content: center;
   margin: 10px 0 20px 0;
@@ -292,7 +289,6 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 .avatar-uploader .avatar {
   width: 178px;
   height: 178px;
-
 }
 .avatar-uploader .el-upload {
   border: 1px dashed var(--el-border-color);
@@ -313,7 +309,6 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   height: 178px;
   text-align: center;
 }
-
 
 .search-wrapper {
   margin-bottom: 20px;

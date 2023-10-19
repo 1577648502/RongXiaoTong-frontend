@@ -5,6 +5,8 @@ module.exports = {
     node: true,
     es6: true
   },
+  // ignoredNodes里面写你要让哪些节点不做校验。
+  // indent: ["error", 2, { ignoredNodes: ["CallExpression", "Identifier"] }],
   extends: [
     "plugin:vue/vue3-essential",
     "eslint:recommended",

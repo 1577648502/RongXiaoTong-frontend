@@ -12,26 +12,27 @@
 </template>
 
 <script lang="ts" setup>
-import router from "@/router";
-import {onBeforeMount, ref} from "vue";
-import {getQuestionInfoApi} from "@/api/question";
+import router from "@/router"
+import { onBeforeMount, ref } from "vue"
+import { getQuestionInfoApi } from "@/api/question"
 
 const loading = ref(true)
 const QuestionData = ref({})
 const questionId = router.currentRoute.value.params.questionId
-
 
 onBeforeMount(() => {
   getQuestionData(questionId)
 })
 const getQuestionData = (questionId) => {
   loading.value = true
-  getQuestionInfoApi(questionId).then(res => {
-    QuestionData.value = res.data
-    loading.value = false
-  }).catch(() => {
-    QuestionData.value = {}
-  })
+  getQuestionInfoApi(questionId)
+    .then((res) => {
+      QuestionData.value = res.data
+      loading.value = false
+    })
+    .catch(() => {
+      QuestionData.value = {}
+    })
     .finally(() => {
       loading.value = false
     })

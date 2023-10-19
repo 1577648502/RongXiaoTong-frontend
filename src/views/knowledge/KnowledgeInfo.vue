@@ -1,43 +1,59 @@
 <template>
   <div class="knowlege-detail-container">
-    <div key="title" class="title">{{ knowledgeInfo.title}}</div>
+    <div key="title" class="title">{{ knowledgeInfo.title }}</div>
     <div class="tips">
       <span>作者：</span>
-      <span style="margin-right:20px;">{{ knowledgeInfo.ownName }}</span>
+      <span style="margin-right: 20px">{{ knowledgeInfo.ownName }}</span>
       <span>日期：</span>
       <span>{{ knowledgeInfo.updateTime }}</span>
     </div>
     <div class="detail-img" style="margin: 10px">
-            <img :src="knowledgeInfo.picPath"
-                 alt=""/>
+      <img :src="knowledgeInfo.picPath" alt="" />
     </div>
     <el-card style="margin: 10px 0">
       {{ knowledgeInfo.content }}
     </el-card>
-    <el-input type="textarea" v-model="content" :rows="5"></el-input>
-    <div style="margin-top:20px;display: flex;flex-direction: row;justify-content: flex-end">
+    <el-input type="textarea" v-model="content" :rows="5" />
+    <div style="margin-top: 20px; display: flex; flex-direction: row; justify-content: flex-end">
       <el-button type="success" @click="handleComment">添加评论</el-button>
     </div>
     <div class="comment-container">
-      <div class="comment-num">评论共{{ commentArray.length || 0 }}条</div>
-      <div class="comment-item" v-for="(item,index) in commentArray" :key="index">
+      <div class="comment-item" v-for="(item, index) in commentArray" :key="index">
         <div>{{ item.content }}</div>
         <div class="comment-tips">
-          <div style="margin-right:40px;">评论人：<span class="color6">{{ item.ownName }}</span></div>
-          <div>评论时间：<span class="color6">{{ item.createTime }}</span></div>
+          <div style="margin-right: 40px">
+            评论人：<span class="color6">{{ item.ownName }}</span>
+          </div>
+          <div>
+            评论时间：<span class="color6">{{ item.createTime }}</span>
+          </div>
         </div>
       </div>
+    </div>
+
+    <div class="pager-wrapper">
+      <el-pagination
+        background
+        :layout="paginationData.layout"
+        :page-sizes="paginationData.pageSizes"
+        :total="paginationData.total"
+        :page-size="paginationData.pageSize"
+        :currentPage="paginationData.currentPage"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-
-import {getKnowledgeInfoApi} from "@/api/knowledge";
-import router from "@/router";
-import {onBeforeMount, ref} from "vue";
-import {ElMessage} from "element-plus";
-import {createDiscussDataApi, getDiscussDataApi} from "@/api/discuss";
+import { getKnowledgeInfoApi } from "@/api/knowledge"
+import router from "@/router"
+import { onBeforeMount, ref, watch } from "vue"
+import { ElMessage } from "element-plus"
+import { createDiscussDataApi, getDiscussDataApi } from "@/api/discuss"
+import { usePagination } from "@/hooks/usePagination"
+const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 const loading = ref(true)
 const knowledgeInfo = ref({})
@@ -46,47 +62,64 @@ const commentArray = ref([])
 const knowledgeId = router.currentRoute.value.params.knowledgeId
 
 onBeforeMount(() => {
-  getKnowledgeData(knowledgeId)
-  getCommentData(knowledgeId)
+  getKnowledgeData()
+  // getCommentData()
 })
-const getKnowledgeData = (knowledgeId) => {
+const getKnowledgeData = () => {
   loading.value = true
-  getKnowledgeInfoApi(knowledgeId).then(res => {
-    knowledgeInfo.value = res.data
-    loading.value = false
-  }).catch(() => {
-    knowledgeInfo.value = {}
-  })
+  getKnowledgeInfoApi(knowledgeId)
+    .then((res) => {
+      knowledgeInfo.value = res.data
+      loading.value = false
+    })
+    .catch(() => {
+      knowledgeInfo.value = {}
+    })
     .finally(() => {
       loading.value = false
     })
 }
 // 查询评论
-const getCommentData = (knowledgeId) => {
-  getDiscussDataApi({"knowledgeId":knowledgeId}, {
-    size: 10,
-    current: 1,
-  }).then(res => {
-    commentArray.value = res.data.records
-  }).catch(err => {
-    console.log(err)
-  })
+const getCommentData = () => {
+  getDiscussDataApi(
+    { knowledgeId: knowledgeId },
+    {
+      size: paginationData.pageSize,
+      current: paginationData.currentPage
+    }
+  )
+    .then((res) => {
+      commentArray.value = res.data.records
+      paginationData.total = res.data.total
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
+
+const handleSearch = () => {
+  paginationData.currentPage === 1 ? getCommentData() : (paginationData.currentPage = 1)
+}
+//#endregion
+
+/** 监听分页参数的变化 */
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getCommentData, { immediate: true })
+
 const handleComment = () => {
-  if (content.value === '') {
-    ElMessage.error('评论内容不能为空！')
+  if (content.value === "") {
+    ElMessage.error("评论内容不能为空！")
     return
   }
-  createDiscussDataApi({"content":content.value,"knowledgeId":knowledgeId}).then(res => {
-    content.value = ''
-    ElMessage.success('评论成功！')
-    getCommentData(knowledgeId)
-  }).catch(err => {
-    console.log(err)
-  })
-
+  createDiscussDataApi({ content: content.value, knowledgeId: knowledgeId })
+    .then((res) => {
+      content.value = ""
+      ElMessage.success("评论成功！")
+      getCommentData(knowledgeId)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
-
 </script>
 
 <style lang="less" scoped>
@@ -126,7 +159,6 @@ const handleComment = () => {
   }
 
   .detail-content {
-
   }
 
   .comment-container {

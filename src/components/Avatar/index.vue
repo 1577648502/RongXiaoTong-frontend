@@ -1,43 +1,39 @@
 <script setup lang="ts">
-
-import {Plus} from "@element-plus/icons-vue";
-import {uploadApi} from "@/api/user";
-import {ElMessage, UploadProps} from "element-plus";
-import {ref} from "vue";
-let imageUrl = ref('')
+import { Plus } from "@element-plus/icons-vue"
+import { uploadApi } from "@/api/user"
+import { ElMessage, UploadProps } from "element-plus"
+import { ref } from "vue"
+const imageUrl = ref("")
 
 const props = defineProps()
-imageUrl = props.name
+imageUrl.value = props.name
 
 const handleHttpRequest = (params) => {
-  uploadApi(params).then((res) => {
-    ElMessage({type: 'success', message: '上传成功'})
-    // userinfo.avatar.value = res.data
-    params.onSuccess(res.data.url)
-
-  }).catch(() => {
-    ElMessage({type: 'error', message: '上传失败'})
-    params.onError()
-  })
+  uploadApi(params)
+    .then((res) => {
+      ElMessage({ type: "success", message: "上传成功" })
+      // userinfo.avatar.value = res.data
+      params.onSuccess(res.data.url)
+    })
+    .catch(() => {
+      ElMessage({ type: "error", message: "上传失败" })
+      params.onError()
+    })
 }
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-  response,
-  uploadFile
-) => {
+const handleAvatarSuccess: UploadProps["onSuccess"] = (response, uploadFile) => {
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
 }
 
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('Avatar picture must be JPG format!')
+const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
+  if (rawFile.type !== "image/jpeg") {
+    ElMessage.error("Avatar picture must be JPG format!")
     return false
   } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    ElMessage.error("Avatar picture size can not exceed 2MB!")
     return false
   }
   return true
 }
-
 </script>
 
 <template>
@@ -51,9 +47,9 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
     name="image"
     method="post"
   >
-    <img v-if="imageUrl" :src="imageUrl" class="avatar"/>
+    <img v-if="imageUrl" :src="imageUrl" class="avatar" />
     <el-icon v-else class="avatar-uploader-icon">
-      <Plus/>
+      <Plus />
     </el-icon>
   </el-upload>
 </template>

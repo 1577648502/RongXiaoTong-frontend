@@ -28,10 +28,8 @@ export function updateOrderDataApi(data: Order.UpdateOrderRequestData) {
   })
 }
 
-
-
 /** 查 */
-export function getOrderDataApi(data,params: Order.GetOrderRequestData) {
+export function getOrderDataApi(data, params: Order.GetOrderRequestData) {
   return request<Order.GetOrderResponseData>({
     url: `order/getOrderPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -42,7 +40,6 @@ export function getOrderDataApi(data,params: Order.GetOrderRequestData) {
 export function getOrderInfoApi(params: Order.GetOrderRequestData) {
   return request<Order.GetOrderResponseData>({
     url: `order/getOrderInfo?orderId=${params.id}`,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }
-

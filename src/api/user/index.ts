@@ -1,25 +1,16 @@
-import {request} from "@/utils/service"
+import { request } from "@/utils/service"
 import type * as Login from "./types/login"
-import {LoginResponseData} from "./types/login";
-
-/** 获取登录验证码 */
-export function getLoginCodeApi() {
-  return request<Login.LoginCodeResponseData>({
-    url: "login/code",
-    method: "get"
-  })
-}
 
 /** 登录并返回 Token */
 export function uploadApi(params) {
   const formData = new FormData()
-  formData.append('file', params.file)
+  formData.append("file", params.file)
   // axios的二次封装
   return request({
-    url: '/file/upload',
-    method: 'post',
+    url: "/file/upload",
+    method: "post",
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data"
     },
     data: formData
   })
@@ -65,7 +56,7 @@ export function getUserDataApi(data, params: Login.LoginResponseData) {
 export function getUserImgApi(userName: Login.LoginResponseData) {
   return request<Login.LoginResponseData>({
     url: `user/getUserImg?userName=` + userName,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }
 

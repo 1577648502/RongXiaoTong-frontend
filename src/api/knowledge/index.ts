@@ -28,10 +28,8 @@ export function updateKnowledgeDataApi(data: Knowledge.UpdateKnowledgeRequestDat
   })
 }
 
-
-
 /** 查 */
-export function getKnowledgeDataApi(data,params: Knowledge.GetKnowledgeRequestData) {
+export function getKnowledgeDataApi(data, params: Knowledge.GetKnowledgeRequestData) {
   return request<Knowledge.GetKnowledgeResponseData>({
     url: `knowledge/getKnowledgePageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -42,7 +40,6 @@ export function getKnowledgeDataApi(data,params: Knowledge.GetKnowledgeRequestDa
 export function getKnowledgeInfoApi(params: Knowledge.GetKnowledgeRequestData) {
   return request<Knowledge.GetKnowledgeResponseData>({
     url: `knowledge/getKnowledgeInfo?knowledgeId=${params}`,
-    method: "get", // 使用POST请求
+    method: "get" // 使用POST请求
   })
 }
-
