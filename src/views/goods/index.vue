@@ -48,12 +48,10 @@
 
 <script lang="ts" setup>
 import { ref, watch } from "vue"
-import { Refresh, Search } from "@element-plus/icons-vue"
-import { getUserDataApi } from "@/api/login"
+import { Search } from "@element-plus/icons-vue"
 import { getOrderDataApi } from "@/api/order"
 import { usePagination } from "@/hooks/usePagination"
 import router from "@/router"
-import {getOrderPageListUsingPOST} from "../../../servers/xl-api-backend/orderController";
 
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const searchData = ref([])
@@ -67,7 +65,7 @@ const toGoodsInfo = (orderId: number) => {
 
 const getOrderData = () => {
   loading.value = true
-  getOrderPageListUsingPOST(orderData.value, {
+  getOrderDataApi(orderData.value, {
     size: paginationData.pageSize,
     current: paginationData.currentPage
   })
