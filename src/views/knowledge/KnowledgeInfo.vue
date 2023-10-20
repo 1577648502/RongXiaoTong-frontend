@@ -97,9 +97,6 @@ const getCommentData = () => {
     })
 }
 
-const handleSearch = () => {
-  paginationData.currentPage === 1 ? getCommentData() : (paginationData.currentPage = 1)
-}
 //#endregion
 
 /** 监听分页参数的变化 */
@@ -111,7 +108,7 @@ const handleComment = () => {
     return
   }
   createDiscussDataApi({ content: content.value, knowledgeId: knowledgeId })
-    .then((res) => {
+    .then(() => {
       content.value = ""
       ElMessage.success("评论成功！")
       getCommentData(knowledgeId)

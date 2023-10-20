@@ -28,7 +28,10 @@ export function updateFinancingIntentionDataApi(data: FinancingIntention.UpdateF
 }
 
 /** 查 */
-export function getFinancingIntentionDataApi(data, params: FinancingIntention.GetFinancingIntentionRequestData) {
+export function getFinancingIntentionDataApi(
+  data: FinancingIntention.GetFinancingIntentionData,
+  params: { size: number; current: number }
+) {
   return request<FinancingIntention.GetFinancingIntentionResponseData>({
     url: `financingIntention/getFinancingIntentionPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求

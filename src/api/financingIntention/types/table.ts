@@ -1,36 +1,64 @@
-export interface CreateOrderRequestData {
-  username: string
-  password: string
-}
-
-export interface UpdateOrderRequestData {
-  id: string
-  username: string
-  password?: string
-}
-
-export interface GetOrderRequestData {
-  /** 当前页码 */
-  currentPage: number
-  /** 查询条数 */
-  size: number
-  /** 查询参数：用户名 */
-  username?: string
-  /** 查询参数：手机号 */
-  phone?: string
-}
-
-export interface GetOrderData {
-  createTime: string
-  email: string
-  id: string
+export interface CreateFinancingIntentionRequestData {
+  id: number
+  userName: string
+  realName: string
+  address: string
+  amount: number
+  application: string
+  item: string
+  repaymentPeriod: number
+  area: number
   phone: string
-  roles: string
-  status: boolean
-  username: string
+  createTime: string
+  updateTime: string
 }
 
-export type GetOrderResponseData = ApiResponseData<{
+export interface UpdateFinancingIntentionRequestData {
+  id: number
+  userName: string
+  realName: string
+  address: string
+  amount: number
+  application: string
+  item: string
+  repaymentPeriod: number
+  area: number
+  phone: string
+  createTime: string
+  updateTime: string
+}
+
+export interface GetFinancingIntentionRequestData {
+  id: number
+  userName: string
+  realName: string
+  address: string
+  amount: number
+  application: string
+  item: string
+  repaymentPeriod: number
+  area: number
+  phone: string
+  createTime: string
+  updateTime: string
+}
+
+export interface GetFinancingIntentionData {
+  id: number
+  userName: string
+  realName: string
+  address: string
+  amount: number
+  application: string
+  item: string
+  repaymentPeriod: number
+  area: number
+  phone: string
+  createTime: string
+  updateTime: string
+}
+
+export type GetFinancingIntentionResponseData = ApiResponseData<{
   records: object[]
   total: number
   size: number

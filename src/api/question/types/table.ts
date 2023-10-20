@@ -1,36 +1,52 @@
-export interface CreateOrderRequestData {
-  username: string
-  password: string
-}
-
-export interface UpdateOrderRequestData {
-  id: string
-  username: string
-  password?: string
-}
-
-export interface GetOrderRequestData {
-  /** 当前页码 */
-  currentPage: number
-  /** 查询条数 */
-  size: number
-  /** 查询参数：用户名 */
-  username?: string
-  /** 查询参数：手机号 */
-  phone?: string
-}
-
-export interface GetOrderData {
-  createTime: string
-  email: string
-  id: string
+export interface CreateQuestionRequestData {
+  id: number
+  expertName: string
+  questioner: string
   phone: string
-  roles: string
-  status: boolean
-  username: string
+  plantName: string
+  title: string
+  question: string
+  answer: string
+  status: number
 }
 
-export type GetOrderResponseData = ApiResponseData<{
+export interface UpdateQuestionRequestData {
+  id: number
+  expertName: string
+  questioner: string
+  phone: string
+  plantName: string
+  title: string
+  question: string
+  answer: string
+  status: number
+}
+
+export interface GetQuestionRequestData {
+  id: number
+  expertName: string
+  questioner: string
+  phone: string
+  plantName: string
+  title: string
+  question: string
+  answer: string
+  status: number
+}
+
+export interface GetQuestionData {
+  id: number
+  expertName: string
+  questioner: string
+  phone: string
+  plantName: string
+  title: string
+  question: string
+  answer: string
+  status: number
+}
+
+export type GetQuestionResponseData = ApiResponseData<{
   records: object[]
   total: number
   size: number

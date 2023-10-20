@@ -11,6 +11,9 @@ import {
 import { GetTableData } from "@/api/table/types/table"
 import { uploadApi } from "@/api/user"
 import { CirclePlus, Delete, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
+import * as Knowledge from "@/api/knowledge/types/table"
+import {CreateKnowledgeRequestData, UpdateKnowledgeRequestData} from "@/api/knowledge/types/table";
+import {a} from "vitest/dist/reporters-cb94c88b";
 
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
@@ -19,6 +22,7 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 const dialogVisible = ref<boolean>(false)
 const knowledgeIds = ref<string[]>([])
 const formRef = ref<FormInstance | null>(null)
+const knowledgeData = ref<Knowledge.GetKnowledgeData>()
 const formData = reactive({
   userName: "",
   password: ""
@@ -33,7 +37,7 @@ const handleCreate = () => {
   formRef.value?.validate((valid: boolean, fields) => {
     if (valid) {
       if (currentUpdateId.value === undefined) {
-        createKnowledgeDataApi(knowledgeData.value)
+        createKnowledgeDataApi(<CreateKnowledgeRequestData>knowledgeData.value)
           .then(() => {
             ElMessage.success("新增成功")
             getTableData()
@@ -42,7 +46,7 @@ const handleCreate = () => {
             dialogVisible.value = false
           })
       } else {
-        updateKnowledgeDataApi(knowledgeData.value)
+        updateKnowledgeDataApi(<UpdateKnowledgeRequestData>knowledgeData.value)
           .then(() => {
             ElMessage.success("修改成功")
             getTableData()
@@ -63,9 +67,9 @@ const resetForm = () => {
 }
 //#endregion
 
-const handleShopSelectionChange = (val: User[]) => {
+const handleShopSelectionChange = (val:any) => {
   console.log(val)
-  knowledgeIds.value = val.filter((item) => item.knowledgeId !== undefined).map((item) => item.knowledgeId)
+  knowledgeIds.value = val.filter((item:any) => item.knowledgeId !== undefined).map((item:any) => item.knowledgeId)
 }
 
 const deleteKnowledges = () => {
@@ -82,7 +86,7 @@ const deleteKnowledges = () => {
 }
 
 //#region 删
-const handleDelete = (row: GetTableData) => {
+const handleDelete = (row: any) => {
   ElMessageBox.confirm(`正在删除农业知识：${row.title}，确认删除？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
@@ -98,7 +102,7 @@ const handleDelete = (row: GetTableData) => {
 
 //#region 改
 const currentUpdateId = ref<undefined | string>(undefined)
-const handleUpdate = (row: GetTableData) => {
+const handleUpdate = (row: any) => {
   knowledgeData.value = row
   imageUrl.value = row.picPath
 
@@ -109,14 +113,12 @@ const handleUpdate = (row: GetTableData) => {
 //#endregion
 
 //#region 查
-const tableData = ref<GetTableData[]>([])
+const tableData = ref<Knowledge.GetKnowledgeResponseData[] | null>([])
 const searchFormRef = ref<FormInstance | null>(null)
-const searchData = reactive({
-  title: ""
-})
+const searchData = ref<Knowledge.GetKnowledgeData | null>()
 const getTableData = () => {
   loading.value = true
-  getKnowledgeDataApi(searchData, {
+  getKnowledgeDataApi(searchData.value, {
     size: paginationData.pageSize,
     current: paginationData.currentPage
   })
@@ -149,12 +151,11 @@ const addKnowledge = () => {
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 
 const imageUrl = ref("")
-const knowledgeData = ref({})
-const handleHttpRequest = (params) => {
+const handleHttpRequest = (params:any) => {
   uploadApi(params)
     .then((res) => {
       ElMessage({ type: "success", message: "上传成功" })
-      params.onSuccess(res.data.url)
+      params.onSuccess(res?.data.url)
     })
     .catch(() => {
       ElMessage({ type: "error", message: "上传失败" })

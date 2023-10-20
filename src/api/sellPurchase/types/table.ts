@@ -1,15 +1,15 @@
-export interface CreateOrderRequestData {
+export interface CreateSellPurchaseRequestData {
   username: string
   password: string
 }
 
-export interface UpdateOrderRequestData {
+export interface UpdateSellPurchaseRequestData {
   id: string
   username: string
   password?: string
 }
 
-export interface GetOrderRequestData {
+export interface GetSellPurchaseRequestData {
   /** 当前页码 */
   currentPage: number
   /** 查询条数 */
@@ -20,7 +20,7 @@ export interface GetOrderRequestData {
   phone?: string
 }
 
-export interface GetOrderData {
+export interface GetSellPurchaseData {
   createTime: string
   email: string
   id: string
@@ -30,7 +30,7 @@ export interface GetOrderData {
   username: string
 }
 
-export type GetOrderResponseData = ApiResponseData<{
+export type GetSellPurchaseResponseData = ApiResponseData<{
   records: object[]
   total: number
   size: number

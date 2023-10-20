@@ -28,7 +28,7 @@ export function updateSellPurchaseDataApi(data: SellPurchase.UpdateSellPurchaseR
 }
 
 /** 查 */
-export function getSellPurchaseDataApi(data, params: SellPurchase.GetSellPurchaseRequestData) {
+export function getSellPurchaseDataApi(data: any, params: { size: number; current: number }) {
   return request<SellPurchase.GetSellPurchaseResponseData>({
     url: `sellPurchase/getSellPurchasePageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求

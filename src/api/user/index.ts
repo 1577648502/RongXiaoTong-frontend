@@ -28,7 +28,7 @@ export function uploadApi(params: any) {
 //   })
 // }
 /** 查 */
-export function getUserDataApi(data, params: Login.LoginResponseData) {
+export function getUserDataApi(data: Login.LoginResponseData, params: { size: number; current: number }) {
   return request<Login.LoginResponseData>({
     url: `user/getPageUser?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -45,7 +45,7 @@ export function getUserImgApi(userName: Login.LoginResponseData) {
 }
 
 /** 改 */
-export function updateUserDataApi(data: Login.UpdateUserData) {
+export function updateUserDataApi(data: Login.LoginResponseData) {
   return request({
     url: "user/updateUser",
     method: "post",
