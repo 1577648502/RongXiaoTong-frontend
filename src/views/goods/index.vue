@@ -52,10 +52,11 @@ import { Search } from "@element-plus/icons-vue"
 import { getOrderDataApi } from "@/api/order"
 import { usePagination } from "@/hooks/usePagination"
 import router from "@/router"
+import * as Order from "@/api/order/types/table"
 
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
-const searchData = ref([])
-const orderData = ref({ ownName: "" })
+const searchData = ref<Order.GetOrderData>([])
+const orderData = ref<Order.GetOrderData>({})
 const currentDate = ref(new Date())
 const loading = ref<boolean>(false)
 

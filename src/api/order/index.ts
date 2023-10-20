@@ -1,8 +1,8 @@
 import { request } from "@/utils/service"
-import type * as Order from "./types/table"
+import type * as Order from "./types/order"
 
 /** 增 */
-export function createOrderDataApi(data: Order.CreateOrderRequestData) {
+export function createOrderDataApi(data: Order.GetOrderData) {
   return request({
     url: "order/addOrder",
     method: "post",
@@ -20,7 +20,7 @@ export function deleteOrderDataApi(data: []) {
 }
 
 /** 改 */
-export function updateOrderDataApi(data: Order.UpdateOrderRequestData) {
+export function updateOrderDataApi(data: Order.GetOrderData) {
   return request({
     url: "order/updateOrder",
     method: "post",
@@ -29,7 +29,7 @@ export function updateOrderDataApi(data: Order.UpdateOrderRequestData) {
 }
 
 /** 查 */
-export function getOrderDataApi(data, params: Order.GetOrderRequestData) {
+export function getOrderDataApi(data: Order.GetOrderData, params: { size: number; current: number }) {
   return request<Order.GetOrderResponseData>({
     url: `order/getOrderPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -37,8 +37,8 @@ export function getOrderDataApi(data, params: Order.GetOrderRequestData) {
   })
 }
 /** 查 */
-export function getOrderInfoApi(params: Order.GetOrderRequestData) {
-  return request<Order.GetOrderResponseData>({
+export function getOrderInfoApi(params: { id: number }) {
+  return request<Order.GetOrderData>({
     url: `order/getOrderInfo?orderId=${params.id}`,
     method: "get" // 使用POST请求
   })

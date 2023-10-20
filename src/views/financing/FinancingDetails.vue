@@ -54,7 +54,7 @@
           </el-upload>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
+      <span  class="dialog-footer">
         <el-button @click="closeIndividual">取 消</el-button>
         <el-button type="success" @click="handleApplyOne">申请</el-button>
       </span>
@@ -129,7 +129,7 @@
           </el-upload>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
+      <span  class="dialog-footer">
         <el-button @click="closeCombination">取 消</el-button>
         <el-button type="success" @click="handleApplyMulti">申请</el-button>
       </span>
@@ -140,16 +140,15 @@
 <script lang="ts" setup>
 import router from "@/router"
 import { createFinanceDataApi, getFinanceInfoApi } from "@/api/finance"
-import { onBeforeMount, onMounted, ref } from "vue"
+import { onMounted, ref } from "vue"
 import { getBankInfoApi } from "@/api/bank"
 import { ElMessage, UploadProps } from "element-plus"
-import { getBankUserInfoApi } from "@/api/bankUser"
 import { uploadApi } from "@/api/user"
 import { useUserStore } from "@/store/modules/user"
 
 const loading = ref(false)
 const title = ref("个人贷款信息")
-const showIndividual = ref(true)
+const showIndividual = ref(false)
 const showCombination = ref(false)
 const bankId = router.currentRoute.value.params.bankId
 const Already = ref(false)
@@ -217,7 +216,7 @@ const individual = () => {
     showIndividual.value = true
     showCombination.value = false
     if (res.code == 200) {
-      FinaceUserDetails.value = res.data
+
     } else {
       ElMessage.error(res.data)
     }
@@ -226,6 +225,11 @@ const individual = () => {
 const select = () => {
   getFinanceInfoApi(bankId).then((res) => {
     if (res.code == 200) {
+      FinaceUserDetails.value = res.data
+      console.log(res.data)
+      if (res.data!=null) {
+        Already.value = true
+      }
       FinaceUserDetails.value = { ...res.data, ...BankInfoData.value }
     } else {
       ElMessage.error(res.data)
@@ -240,7 +244,7 @@ const combination = () => {
     showCombination.value = true
     showIndividual.value = false
     if (res.code == 200) {
-      UserDetailsMulti.value = res.data
+
     } else {
       ElMessage.error(res.data)
     }

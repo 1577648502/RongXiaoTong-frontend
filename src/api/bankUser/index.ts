@@ -28,7 +28,7 @@ export function updateBankUserDataApi(data: BankUser.UpdateBankUserRequestData) 
 }
 
 /** 查 */
-export function getBankUserDataApi(data, params: BankUser.GetBankUserRequestData) {
+export function getBankUserDataApi(data: BankUser.GetBankUserRequestData, params: { size: number; current: number }) {
   return request<BankUser.GetBankUserResponseData>({
     url: `bankUser/getBankUserPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求

@@ -28,8 +28,8 @@ export function updateDiscussDataApi(data: Discuss.UpdateDiscussRequestData) {
 }
 
 /** 查 */
-export function getDiscussDataApi(data, params: Discuss.GetDiscussRequestData) {
-  return request<Discuss.GetDiscussResponseData>({
+export function getDiscussDataApi(data: Discuss.GetDiscussData, params: { size: number; current: number }) {
+  return request<Discuss.GetDiscussRequestData>({
     url: `discuss/getDiscussPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
     data // 将JSON数据放在请求体中

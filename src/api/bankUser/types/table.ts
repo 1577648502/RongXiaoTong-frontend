@@ -1,15 +1,15 @@
-export interface CreateOrderRequestData {
+export interface CreateBankUserRequestData {
   username: string
   password: string
 }
 
-export interface UpdateOrderRequestData {
+export interface UpdateBankUserRequestData {
   id: string
   username: string
   password?: string
 }
 
-export interface GetOrderRequestData {
+export interface GetBankUserRequestData {
   /** 当前页码 */
   currentPage: number
   /** 查询条数 */
@@ -20,7 +20,7 @@ export interface GetOrderRequestData {
   phone?: string
 }
 
-export interface GetOrderData {
+export interface GetBankUserData {
   createTime: string
   email: string
   id: string
@@ -30,7 +30,15 @@ export interface GetOrderData {
   username: string
 }
 
-export type GetOrderResponseData = ApiResponseData<{
-  list: GetOrderData[]
+export type GetBankUserResponseData = ApiResponseData<{
+  records: object[]
   total: number
+  size: number
+  current: number
+  orders: []
+  optimizeCountSql: boolean
+  searchCount: boolean
+  maxLimit: null
+  countId: null
+  pages: number
 }>

@@ -1,15 +1,20 @@
-export interface CreateOrderRequestData {
-  username: string
-  password: string
+export interface CreateDiscussRequestData {
+  discussId: number
+  knowledgeId: number
+  ownName: string
+  content: string
+  createTime: string
 }
 
-export interface UpdateOrderRequestData {
-  id: string
-  username: string
-  password?: string
+export interface UpdateDiscussRequestData {
+  discussId: number
+  knowledgeId: number
+  ownName: string
+  content: string
+  createTime: string
 }
 
-export interface GetOrderRequestData {
+export interface GetDiscussRequestData {
   /** 当前页码 */
   currentPage: number
   /** 查询条数 */
@@ -20,17 +25,23 @@ export interface GetOrderRequestData {
   phone?: string
 }
 
-export interface GetOrderData {
+export interface GetDiscussData {
+  discussId: number
+  knowledgeId: number
+  ownName: string
+  content: string
   createTime: string
-  email: string
-  id: string
-  phone: string
-  roles: string
-  status: boolean
-  username: string
 }
 
-export type GetOrderResponseData = ApiResponseData<{
-  list: GetOrderData[]
+export type GetDiscussResponseData = ApiResponseData<{
+  records: object[]
   total: number
+  size: number
+  current: number
+  orders: []
+  optimizeCountSql: boolean
+  searchCount: boolean
+  maxLimit: null
+  countId: null
+  pages: number
 }>

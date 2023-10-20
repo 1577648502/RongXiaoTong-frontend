@@ -1,3 +1,6 @@
+import { n } from "vitest/dist/reporters-cb94c88b"
+import * as timers from "timers";
+
 export interface CreateOrderRequestData {
   username: string
   password: string
@@ -21,16 +24,31 @@ export interface GetOrderRequestData {
 }
 
 export interface GetOrderData {
+  orderId: number
+  title: string
+  price: number
+  content: string
+  orderStatus: number
+  type: string
+  picture: string
+  ownName: string
+  cooperationName: null
   createTime: string
-  email: string
-  id: string
-  phone: string
-  roles: string
-  status: boolean
-  username: string
+  updateTime: string
+  address: null
+  version: null
+  isDelete: number
 }
 
 export type GetOrderResponseData = ApiResponseData<{
-  list: GetOrderData[]
+  records: object[]
   total: number
+  size: number
+  current: number
+  orders: []
+  optimizeCountSql: boolean
+  searchCount: boolean
+  maxLimit: null
+  countId: null
+  pages: number
 }>

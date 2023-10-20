@@ -118,8 +118,7 @@ import {
 } from "@/api/financingIntention"
 import { usePagination } from "@/hooks/usePagination"
 import { useUserStore } from "@/store/modules/user"
-import { getBankUserDataApi } from "@/api/bankUser"
-import { getUserDataApi, getUserImgApi, getUserInfoApi } from "@/api/user"
+import { getUserImgApi } from "@/api/user"
 
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const options = ref([

@@ -63,13 +63,12 @@ import { Search } from "@element-plus/icons-vue"
 import { getOrderDataApi } from "@/api/order"
 import { usePagination } from "@/hooks/usePagination"
 import router from "@/router"
+import * as Order from "@/api/order/types/table";
 
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const loading = ref<boolean>(false)
-const orderData = ref([])
-const searchData = ref({
-  ownName: ""
-})
+const orderData = ref<Order.GetOrderData>([])
+const searchData = ref<Order.GetOrderData>({})
 const getOrderData = () => {
   loading.value = true
   getOrderDataApi(searchData, {
@@ -77,8 +76,8 @@ const getOrderData = () => {
     current: paginationData.currentPage
   })
     .then((res) => {
-      orderData.value = res.data.records
-      paginationData.total = res.data.total
+      orderData.value = res?.data.records
+      paginationData.total = res?.data.total
       loading.value = false
     })
     .catch(() => {

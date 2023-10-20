@@ -31,6 +31,14 @@ export interface GetTableData {
 }
 
 export type GetTableResponseData = ApiResponseData<{
-  list: GetTableData[]
+  records: object[]
   total: number
+  size: number
+  current: number
+  orders: []
+  optimizeCountSql: boolean
+  searchCount: boolean
+  maxLimit: null
+  countId: null
+  pages: number
 }>

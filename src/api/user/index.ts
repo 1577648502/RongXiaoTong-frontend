@@ -2,7 +2,7 @@ import { request } from "@/utils/service"
 import type * as Login from "./types/login"
 
 /** 登录并返回 Token */
-export function uploadApi(params) {
+export function uploadApi(params: any) {
   const formData = new FormData()
   formData.append("file", params.file)
   // axios的二次封装
@@ -16,22 +16,6 @@ export function uploadApi(params) {
   })
 }
 
-/** 注册 */
-export function modifyUserApi(data: Login.LoginRequestData) {
-  return request<Login.LoginResponseData>({
-    url: "user/modifyUser",
-    method: "post",
-    data
-  })
-}
-
-/** 获取用户详情 */
-export function getUserInfoApi() {
-  return request<Login.UserInfoResponseData>({
-    url: "user/info",
-    method: "get"
-  })
-}
 
 //
 // /** 查 */

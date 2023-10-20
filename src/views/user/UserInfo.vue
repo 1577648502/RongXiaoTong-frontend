@@ -48,14 +48,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeMount, ref } from "vue"
+import { onMounted, ref } from "vue"
 import type { UploadProps } from "element-plus"
 import { ElMessage } from "element-plus"
 import { Plus } from "@element-plus/icons-vue"
-import { modifyUserApi, uploadApi } from "@/api/user"
-import { getUserInfoApi } from "@/api/login"
+import { uploadApi } from "@/api/user"
+import { getUserInfoApi, modifyUserApi } from "@/api/login"
 import { useUserStore } from "@/store/modules/user"
-
+const userName = useUserStore().username
 const imageUrl = ref("")
 
 const userinfo = ref<any>({})
@@ -73,8 +73,8 @@ const handleHttpRequest = (params) => {
     })
 }
 
-onBeforeMount(() => {
-  getUserInfoApi().then((res) => {
+onMounted(() => {
+  getUserInfoApi(userName).then((res) => {
     userinfo.value = res.data
     if (userinfo.value.avatar !== null) {
       imageUrl.value = userinfo.value?.avatar
@@ -108,7 +108,7 @@ const updateInfo = () => {
   modifyUserApi(userinfo.value).then((res) => {
     if (res.code == 200) {
       ElMessage({ type: "success", message: "修改成功" })
-      getUserInfoApi().then((res) => {
+      getUserInfoApi(userName).then((res) => {
         userinfo.value = res.data
         useUserStore().userInfo = res.data
         useUserStore().username = res.data.userName

@@ -31,6 +31,14 @@ export interface GetOrderData {
 }
 
 export type GetOrderResponseData = ApiResponseData<{
-  list: GetOrderData[]
+  records: object[]
   total: number
+  size: number
+  current: number
+  orders: []
+  optimizeCountSql: boolean
+  searchCount: boolean
+  maxLimit: null
+  countId: null
+  pages: number
 }>

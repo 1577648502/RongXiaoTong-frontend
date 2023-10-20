@@ -28,7 +28,7 @@ export function updateFinanceDataApi(data: Finance.UpdateFinanceRequestData) {
 }
 
 /** 查 */
-export function getFinanceDataApi(data, params: Finance.GetFinanceRequestData) {
+export function getFinanceDataApi(data: Finance.GetOrderData, params: { size: number; current: number }) {
   return request<Finance.GetFinanceResponseData>({
     url: `finance/getFinancePageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
