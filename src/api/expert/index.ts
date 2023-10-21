@@ -2,7 +2,7 @@ import { request } from "@/utils/service"
 import type * as Expert from "./types/table"
 
 /** 增 */
-export function createExpertDataApi(data: Expert.CreateExpertRequestData) {
+export function createExpertDataApi(data: Expert.GetExpertResponseData) {
   return request({
     url: "expert/addExpert",
     method: "post",
@@ -19,7 +19,7 @@ export function deleteExpertDataApi(id: string) {
 }
 
 /** 改 */
-export function updateExpertDataApi(data: Expert.UpdateExpertRequestData) {
+export function updateExpertDataApi(data: Expert.GetExpertResponseData) {
   return request({
     url: "expert/updateExpert",
     method: "post",
@@ -28,15 +28,15 @@ export function updateExpertDataApi(data: Expert.UpdateExpertRequestData) {
 }
 
 /** 查 */
-export function getExpertDataApi(data, params: Expert.GetExpertRequestData) {
-  return request<Expert.GetExpertResponseData>({
+export function getExpertDataApi(data: Expert.GetExpertData, params: { size: number; current: number }) {
+  return request<Expert.GetExpertData>({
     url: `expert/getExpertPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
     data // 将JSON数据放在请求体中
   })
 }
 /** 查 */
-export function getExpertInfoApi(params: Expert.GetExpertRequestData) {
+export function getExpertInfoApi(params: Expert.GetExpertResponseData) {
   return request<Expert.GetExpertResponseData>({
     url: `expert/getExpertInfo?expertId=${params}`,
     method: "get" // 使用POST请求

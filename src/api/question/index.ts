@@ -28,7 +28,7 @@ export function updateQuestionDataApi(data: Question.UpdateQuestionRequestData) 
 }
 
 /** 查 */
-export function getQuestionDataApi(data, params: Question.GetQuestionRequestData) {
+export function getQuestionDataApi(data: Question.GetQuestionData, params: { size: number; current: number }) {
   return request<Question.GetQuestionResponseData>({
     url: `question/getQuestionPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -36,7 +36,7 @@ export function getQuestionDataApi(data, params: Question.GetQuestionRequestData
   })
 }
 /** 查 */
-export function getQuestionInfoApi(params: Question.GetQuestionRequestData) {
+export function getQuestionInfoApi(params: string) {
   return request<Question.GetQuestionResponseData>({
     url: `question/getQuestionInfo?questionId=${params}`,
     method: "get" // 使用POST请求

@@ -5,14 +5,11 @@ import { storeToRefs } from "pinia"
 import { useAppStore } from "@/store/modules/app"
 import { useSettingsStore } from "@/store/modules/settings"
 import { useUserStore } from "@/store/modules/user"
-import { UserFilled } from "@element-plus/icons-vue"
 import Hamburger from "../Hamburger/index.vue"
 import Breadcrumb from "../Breadcrumb/index.vue"
 import Sidebar from "../Sidebar/index.vue"
 import Notify from "@/components/Notify/index.vue"
 import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
-import Screenfull from "@/components/Screenfull/index.vue"
-import SearchMenu from "@/components/SearchMenu/index.vue"
 import { DeviceEnum } from "@/constants/app-key"
 
 const router = useRouter()
@@ -21,7 +18,7 @@ const settingsStore = useSettingsStore()
 const userStore = useUserStore()
 
 const { sidebar, device } = storeToRefs(appStore)
-const { layoutMode, showNotify, showThemeSwitch, showScreenfull, showSearchMenu } = storeToRefs(settingsStore)
+const { layoutMode, showNotify, showThemeSwitch } = storeToRefs(settingsStore)
 
 const isTop = computed(() => layoutMode.value === "top")
 const isMobile = computed(() => device.value === DeviceEnum.Mobile)

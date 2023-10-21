@@ -6,6 +6,7 @@ import { CirclePlus, Delete, Download, Plus, Refresh, RefreshRight, Search } fro
 import { usePagination } from "@/hooks/usePagination"
 import { createOrderDataApi, deleteOrderDataApi, getOrderDataApi, updateOrderDataApi } from "@/api/order"
 import { uploadApi } from "@/api/user"
+import * as Order from "@/api/order/types/table"
 
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
@@ -105,11 +106,9 @@ const handleUpdate = (row: GetTableData) => {
 //#endregion
 
 //#region 查
-const tableData = ref<GetTableData[]>([])
+const tableData = ref<Order.GetOrderData>([])
 const searchFormRef = ref<FormInstance | null>(null)
-const searchData = reactive({
-  userName: ""
-})
+const searchData = reactive<Order.GetOrderData>({})
 const getTableData = () => {
   loading.value = true
   getOrderDataApi(searchData, {

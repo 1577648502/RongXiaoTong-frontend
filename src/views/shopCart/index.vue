@@ -129,13 +129,14 @@ const submitChange = () => {
 const getShopCartData = () => {
   loading.value = true
   getShoppingCartDataApi({ ownName: useUserStore().username })
-    .then((res) => {
+    .then((res: any) => {
       if (res.data.length === 0) {
         return (shopCartData.value = [])
       }
-      res.data.forEach((item) => {
+      res.data.forEach((item: any) => {
+        console.log(res.data)
         shopCartData.value = []
-        getOrderInfoApi({ id: item.orderId }).then((res) => {
+        getOrderInfoApi({ orderId: item.orderId }).then((res) => {
           shopCartData.value.push({ ...item, ...res.data })
         })
       })

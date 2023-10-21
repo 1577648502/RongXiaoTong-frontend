@@ -11,11 +11,11 @@
       </el-form>
       <div style="color: #696969; font-size: 12px; margin-top: 10px">
         热门搜索：
-        <a class="tag-item" @click="handleTopicDetail('苹果')">苹果</a>
-        <a class="tag-item" @click="handleTopicDetail('新疆哈密瓜')">新疆哈密瓜</a>
-        <a class="tag-item" @click="handleTopicDetail('樱桃')">樱桃</a>
+        <a class="tag-item">苹果</a>
+        <a class="tag-item">新疆哈密瓜</a>
+        <a class="tag-item">樱桃</a>
       </div>
-      <el-row v-for="order in orderData">
+      <el-row v-for="order in orderData" :key="order.orderId">
         <el-col @click="toGoodsInfo(order.orderId)">
           <el-card style="margin-top: 20px">
             <el-row>
@@ -63,16 +63,15 @@ import { Search } from "@element-plus/icons-vue"
 import { getOrderDataApi } from "@/api/order"
 import { usePagination } from "@/hooks/usePagination"
 import router from "@/router"
+import * as Order from "@/api/order/types/table"
 
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const loading = ref<boolean>(false)
-const orderData = ref([])
-const searchData = ref({
-  ownName: ""
-})
+const orderData = ref<Order.GetOrderData>([])
+const searchData = ref<Order.GetOrderData>({})
 const getOrderData = () => {
   loading.value = true
-  getOrderDataApi(searchData, {
+  getOrderDataApi(searchData.value, {
     size: paginationData.pageSize,
     current: paginationData.currentPage
   })
@@ -82,7 +81,7 @@ const getOrderData = () => {
       loading.value = false
     })
     .catch(() => {
-      tableData.value = []
+      orderData.value = []
     })
     .finally(() => {
       loading.value = false

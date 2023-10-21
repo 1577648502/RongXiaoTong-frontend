@@ -8,7 +8,6 @@ import {
   getKnowledgeDataApi,
   updateKnowledgeDataApi
 } from "@/api/knowledge"
-import { GetTableData } from "@/api/table/types/table"
 import { uploadApi } from "@/api/user"
 import { CirclePlus, Delete, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
 
@@ -19,6 +18,7 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 const dialogVisible = ref<boolean>(false)
 const knowledgeIds = ref<string[]>([])
 const formRef = ref<FormInstance | null>(null)
+const knowledgeData = ref<any>()
 const formData = reactive({
   userName: "",
   password: ""
@@ -63,9 +63,9 @@ const resetForm = () => {
 }
 //#endregion
 
-const handleShopSelectionChange = (val: User[]) => {
+const handleShopSelectionChange = (val: any) => {
   console.log(val)
-  knowledgeIds.value = val.filter((item) => item.knowledgeId !== undefined).map((item) => item.knowledgeId)
+  knowledgeIds.value = val.filter((item: any) => item.knowledgeId !== undefined).map((item: any) => item.knowledgeId)
 }
 
 const deleteKnowledges = () => {
@@ -82,7 +82,7 @@ const deleteKnowledges = () => {
 }
 
 //#region 删
-const handleDelete = (row: GetTableData) => {
+const handleDelete = (row: any) => {
   ElMessageBox.confirm(`正在删除农业知识：${row.title}，确认删除？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
@@ -98,7 +98,7 @@ const handleDelete = (row: GetTableData) => {
 
 //#region 改
 const currentUpdateId = ref<undefined | string>(undefined)
-const handleUpdate = (row: GetTableData) => {
+const handleUpdate = (row: any) => {
   knowledgeData.value = row
   imageUrl.value = row.picPath
 
@@ -109,14 +109,12 @@ const handleUpdate = (row: GetTableData) => {
 //#endregion
 
 //#region 查
-const tableData = ref<GetTableData[]>([])
-const searchFormRef = ref<FormInstance | null>(null)
-const searchData = reactive({
-  title: ""
-})
+const tableData = ref<any>([])
+const searchFormRef = ref<any>()
+const searchData = ref<any>([])
 const getTableData = () => {
   loading.value = true
-  getKnowledgeDataApi(searchData, {
+  getKnowledgeDataApi(searchData.value, {
     size: paginationData.pageSize,
     current: paginationData.currentPage
   })
@@ -149,10 +147,9 @@ const addKnowledge = () => {
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 
 const imageUrl = ref("")
-const knowledgeData = ref({})
-const handleHttpRequest = (params) => {
+const handleHttpRequest = (params: any): any => {
   uploadApi(params)
-    .then((res) => {
+    .then((res: any) => {
       ElMessage({ type: "success", message: "上传成功" })
       params.onSuccess(res.data.url)
     })

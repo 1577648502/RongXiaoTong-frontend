@@ -1,9 +1,9 @@
 <template>
   <div class="details-box2">
     <div class="title">
-      <strong>{{ FinaceUserDetails.bankName }}</strong>
+      <strong>{{ FinaceUserDetails?.bankName }}</strong>
     </div>
-    <div class="introduce">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ FinaceUserDetails.introduce }}</div>
+    <div class="introduce">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ FinaceUserDetails?.introduce }}</div>
 
     <div class="title">
       <br />
@@ -54,7 +54,7 @@
           </el-upload>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
+      <span class="dialog-footer">
         <el-button @click="closeIndividual">取 消</el-button>
         <el-button type="success" @click="handleApplyOne">申请</el-button>
       </span>
@@ -129,7 +129,7 @@
           </el-upload>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
+      <span class="dialog-footer">
         <el-button @click="closeCombination">取 消</el-button>
         <el-button type="success" @click="handleApplyMulti">申请</el-button>
       </span>
@@ -140,28 +140,19 @@
 <script lang="ts" setup>
 import router from "@/router"
 import { createFinanceDataApi, getFinanceInfoApi } from "@/api/finance"
-import { onBeforeMount, onMounted, ref } from "vue"
+import { onMounted, ref } from "vue"
 import { getBankInfoApi } from "@/api/bank"
 import { ElMessage, UploadProps } from "element-plus"
-import { getBankUserInfoApi } from "@/api/bankUser"
 import { uploadApi } from "@/api/user"
 import { useUserStore } from "@/store/modules/user"
 
 const loading = ref(false)
 const title = ref("个人贷款信息")
-const showIndividual = ref(true)
+const showIndividual = ref(false)
 const showCombination = ref(false)
-const bankId = router.currentRoute.value.params.bankId
+const bankId = ref<any>(router.currentRoute.value.params.bankId)
 const Already = ref(false)
-const showAdd = ref(false)
-const isAuthorization = ref(false)
-const AuthorizationUser = ref({
-  userName: ""
-})
-const imageUrl = ref([])
-const AlreadyApplied = ref({
-  applied: ""
-})
+const imageUrl = ref<string[]>([])
 const options = ref([
   {
     value: 6,
@@ -181,26 +172,16 @@ const options = ref([
   }
 ])
 const value = ref("")
-const dialogImageUrl = ref("")
-const dialogVisible = ref(false)
-const showBtnImg = ref(true)
-const noneBtnImg = ref(false)
-const limitCountImg = ref(1)
-const fileInfo = ref("")
-
 const fileList = ref([])
-const data = ref([])
-const FinaceUserDetails = ref({})
-const BankInfoData = ref({})
-
-const UserDetailsMulti = ref({})
-
+const FinaceUserDetails = ref<any>()
+const BankInfoData = ref<any>()
+const UserDetailsMulti = ref<any>({})
 const getFinaceUserDetails = () => {
   loading.value = true
-  getBankInfoApi(bankId)
+  getBankInfoApi(bankId.value)
     .then((res) => {
       if (res.code == 200) {
-        BankInfoData.value = res.data
+        BankInfoData.value = res?.data
         select()
         loading.value = false
       }
@@ -212,23 +193,27 @@ const getFinaceUserDetails = () => {
 
 const individual = () => {
   title.value = "个人贷款信息"
-  // $store.state.mutiFile = "";
-  getFinanceInfoApi(bankId).then((res) => {
+  getFinanceInfoApi(bankId.value).then((res) => {
     showIndividual.value = true
     showCombination.value = false
     if (res.code == 200) {
-      FinaceUserDetails.value = res.data
+      return
     } else {
-      ElMessage.error(res.data)
+      ElMessage.error("出错了")
     }
   })
 }
 const select = () => {
-  getFinanceInfoApi(bankId).then((res) => {
+  getFinanceInfoApi(bankId.value).then((res) => {
     if (res.code == 200) {
+      FinaceUserDetails.value = res.data
+      console.log(res.data)
+      if (res.data != null) {
+        Already.value = true
+      }
       FinaceUserDetails.value = { ...res.data, ...BankInfoData.value }
     } else {
-      ElMessage.error(res.data)
+      ElMessage.error("出错了")
     }
   })
 }
@@ -236,13 +221,13 @@ const select = () => {
 const combination = () => {
   title.value = "组合贷款信息"
   // $store.state.mutiFile = "";
-  getFinanceInfoApi(bankId).then((res) => {
+  getFinanceInfoApi(bankId.value).then((res) => {
     showCombination.value = true
     showIndividual.value = false
     if (res.code == 200) {
-      UserDetailsMulti.value = res.data
+      return
     } else {
-      ElMessage.error(res.data)
+      ElMessage.error("出错了")
     }
   })
 }
@@ -254,36 +239,11 @@ const closeIndividual = () => {
 }
 const closeCombination = () => {
   showCombination.value = false
-  // $store.state.mutiFile = "";
 }
-
-// const toAuthorization = () => {
-//   if (AuthorizationUser.value.userName == "") {
-//     alert("用户名不能为空");
-//     return;
-//   }
-//   toAuthorizationUser({
-//     userName: AuthorizationUser.value.userName,
-//   }).then((res) => {
-//     if (res.code == 200) {
-//       ElMessage.success(res.message);
-//       showAdd.value = false;
-//       isAuthorization.value = false;
-//     } else {
-//       showAdd = false;
-//       ElMessage.error(res.data);
-//     }
-//   });
-// }
 
 onMounted(() => {
   getFinaceUserDetails()
 })
-//   filters: {
-//     changeTime(time) {
-//       return time.slice(0, 10);
-//     },
-//   },
 
 const handleApplyOne = () => {
   console.log("信息")
@@ -313,7 +273,18 @@ const handleApplyOne = () => {
     return (imgStr = imgStr + " " + res)
   })
   createFinanceDataApi({
-    bankId: bankId,
+    combinationIdnum1: null,
+    combinationIdnum2: null,
+    combinationName1: null,
+    combinationName2: null,
+    combinationPhone1: null,
+    combinationPhone2: null,
+    createTime: "",
+    financeId: 0,
+    remark: null,
+    status: 0,
+    updateTime: "",
+    bankId: bankId.value,
     realName: FinaceUserDetails.value.name,
     money: FinaceUserDetails.value.money,
     rate: FinaceUserDetails.value.rate,
@@ -323,17 +294,13 @@ const handleApplyOne = () => {
     fileInfo: imgStr,
     ownName: useUserStore().username
   })
-    .then((res) => {
+    .then((res: any) => {
       if (res.code == 200) {
         ElMessage.success(res.message)
-        // $router.push("/home/financing").catch((err) => err);
-        // localStorage.removeItem("financeObj");
         Already.value = true
         showIndividual.value = false
-        // $store.state.mutiFile = "";
       } else {
         ElMessage.error(res.message)
-        // $store.state.mutiFile = "";
       }
     })
     .catch((err) => {
@@ -377,7 +344,13 @@ const handleApplyMulti = () => {
   }
 
   createFinanceDataApi({
-    bankId: bankId,
+    createTime: "",
+    financeId: 0,
+    ownName: "",
+    remark: null,
+    status: 0,
+    updateTime: "",
+    bankId: bankId.value,
     money: UserDetailsMulti.value.money,
     rate: UserDetailsMulti.value.rate,
     repayment: value.value,
@@ -390,9 +363,9 @@ const handleApplyMulti = () => {
     combinationName2: UserDetailsMulti.value.combinationName2,
     combinationPhone2: UserDetailsMulti.value.combinationPhone2,
     combinationIdnum2: UserDetailsMulti.value.combinationIdnum2,
-    fileInfo: imageUrl
+    fileInfo: imageUrl.value.toString()
   })
-    .then((res) => {
+    .then((res: any) => {
       if (res.code == 200) {
         ElMessage.success(res.message)
         // $router.push("/home/financing").catch((err) => err);
@@ -412,50 +385,12 @@ const handleApplyMulti = () => {
     })
 }
 
-const Authorization = () => {
-  showAdd.value = true
-}
-const closeAdd = () => {
-  showAdd.value = false
-}
-
-const handleError = (err, file, fileList) => {
-  ElMessage({
-    message: "上传失败！",
-    type: "success"
-  })
-  console.log(err)
-}
-const handleSuccess = (response, file, fileList) => {
-  if (file.response.flag == true) {
-    fileList.value = fileList
-    // $store.state.mutiFile += file.response.data + " ";
-    console.log("上传文件=====")
-    // console.log($store.state.mutiFile)
-    console.log("=============")
-    alert(file.response.message)
-  } else {
-    alert(file.response.data)
-  }
-}
-const handleChange = (file, fileList) => {
-  noneBtnImg.value = fileList.length >= limitCountImg.value
-}
-const handleRemove = (file, fileList) => {
-  noneBtnImg.value = fileList.length >= limitCountImg.value
-  fileList.value = []
-  // form.photo = "";
-}
-const handlePreview = (file) => {
-  dialogImageUrl.value = file.url
-  dialogVisible.value = true
-}
-const handleHttpRequest = (params) => {
+const handleHttpRequest = (params: any): any => {
   uploadApi(params)
-    .then((res) => {
+    .then((res: any) => {
       ElMessage({ type: "success", message: "上传成功" })
       // userinfo.avatar.value = res.data
-      params.onSuccess(res.data.url)
+      params.onSuccess(res?.data.url)
     })
     .catch(() => {
       ElMessage({ type: "error", message: "上传失败" })
@@ -463,8 +398,7 @@ const handleHttpRequest = (params) => {
     })
 }
 
-const handleAvatarSuccess: UploadProps["onSuccess"] = (response, uploadFile) => {
-  console.log(response)
+const handleAvatarSuccess: UploadProps["onSuccess"] = (response: string) => {
   imageUrl.value.push(response)
 }
 

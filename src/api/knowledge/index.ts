@@ -11,7 +11,7 @@ export function createKnowledgeDataApi(data: Knowledge.CreateKnowledgeRequestDat
 }
 
 /** 删 */
-export function deleteKnowledgeDataApi(ids: []) {
+export function deleteKnowledgeDataApi(ids: String[]) {
   return request({
     url: `knowledge/deleteKnowledge/`,
     method: "delete",
@@ -29,7 +29,7 @@ export function updateKnowledgeDataApi(data: Knowledge.UpdateKnowledgeRequestDat
 }
 
 /** 查 */
-export function getKnowledgeDataApi(data, params: Knowledge.GetKnowledgeRequestData) {
+export function getKnowledgeDataApi(data: Knowledge.GetKnowledgeData, params: { size: number; current: number }) {
   return request<Knowledge.GetKnowledgeResponseData>({
     url: `knowledge/getKnowledgePageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -37,7 +37,7 @@ export function getKnowledgeDataApi(data, params: Knowledge.GetKnowledgeRequestD
   })
 }
 /** 查 */
-export function getKnowledgeInfoApi(params: Knowledge.GetKnowledgeRequestData) {
+export function getKnowledgeInfoApi(params: string) {
   return request<Knowledge.GetKnowledgeResponseData>({
     url: `knowledge/getKnowledgeInfo?knowledgeId=${params}`,
     method: "get" // 使用POST请求

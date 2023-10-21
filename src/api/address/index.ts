@@ -27,7 +27,7 @@ export function updateAddressDataApi(data: Address.UpdateAddressRequestData) {
   })
 }
 /** 设置默认收货地址 */
-export function setDefaultAddressApi(data: Address.UpdateAddressRequestData) {
+export function setDefaultAddressApi(data: { defaultAddress: number; newAddress: number }) {
   return request({
     url: `address/setDefaultAddress?defaultAddress=${data.defaultAddress}&newAddress=${data.newAddress}`,
     method: "get"

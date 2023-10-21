@@ -6,11 +6,11 @@ import { useTagsViewStore } from "./tags-view"
 import { useSettingsStore } from "./settings"
 import { getToken, removeToken, setToken } from "@/utils/cache/cookies"
 import router, { resetRouter } from "@/router"
-import { loginApi, getUserInfoApi, registerApi } from "@/api/login"
+import { loginApi, getUserInfoApi, registerApi, logoutApi } from "@/api/login"
 import { type LoginRequestData } from "@/api/login/types/login"
 import { type RouteRecordRaw } from "vue-router"
 import routeSettings from "@/config/route"
-import { lowerFirst } from "lodash-es"
+import { ElMessage } from "element-plus"
 
 export const useUserStore = defineStore("user", () => {
   const token = ref<string>(getToken() || "")
@@ -23,7 +23,7 @@ export const useUserStore = defineStore("user", () => {
   const settingsStore = useSettingsStore()
 
   /** 设置角色数组 */
-  const setRoles = (value: string[]) => {
+  const setRoles = (value: string) => {
     roles.value = [value]
   }
   /** 登录 */
@@ -35,7 +35,7 @@ export const useUserStore = defineStore("user", () => {
   }
   /** 注册 */
   const register = async ({ userName, password }: LoginRequestData) => {
-    const { data } = await registerApi({ userName, password })
+    await registerApi({ userName, password })
   }
   /** 获取用户详情 */
   const getInfo = async () => {
@@ -61,6 +61,11 @@ export const useUserStore = defineStore("user", () => {
   }
   /** 登出 */
   const logout = () => {
+    logoutApi().then((res) => {
+      if (res.code === 200) {
+        ElMessage.success("注销成功")
+      }
+    })
     removeToken()
     token.value = ""
     roles.value = []

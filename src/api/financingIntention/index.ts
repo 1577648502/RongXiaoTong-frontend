@@ -2,7 +2,7 @@ import { request } from "@/utils/service"
 import type * as FinancingIntention from "./types/table"
 
 /** 增 */
-export function createFinancingIntentionDataApi(data: FinancingIntention.CreateFinancingIntentionRequestData) {
+export function createFinancingIntentionDataApi(data: any) {
   return request({
     url: "financingIntention/addFinancingIntention",
     method: "post",
@@ -28,8 +28,8 @@ export function updateFinancingIntentionDataApi(data: FinancingIntention.UpdateF
 }
 
 /** 查 */
-export function getFinancingIntentionDataApi(data, params: FinancingIntention.GetFinancingIntentionRequestData) {
-  return request<FinancingIntention.GetFinancingIntentionResponseData>({
+export function getFinancingIntentionDataApi(data: any, params: { size: number; current: number }) {
+  return request<any>({
     url: `financingIntention/getFinancingIntentionPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
     data // 将JSON数据放在请求体中

@@ -28,15 +28,15 @@ export function updateBankDataApi(data: Bank.UpdateBankRequestData) {
 }
 
 /** 查 */
-export function getBankDataApi(data, params: Bank.GetBankRequestData) {
-  return request<Bank.GetBankResponseData>({
+export function getBankDataApi(data: Bank.GetBankData, params: { size: number; current: number }) {
+  return request<Bank.GetBankRequestData>({
     url: `bank/getBankPageList?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
     data // 将JSON数据放在请求体中
   })
 }
 /** 查 */
-export function getBankInfoApi(params: Bank.GetBankRequestData) {
+export function getBankInfoApi(params: string) {
   return request<Bank.GetBankResponseData>({
     url: `bank/getBankInfo?bankId=${params}`,
     method: "get" // 使用POST请求

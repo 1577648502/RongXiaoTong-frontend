@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, nextTick, onBeforeMount, ref } from "vue"
+import { computed } from "vue"
 import { useRoute } from "vue-router"
 import { storeToRefs } from "pinia"
 import { useAppStore } from "@/store/modules/app"
@@ -9,7 +9,6 @@ import SidebarItem from "./SidebarItem.vue"
 import Logo from "../Logo/index.vue"
 import { getCssVariableValue } from "@/utils"
 import { DeviceEnum } from "@/constants/app-key"
-import * as perf_hooks from "perf_hooks"
 
 const v3SidebarMenuBgColor = getCssVariableValue("--v3-sidebar-menu-bg-color")
 const v3SidebarMenuTextColor = getCssVariableValue("--v3-sidebar-menu-text-color")

@@ -1,15 +1,19 @@
-export interface CreateOrderRequestData {
+export interface CreateAddressRequestData {
+  id: number
   ownName: string
   consignee: string
   phone: string
   addressDetail: string
+  isDefault: number
 }
 
-export interface UpdateOrderRequestData {
+export interface UpdateAddressRequestData {
+  id: number
   ownName: string
   consignee: string
   phone: string
   addressDetail: string
+  isDefault: number
 }
 
 export interface GetAddressData {

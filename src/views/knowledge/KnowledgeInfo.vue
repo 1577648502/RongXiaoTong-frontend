@@ -1,52 +1,53 @@
 <template>
-  <div class="knowlege-detail-container">
-    <div key="title" class="title">{{ knowledgeInfo.title }}</div>
-    <div class="tips">
-      <span>作者：</span>
-      <span style="margin-right: 20px">{{ knowledgeInfo.ownName }}</span>
-      <span>日期：</span>
-      <span>{{ knowledgeInfo.updateTime }}</span>
-    </div>
-    <div class="detail-img" style="margin: 10px">
-      <img :src="knowledgeInfo.picPath" alt="" />
-    </div>
-    <el-card style="margin: 10px 0">
-      {{ knowledgeInfo.content }}
-    </el-card>
-    <el-input type="textarea" v-model="content" :rows="5" />
-    <div style="margin-top: 20px; display: flex; flex-direction: row; justify-content: flex-end">
-      <el-button type="success" @click="handleComment">添加评论</el-button>
-    </div>
-    <div class="comment-container">
-      <div class="comment-item" v-for="(item, index) in commentArray" :key="index">
-        <div>{{ item.content }}</div>
-        <div class="comment-tips">
-          <div style="margin-right: 40px">
-            评论人：<span class="color6">{{ item.ownName }}</span>
-          </div>
-          <div>
-            评论时间：<span class="color6">{{ item.createTime }}</span>
+  <div class="home-guide-container">
+    <div class="knowlege-detail-container">
+      <div key="title" class="title">{{ knowledgeInfo.title }}</div>
+      <div class="tips">
+        <span>作者：</span>
+        <span style="margin-right: 20px">{{ knowledgeInfo?.ownName }}</span>
+        <span>日期：</span>
+        <span>{{ knowledgeInfo?.updateTime }}</span>
+      </div>
+      <div class="detail-img" style="margin: 10px">
+        <img style="width: 400px" :src="knowledgeInfo.picPath" alt="" />
+      </div>
+      <el-card style="margin: 10px 0">
+        {{ knowledgeInfo.content }}
+      </el-card>
+      <el-input type="textarea" v-model="content" :rows="5" />
+      <div style="margin-top: 20px; display: flex; flex-direction: row; justify-content: flex-end">
+        <el-button type="success" @click="handleComment">添加评论</el-button>
+      </div>
+      <div class="comment-container">
+        <div class="comment-item" v-for="(item, index) in commentArray" :key="index">
+          <div>{{ item.content }}</div>
+          <div class="comment-tips">
+            <div style="margin-right: 40px">
+              评论人：<span class="color6">{{ item.ownName }}</span>
+            </div>
+            <div>
+              评论时间：<span class="color6">{{ item.createTime }}</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="pager-wrapper">
-      <el-pagination
-        background
-        :layout="paginationData.layout"
-        :page-sizes="paginationData.pageSizes"
-        :total="paginationData.total"
-        :page-size="paginationData.pageSize"
-        :currentPage="paginationData.currentPage"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+      <div class="pager-wrapper">
+        <el-pagination
+          background
+          :layout="paginationData.layout"
+          :page-sizes="paginationData.pageSizes"
+          :total="paginationData.total"
+          :page-size="paginationData.pageSize"
+          :currentPage="paginationData.currentPage"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { getKnowledgeInfoApi } from "@/api/knowledge"
 import router from "@/router"
 import { onBeforeMount, ref, watch } from "vue"
@@ -56,10 +57,10 @@ import { usePagination } from "@/hooks/usePagination"
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 const loading = ref(true)
-const knowledgeInfo = ref({})
+const knowledgeInfo = ref<any>({})
 const content = ref()
-const commentArray = ref([])
-const knowledgeId = router.currentRoute.value.params.knowledgeId
+const commentArray = ref<any>([])
+const knowledgeId = ref<any>(router.currentRoute.value.params.knowledgeId)
 
 onBeforeMount(() => {
   getKnowledgeData()
@@ -88,7 +89,7 @@ const getCommentData = () => {
       current: paginationData.currentPage
     }
   )
-    .then((res) => {
+    .then((res: any) => {
       commentArray.value = res.data.records
       paginationData.total = res.data.total
     })
@@ -97,9 +98,6 @@ const getCommentData = () => {
     })
 }
 
-const handleSearch = () => {
-  paginationData.currentPage === 1 ? getCommentData() : (paginationData.currentPage = 1)
-}
 //#endregion
 
 /** 监听分页参数的变化 */
@@ -111,10 +109,10 @@ const handleComment = () => {
     return
   }
   createDiscussDataApi({ content: content.value, knowledgeId: knowledgeId })
-    .then((res) => {
+    .then(() => {
       content.value = ""
       ElMessage.success("评论成功！")
-      getCommentData(knowledgeId)
+      getCommentData()
     })
     .catch((err) => {
       console.log(err)
@@ -186,5 +184,39 @@ const handleComment = () => {
       }
     }
   }
+}
+.receiving-address {
+  position: relative;
+
+  .title {
+    border-bottom: 2px solid #656464;
+    padding: 10px 0px;
+    font-size: 18px;
+  }
+}
+
+.default-address-container {
+  border: 1px dashed #516551;
+  border-radius: 6px;
+  padding: 10px 20px;
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: space-between;
+
+  .address-item {
+    line-height: 30px;
+    height: 30px;
+    margin-right: 50px;
+  }
+}
+
+.goods {
+  margin: 5px 0;
+}
+
+.home-guide-container {
+  width: 90%;
+  margin: 0 auto;
 }
 </style>

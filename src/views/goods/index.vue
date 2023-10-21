@@ -12,7 +12,7 @@
     </el-card>
     <el-card>
       <el-row :gutter="20" v-loading="loading">
-        <el-col v-for="(o, index) in searchData" :key="o" :span="5" @click="toGoodsInfo(o.orderId)">
+        <el-col v-for="o in searchData" :key="o" :span="5" @click="toGoodsInfo(o.orderId)">
           <el-card :body-style="{ padding: '0px' }">
             <img :src="o.picture" class="image" />
             <div style="padding: 14px">
@@ -52,11 +52,11 @@ import { Search } from "@element-plus/icons-vue"
 import { getOrderDataApi } from "@/api/order"
 import { usePagination } from "@/hooks/usePagination"
 import router from "@/router"
+import { GetOrderData } from "@/api/order/types/order"
 
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
-const searchData = ref([])
-const orderData = ref({ ownName: "" })
-const currentDate = ref(new Date())
+const searchData = ref<any[]>()
+const orderData = ref<GetOrderData>({ createTime: 0, updateTime: 0 })
 const loading = ref<boolean>(false)
 
 const toGoodsInfo = (orderId: number) => {

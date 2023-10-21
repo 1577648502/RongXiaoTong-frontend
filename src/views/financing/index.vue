@@ -20,7 +20,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, onBeforeMount, ref, watch } from "vue"
+import { ref, watch } from "vue"
 import bank1001 from "@/assets/img/bank1001.jpg"
 import bank1002 from "@/assets/img/bank1002.jpg"
 import bank1003 from "@/assets/img/bank1003.jpg"
@@ -31,35 +31,32 @@ import bank1007 from "@/assets/img/bank1007.jpg"
 import bank1008 from "@/assets/img/bank1008.jpg"
 import bank1009 from "@/assets/img/bank1009.jpg"
 import bank1010 from "@/assets/img/bank1010.jpg"
-import { getFinanceDataApi } from "@/api/finance"
 import { usePagination } from "@/hooks/usePagination"
-import { lowerFirst } from "lodash-es"
-import { useRoute } from "vue-router"
 import router from "@/router"
+import { getBankDataApi } from "@/api/bank"
+import * as Bank from "@/api/bank/types/table"
 
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 const loading = ref(false)
-const financeData = ref([])
+const financeData = ref<any>([])
+const searchData = ref<Bank.GetBankData>({})
 
-const DetailBtn = (item) => {
+const DetailBtn = (item: any) => {
   router.push("/financingDetails/" + item.bankId)
 }
 
 const getFinanceData = (): any => {
   loading.value = true
-  getFinanceDataApi(
-    {},
-    {
-      size: paginationData.pageSize,
-      current: paginationData.currentPage
-    }
-  )
-    .then((res) => {
+  getBankDataApi(searchData.value, {
+    size: paginationData.pageSize,
+    current: paginationData.currentPage
+  })
+    .then((res: any) => {
       financeData.value = res.data.records
       paginationData.total = res.data.total
 
-      financeData.value.forEach((item) => {
+      financeData.value.forEach((item: any) => {
         imgArray.value.forEach((img) => {
           if (item.bankId == img.id) {
             item.icon = img.icon
@@ -118,10 +115,6 @@ const imgArray = ref([
     icon: bank1010
   }
 ])
-
-const handleSearch = () => {
-  paginationData.currentPage === 1 ? getFinanceData() : (paginationData.currentPage = 1)
-}
 
 /** 监听分页参数的变化 */
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getFinanceData, { immediate: true })

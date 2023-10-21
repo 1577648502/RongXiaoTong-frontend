@@ -1,6 +1,5 @@
 import { request } from "@/utils/service"
 import type * as Login from "./types/login"
-import { LoginResponseData } from "./types/login"
 
 /** 获取登录验证码 */
 export function getLoginCodeApi() {
@@ -26,15 +25,30 @@ export function registerApi(data: Login.LoginRequestData) {
     data
   })
 }
+/** 注册 */
+export function modifyUserApi(data: Login.LoginRequestData) {
+  return request<Login.LoginResponseData>({
+    url: "user/modifyUser",
+    method: "post",
+    data
+  })
+}
 
 /** 获取用户详情 */
 export function getUserInfoApi() {
   return request<Login.UserInfoResponseData>({
-    url: "user/info",
+    url: `user/info/`,
     method: "get"
   })
 }
 
+/**注销 */
+export function logoutApi() {
+  return request<Login.UserInfoResponseData>({
+    url: `user/logout/`,
+    method: "get"
+  })
+}
 //
 // /** 查 */
 // export function getUserDataApi(data,params: Login.LoginResponseData) {
@@ -46,7 +60,7 @@ export function getUserInfoApi() {
 //   })
 // }
 /** 查 */
-export function getUserDataApi(data, params: Login.LoginResponseData) {
+export function getUserDataApi(data: Login.LoginResponseData, params: { size: number; current: number }) {
   return request<Login.LoginResponseData>({
     url: `user/getPageUser?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求

@@ -2,7 +2,7 @@ import { request } from "@/utils/service"
 import type * as Login from "./types/login"
 
 /** 登录并返回 Token */
-export function uploadApi(params) {
+export function uploadApi(params: any) {
   const formData = new FormData()
   formData.append("file", params.file)
   // axios的二次封装
@@ -13,23 +13,6 @@ export function uploadApi(params) {
       "Content-Type": "multipart/form-data"
     },
     data: formData
-  })
-}
-
-/** 注册 */
-export function modifyUserApi(data: Login.LoginRequestData) {
-  return request<Login.LoginResponseData>({
-    url: "user/modifyUser",
-    method: "post",
-    data
-  })
-}
-
-/** 获取用户详情 */
-export function getUserInfoApi() {
-  return request<Login.UserInfoResponseData>({
-    url: "user/info",
-    method: "get"
   })
 }
 
@@ -44,7 +27,7 @@ export function getUserInfoApi() {
 //   })
 // }
 /** 查 */
-export function getUserDataApi(data, params: Login.LoginResponseData) {
+export function getUserDataApi(data: Login.LoginResponseData, params: { size: number; current: number }) {
   return request<Login.LoginResponseData>({
     url: `user/getPageUser?size=${params.size}&current=${params.current}`,
     method: "post", // 使用POST请求
@@ -61,7 +44,7 @@ export function getUserImgApi(userName: Login.LoginResponseData) {
 }
 
 /** 改 */
-export function updateUserDataApi(data: Login.UpdateUserData) {
+export function updateUserDataApi(data: Login.LoginResponseData) {
   return request({
     url: "user/updateUser",
     method: "post",

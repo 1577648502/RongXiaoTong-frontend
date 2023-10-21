@@ -1,36 +1,48 @@
-export interface CreateOrderRequestData {
-  username: string
-  password: string
+export interface CreateShoppingCartRequestData {
+  shoppingId?: string
+  orderId: string
+  count?: number
+  ownName: string
+  createTime?: string
+  updateTime?: string
 }
 
-export interface UpdateOrderRequestData {
-  id: string
-  username: string
-  password?: string
-}
-
-export interface GetOrderRequestData {
-  /** 当前页码 */
-  currentPage: number
-  /** 查询条数 */
-  size: number
-  /** 查询参数：用户名 */
-  username?: string
-  /** 查询参数：手机号 */
-  phone?: string
-}
-
-export interface GetOrderData {
+export interface UpdateShoppingCartRequestData {
+  shoppingId: string
+  orderId: string
+  count: number
+  ownName: string
   createTime: string
-  email: string
-  id: string
-  phone: string
-  roles: string
-  status: boolean
-  username: string
+  updateTime: string
 }
 
-export type GetOrderResponseData = ApiResponseData<{
-  list: GetOrderData[]
+export interface GetShoppingCartRequestData {
+  shoppingId: string
+  orderId: string
+  count: number
+  ownName: string
+  createTime: string
+  updateTime: string
+}
+
+export interface GetShoppingCartData {
+  shoppingId: string
+  orderId: string
+  count: number
+  ownName: string
+  createTime: string
+  updateTime: string
+}
+
+export type GetShoppingCartResponseData = ApiResponseData<{
+  records: object[]
   total: number
+  size: number
+  current: number
+  orders: []
+  optimizeCountSql: boolean
+  searchCount: boolean
+  maxLimit: null
+  countId: null
+  pages: number
 }>
