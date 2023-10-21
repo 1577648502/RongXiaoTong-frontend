@@ -31,12 +31,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from "vue"
+import { ref } from "vue"
 import { ElMessage } from "element-plus"
 import router from "@/router"
 import { useUserStore } from "@/store/modules/user"
 import { createReserveDataApi } from "@/api/reserve"
-const reserveData = ref({})
+
+const reserveData = ref<any>({})
 const expertName = router.currentRoute.value.params.expertName
 const userName = useUserStore().username
 const rules = ref({
@@ -53,7 +54,7 @@ const onSubmit = () => {
   reserveData.value.questioner = userName
   reserveData.value.status = 0
   createReserveDataApi(reserveData.value)
-    .then((res) => {
+    .then((res: any) => {
       reserveData.value = res.data
       ElMessage.success("提问成功！")
       router.push("/guide").catch((err) => err)

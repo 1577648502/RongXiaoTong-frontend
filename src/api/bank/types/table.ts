@@ -32,13 +32,13 @@ export interface GetBankRequestData {
 }
 
 export interface GetBankData {
-  bankId: number
-  bankName: string
-  introduce: string
-  bankPhone: string
-  money: number
-  rate: number
-  repayment: number
+  bankId?: number
+  bankName?: string
+  introduce?: string
+  bankPhone?: string
+  money?: number
+  rate?: number
+  repayment?: number
 }
 
 export type GetBankResponseData = ApiResponseData<{

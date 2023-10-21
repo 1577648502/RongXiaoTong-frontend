@@ -8,12 +8,8 @@ import {
   getKnowledgeDataApi,
   updateKnowledgeDataApi
 } from "@/api/knowledge"
-import { GetTableData } from "@/api/table/types/table"
 import { uploadApi } from "@/api/user"
 import { CirclePlus, Delete, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
-import * as Knowledge from "@/api/knowledge/types/table"
-import {CreateKnowledgeRequestData, UpdateKnowledgeRequestData} from "@/api/knowledge/types/table";
-import {a} from "vitest/dist/reporters-cb94c88b";
 
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
@@ -22,7 +18,7 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 const dialogVisible = ref<boolean>(false)
 const knowledgeIds = ref<string[]>([])
 const formRef = ref<FormInstance | null>(null)
-const knowledgeData = ref<Knowledge.GetKnowledgeData>()
+const knowledgeData = ref<any>()
 const formData = reactive({
   userName: "",
   password: ""
@@ -37,7 +33,7 @@ const handleCreate = () => {
   formRef.value?.validate((valid: boolean, fields) => {
     if (valid) {
       if (currentUpdateId.value === undefined) {
-        createKnowledgeDataApi(<CreateKnowledgeRequestData>knowledgeData.value)
+        createKnowledgeDataApi(knowledgeData.value)
           .then(() => {
             ElMessage.success("新增成功")
             getTableData()
@@ -46,7 +42,7 @@ const handleCreate = () => {
             dialogVisible.value = false
           })
       } else {
-        updateKnowledgeDataApi(<UpdateKnowledgeRequestData>knowledgeData.value)
+        updateKnowledgeDataApi(knowledgeData.value)
           .then(() => {
             ElMessage.success("修改成功")
             getTableData()
@@ -67,9 +63,9 @@ const resetForm = () => {
 }
 //#endregion
 
-const handleShopSelectionChange = (val:any) => {
+const handleShopSelectionChange = (val: any) => {
   console.log(val)
-  knowledgeIds.value = val.filter((item:any) => item.knowledgeId !== undefined).map((item:any) => item.knowledgeId)
+  knowledgeIds.value = val.filter((item: any) => item.knowledgeId !== undefined).map((item: any) => item.knowledgeId)
 }
 
 const deleteKnowledges = () => {
@@ -113,9 +109,9 @@ const handleUpdate = (row: any) => {
 //#endregion
 
 //#region 查
-const tableData = ref<Knowledge.GetKnowledgeResponseData[] | null>([])
-const searchFormRef = ref<FormInstance | null>(null)
-const searchData = ref<Knowledge.GetKnowledgeData | null>()
+const tableData = ref<any>([])
+const searchFormRef = ref<any>()
+const searchData = ref<any>([])
 const getTableData = () => {
   loading.value = true
   getKnowledgeDataApi(searchData.value, {
@@ -151,11 +147,11 @@ const addKnowledge = () => {
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 
 const imageUrl = ref("")
-const handleHttpRequest = (params:any) => {
+const handleHttpRequest = (params: any): any => {
   uploadApi(params)
-    .then((res) => {
+    .then((res: any) => {
       ElMessage({ type: "success", message: "上传成功" })
-      params.onSuccess(res?.data.url)
+      params.onSuccess(res.data.url)
     })
     .catch(() => {
       ElMessage({ type: "error", message: "上传失败" })

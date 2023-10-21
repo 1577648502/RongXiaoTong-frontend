@@ -2,7 +2,7 @@ import { request } from "@/utils/service"
 import type * as ShoppingCart from "./types/table"
 
 /** 增 */
-export function createShoppingCartDataApi(data: ShoppingCart.CreateShoppingCartRequestData) {
+export function createShoppingCartDataApi(data: any) {
   return request({
     url: "shoppingCart/addShoppingCart",
     method: "post",

@@ -37,9 +37,9 @@ export function getOrderDataApi(data: Order.GetOrderData, params: { size: number
   })
 }
 /** 查 */
-export function getOrderInfoApi(params: { id: number }) {
+export function getOrderInfoApi(params: any) {
   return request<Order.GetOrderData>({
-    url: `order/getOrderInfo?orderId=${params.id}`,
+    url: `order/getOrderInfo?orderId=${params.orderId}`,
     method: "get" // 使用POST请求
   })
 }

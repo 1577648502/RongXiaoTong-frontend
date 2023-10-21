@@ -1,33 +1,37 @@
 export interface CreateShoppingCartRequestData {
-  username: string
-  password: string
+  shoppingId?: string
+  orderId: string
+  count?: number
+  ownName: string
+  createTime?: string
+  updateTime?: string
 }
 
 export interface UpdateShoppingCartRequestData {
-  id: string
-  username: string
-  password?: string
+  shoppingId: string
+  orderId: string
+  count: number
+  ownName: string
+  createTime: string
+  updateTime: string
 }
 
 export interface GetShoppingCartRequestData {
-  /** 当前页码 */
-  currentPage: number
-  /** 查询条数 */
-  size: number
-  /** 查询参数：用户名 */
-  username?: string
-  /** 查询参数：手机号 */
-  phone?: string
+  shoppingId: string
+  orderId: string
+  count: number
+  ownName: string
+  createTime: string
+  updateTime: string
 }
 
 export interface GetShoppingCartData {
+  shoppingId: string
+  orderId: string
+  count: number
+  ownName: string
   createTime: string
-  email: string
-  id: string
-  phone: string
-  roles: string
-  status: boolean
-  username: string
+  updateTime: string
 }
 
 export type GetShoppingCartResponseData = ApiResponseData<{

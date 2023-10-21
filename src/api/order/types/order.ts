@@ -21,20 +21,20 @@ export interface GetOrderRequestData {
 }
 
 export interface GetOrderData {
-  orderId: number
-  title: string
-  price: number
-  content: string
-  orderStatus: number
-  type: string
-  picture: string
-  ownName: string
-  cooperationName: null
-  createTime: string
-  updateTime: string
-  address: null
-  version: null
-  isDelete: number
+  orderId?: number
+  title?: string
+  price?: number
+  content?: string
+  orderStatus?: number
+  type?: string
+  picture?: string
+  ownName?: string
+  cooperationName?: null
+  createTime: number
+  updateTime: number
+  address?: null
+  version?: null
+  isDelete?: number
 }
 
 export type GetOrderResponseData = ApiResponseData<{

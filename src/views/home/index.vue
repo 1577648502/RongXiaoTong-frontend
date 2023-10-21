@@ -15,32 +15,34 @@
         <a class="tag-item">新疆哈密瓜</a>
         <a class="tag-item">樱桃</a>
       </div>
-      <el-row v-for="order in orderData">
-        <el-col @click="toGoodsInfo(order.orderId)">
-          <el-card style="margin-top: 20px">
-            <el-row>
-              <el-col :span="4">
-                <img style="width: 200px" :src="order.picture" class="image" />
-              </el-col>
-              <el-col :span="14" style="padding: 15px">
-                <div style="padding: 14px">
-                  <span>{{ order.title }}</span>
-                </div>
-                <div style="padding: 14px; font-size: 19px">
-                  <span style="color: red">￥{{ order.price }}</span>
-                </div>
-                <div style="padding: 14px">
-                  <span
-                    >{{ order.ownName }}|{{
-                      new Date(order.createTime).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })
-                    }}</span
-                  >
-                </div>
-              </el-col>
-            </el-row>
-          </el-card>
-        </el-col>
-      </el-row>
+      <el-card v-for="order in orderData" :key="order.orderId">
+        <el-row>
+          <el-col @click="toGoodsInfo(order.orderId)">
+            <el-card style="margin-top: 20px">
+              <el-row>
+                <el-col :span="4">
+                  <img style="width: 200px" :src="order.picture" class="image" />
+                </el-col>
+                <el-col :span="14" style="padding: 15px">
+                  <div style="padding: 14px">
+                    <span>{{ order.title }}</span>
+                  </div>
+                  <div style="padding: 14px; font-size: 19px">
+                    <span style="color: red">￥{{ order.price }}</span>
+                  </div>
+                  <div style="padding: 14px">
+                    <span
+                      >{{ order.ownName }}|{{
+                        new Date(order.createTime).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })
+                      }}</span
+                    >
+                  </div>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-card>
       <el-divider />
       <div class="pager-wrapper">
         <el-pagination
@@ -63,12 +65,11 @@ import { Search } from "@element-plus/icons-vue"
 import { getOrderDataApi } from "@/api/order"
 import { usePagination } from "@/hooks/usePagination"
 import router from "@/router"
-import * as Order from "@/api/order/types/table"
 
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const loading = ref<boolean>(false)
-const orderData = ref<Order.GetOrderData>([])
-const searchData = ref<Order.GetOrderData>({})
+const orderData = ref<any[]>()
+const searchData = ref<any>({})
 const getOrderData = () => {
   loading.value = true
   getOrderDataApi(searchData.value, {

@@ -15,7 +15,7 @@
         <a class="tag-item">新疆哈密瓜</a>
         <a class="tag-item">樱桃</a>
       </div>
-      <el-row v-for="order in orderData">
+      <el-row v-for="order in orderData" :key="order.orderId">
         <el-col @click="toGoodsInfo(order.orderId)">
           <el-card style="margin-top: 20px">
             <el-row>

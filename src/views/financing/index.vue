@@ -39,10 +39,10 @@ import * as Bank from "@/api/bank/types/table"
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 const loading = ref(false)
-const financeData = ref([])
-const searchData = ref<Bank.GetBankData>()
+const financeData = ref<any>([])
+const searchData = ref<Bank.GetBankData>({})
 
-const DetailBtn = (item) => {
+const DetailBtn = (item: any) => {
   router.push("/financingDetails/" + item.bankId)
 }
 
@@ -52,11 +52,11 @@ const getFinanceData = (): any => {
     size: paginationData.pageSize,
     current: paginationData.currentPage
   })
-    .then((res) => {
+    .then((res: any) => {
       financeData.value = res.data.records
       paginationData.total = res.data.total
 
-      financeData.value.forEach((item) => {
+      financeData.value.forEach((item: any) => {
         imgArray.value.forEach((img) => {
           if (item.bankId == img.id) {
             item.icon = img.icon
@@ -115,10 +115,6 @@ const imgArray = ref([
     icon: bank1010
   }
 ])
-
-const handleSearch = () => {
-  paginationData.currentPage === 1 ? getFinanceData() : (paginationData.currentPage = 1)
-}
 
 /** 监听分页参数的变化 */
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getFinanceData, { immediate: true })

@@ -10,10 +10,6 @@ const Layouts = () => import("@/layouts/index.vue")
  */
 export const constantRoutes: RouteRecordRaw[] = [
   {
-    path: "/test",
-    component: () => import("@/views/test.vue")
-  },
-  {
     path: "/redirect",
     component: Layouts,
     meta: {

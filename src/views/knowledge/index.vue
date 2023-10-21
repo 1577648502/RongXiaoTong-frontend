@@ -16,7 +16,12 @@
         <a class="tag-item">樱桃</a>
       </div>
       <el-row :gutter="20">
-        <el-col v-for="knowledge in knowledgeData" :span="12" @click="toKnowledgeInfo(knowledge.knowledgeId)">
+        <el-col
+          v-for="knowledge in knowledgeData"
+          :key="knowledge.title"
+          :span="12"
+          @click="toKnowledgeInfo(knowledge.knowledgeId)"
+        >
           <el-card style="margin-top: 20px">
             <el-row :gutter="20">
               <el-col :span="8">
