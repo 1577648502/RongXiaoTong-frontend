@@ -6,7 +6,7 @@ export interface CreateFinancingIntentionRequestData {
   amount: number
   application: string
   item: string
-  repaymentPeriod: number
+  repaymentPeriod: string
   area: number
   phone: string
   createTime: string
@@ -21,7 +21,7 @@ export interface UpdateFinancingIntentionRequestData {
   amount: number
   application: string
   item: string
-  repaymentPeriod: number
+  repaymentPeriod: string
   area: number
   phone: string
   createTime: string
@@ -36,7 +36,7 @@ export interface GetFinancingIntentionRequestData {
   amount: number
   application: string
   item: string
-  repaymentPeriod: number
+  repaymentPeriod: string
   area: number
   phone: string
   createTime: string
@@ -51,7 +51,7 @@ export interface GetFinancingIntentionData {
   amount: number
   application: string
   item: string
-  repaymentPeriod: number
+  repaymentPeriod: string
   area: number
   phone: string
   createTime: string

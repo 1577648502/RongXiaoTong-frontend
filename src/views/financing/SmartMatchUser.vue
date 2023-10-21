@@ -60,7 +60,7 @@
         </el-form-item>
       </el-form>
 
-      <span slot="footer" class="dialog-footer">
+      <span class="dialog-footer">
         <el-button @click="closeAdd">取 消</el-button>
         <el-button type="success" @click="updateIntention">确 定</el-button>
       </span>
@@ -72,35 +72,25 @@
     </div>
 
     <div class="goods-box">
-      <div
-        class="goods"
-        v-for="(item, index) in allRecommendData"
-        :key="index"
-        @click="detailsClick(item.userName)"
-        :style="'margin-right:10px;'"
-      >
+      <div class="goods" v-for="(item, index) in allRecommendData" :key="index" :style="'margin-right:10px;'">
         <img class="goods-img" v-if="item.avatar" :src="item.avatar" alt="" />
         <img class="goods-img" v-else src="@/assets/img/wutu.gif" style="border: 1px solid #f2f2f2" />
 
         <div class="info" style="margin-top: 80px">
-          <span class="initiator1" @click="detailsClick(item.userName)">姓名：{{ item.realName }}</span
+          <span class="initiator1">姓名：{{ item.realName }}</span
           ><br />
-          <span class="initiator2" @click="detailsClick(item.userName)">联系方式：{{ item.phone }}</span
+          <span class="initiator2">联系方式：{{ item.phone }}</span
           ><br />
-          <span class="initiator3" @click="detailsClick(item.userName)">地址：{{ item.address }}</span
+          <span class="initiator3">地址：{{ item.address }}</span
           ><br />
-          <span class="initiator4" @click="detailsClick(item.userName)">农作物：{{ item.item }}</span
+          <span class="initiator4">农作物：{{ item.item }}</span
           ><br />
-          <span class="initiator4" @click="detailsClick(item.userName)" v-if="item.amount != -1"
-            >金额：{{ item.amount }}元</span
-          >
-          <span class="initiator4" @click="detailsClick(item.userName)" v-else>金额：- 元</span><br />
+          <span class="initiator4" v-if="item.amount != -1">金额：{{ item.amount }}元</span>
+          <span class="initiator4" v-else>金额：- 元</span><br />
           <!-- <span v-if="item.amount!=-1">金额：{{ item.amount }}元</span>
           <span v-else>金额：-元</span><br /> -->
-          <span class="initiator4" @click="detailsClick(item.userName)" v-if="item.area != -1"
-            >种植面积：{{ item.area }} 亩</span
-          >
-          <span class="initiator4" @click="detailsClick(item.userName)" v-else>种植面积：- 亩</span>
+          <span class="initiator4" v-if="item.area != -1">种植面积：{{ item.area }} 亩</span>
+          <span class="initiator4" v-else>种植面积：- 亩</span>
         </div>
       </div>
     </div>
@@ -108,7 +98,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, onUnmounted, computed } from "vue"
+import { onMounted, ref } from "vue"
 import { ElMessage, ElMessageBox } from "element-plus"
 import {
   createFinancingIntentionDataApi,
@@ -120,7 +110,7 @@ import { usePagination } from "@/hooks/usePagination"
 import { useUserStore } from "@/store/modules/user"
 import { getUserImgApi } from "@/api/user"
 
-const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
+const { paginationData } = usePagination()
 const options = ref([
   {
     value: 6,
@@ -140,7 +130,7 @@ const options = ref([
   }
 ])
 const value = ref("")
-const intentionData = ref({
+const intentionData = ref<any>({
   realName: "",
   amount: "",
   application: "",
@@ -150,11 +140,11 @@ const intentionData = ref({
   area: "",
   phone: ""
 })
-const allIntentionData = ref([])
-const allRecommendData = ref([])
-const showAdd = ref(false)
-const look = ref(false)
-const title = ref("添加融资意向")
+const allIntentionData = ref<any>([])
+const allRecommendData = ref<any>()
+const showAdd = ref<any>(false)
+const look = ref<any>(false)
+const title = ref<any>("添加融资意向")
 const getAllRecommned = () => {
   getFinancingIntentionDataApi(
     {},
@@ -163,10 +153,10 @@ const getAllRecommned = () => {
       current: paginationData.currentPage
     }
   )
-    .then((res) => {
+    .then((res: any) => {
       console.log("ressss", res)
       allRecommendData.value = res.data.records
-      allRecommendData.value.forEach((res) => {
+      allRecommendData.value.forEach((res: any) => {
         getUserImgApi(res.userName).then((r) => {
           res.avatar = r.data
         })
@@ -231,10 +221,10 @@ const updateIntention = () => {
     return
   }
   if (title.value === "编辑意向") {
-    updateFinancingIntentionDataApi({ ...intentionData.value, repaymentPeriod: value.value }).then((res) => {
+    updateFinancingIntentionDataApi({ ...intentionData.value, repaymentPeriod: value.value }).then((res: any) => {
       if (res.code == 200) {
         getAllIntention()
-        ElMessage.success(res.message)
+        ElMessage.success(res.data)
         showAdd.value = false
         getAllRecommned()
       } else {
@@ -252,10 +242,10 @@ const updateIntention = () => {
       address: intentionData.value.address,
       area: intentionData.value.area,
       phone: intentionData.value.phone
-    }).then((res) => {
+    }).then((res: any) => {
       if (res.code == 200) {
         getAllIntention()
-        ElMessage.success(res.message)
+        ElMessage.success(res.data)
         getAllRecommned()
         showAdd.value = false
       } else {
@@ -265,14 +255,14 @@ const updateIntention = () => {
     })
   }
 }
-const handleEdit = (item) => {
+const handleEdit = (item: any) => {
   console.log(item)
   showAdd.value = true
   title.value = "编辑意向"
   intentionData.value = item
   value.value = item.repaymentPeriod
 }
-const handleDel = (item) => {
+const handleDel = (item: any) => {
   ElMessageBox.confirm("确认删除该信息?", "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消"
@@ -280,7 +270,7 @@ const handleDel = (item) => {
   })
     .then(() => {
       deleteFinancingIntentionDataApi(item.id)
-        .then((res) => {
+        .then((res: any) => {
           if (res.code == 200) {
             // reload();
             getAllIntention()
@@ -293,10 +283,10 @@ const handleDel = (item) => {
 
             // $router.push("/home/smartMatch").catch((err) => err);
           } else {
-            ElMessage({ type: "error", message: res.message })
+            ElMessage({ type: "error", message: res.data })
           }
         })
-        .catch((err) => {
+        .catch(() => {
           ElMessage({
             type: "error",
             message: "删除失败!"

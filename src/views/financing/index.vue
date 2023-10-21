@@ -40,7 +40,7 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 
 const loading = ref(false)
 const financeData = ref([])
-const searchData = ref<Bank.GetBankData>({})
+const searchData = ref<Bank.GetBankData>()
 
 const DetailBtn = (item) => {
   router.push("/financingDetails/" + item.bankId)

@@ -36,7 +36,7 @@ export function getBankDataApi(data: Bank.GetBankData, params: { size: number; c
   })
 }
 /** 查 */
-export function getBankInfoApi(params: number) {
+export function getBankInfoApi(params: string) {
   return request<Bank.GetBankResponseData>({
     url: `bank/getBankInfo?bankId=${params}`,
     method: "get" // 使用POST请求

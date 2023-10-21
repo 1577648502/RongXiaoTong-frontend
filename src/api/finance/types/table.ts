@@ -1,6 +1,6 @@
 export interface CreateFinanceRequestData {
   financeId: number
-  bankId: number
+  bankId: string
   ownName: string
   realName: string
   phone: string
@@ -9,7 +9,7 @@ export interface CreateFinanceRequestData {
   remark: null
   money: number
   rate: number
-  repayment: number
+  repayment: string
   createTime: string
   updateTime: string
   combinationName1: null
@@ -23,7 +23,7 @@ export interface CreateFinanceRequestData {
 
 export interface UpdateFinanceRequestData {
   financeId: number
-  bankId: number
+  bankId: string
   ownName: string
   realName: string
   phone: string
@@ -32,7 +32,7 @@ export interface UpdateFinanceRequestData {
   remark: null
   money: number
   rate: number
-  repayment: number
+  repayment: string
   createTime: string
   updateTime: string
   combinationName1: null
@@ -46,7 +46,7 @@ export interface UpdateFinanceRequestData {
 
 export interface GetFinanceRequestData {
   financeId: number
-  bankId: number
+  bankId: string
   ownName: string
   realName: string
   phone: string
@@ -55,7 +55,7 @@ export interface GetFinanceRequestData {
   remark: null
   money: number
   rate: number
-  repayment: number
+  repayment: string
   createTime: string
   updateTime: string
   combinationName1: null
@@ -67,9 +67,9 @@ export interface GetFinanceRequestData {
   fileInfo: string
 }
 
-export interface GetOrderData {
+export interface GetFinanceData {
   financeId: number
-  bankId: number
+  bankId: string
   ownName: string
   realName: string
   phone: string
@@ -78,7 +78,7 @@ export interface GetOrderData {
   remark: null
   money: number
   rate: number
-  repayment: number
+  repayment: string
   createTime: string
   updateTime: string
   combinationName1: null
@@ -89,16 +89,16 @@ export interface GetOrderData {
   combinationIdnum2: null
   fileInfo: string
 }
+// export type GetFinanceResponseData = {
+//   code: number
+//   msg: null
+//   data: GetFinanceData[]
+//   map: object
+// }
 
 export type GetFinanceResponseData = ApiResponseData<{
-  records: object[]
-  total: number
-  size: number
-  current: number
-  orders: []
-  optimizeCountSql: boolean
-  searchCount: boolean
-  maxLimit: null
-  countId: null
-  pages: number
+  code: number
+  msg: null
+  data: GetFinanceData[]
+  map: object
 }>

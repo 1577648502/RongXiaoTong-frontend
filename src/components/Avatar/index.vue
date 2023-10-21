@@ -9,8 +9,8 @@ const imageUrl = ref("")
 const props = defineProps<{ name: string }>()
 imageUrl.value = props.name
 
-const handleHttpRequest = (params: any) => {
-  uploadApi(params)
+const handleHttpRequest = (params: any): Promise<any> => {
+  return uploadApi(params)
     .then((res: any) => {
       ElMessage({ type: "success", message: "上传成功" })
       // userinfo.avatar.value = res.data

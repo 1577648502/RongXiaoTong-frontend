@@ -19,7 +19,7 @@ export interface UpdateBankRequestData {
 }
 
 export interface GetBankRequestData {
-  records: object[]
+  records: GetBankData[]
   total: number
   size: number
   current: number
@@ -42,6 +42,8 @@ export interface GetBankData {
 }
 
 export type GetBankResponseData = ApiResponseData<{
-  list: GetBankData[]
-  total: number
+  code: number
+  msg: null
+  data: GetBankData[]
+  map: object
 }>
