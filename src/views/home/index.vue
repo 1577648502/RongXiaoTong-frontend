@@ -69,7 +69,7 @@ import router from "@/router"
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const loading = ref<boolean>(false)
 const orderData = ref<any[]>()
-const searchData = ref<any>({})
+const searchData = ref<any>({ ownName: "" })
 const getOrderData = () => {
   loading.value = true
   getOrderDataApi(searchData.value, {

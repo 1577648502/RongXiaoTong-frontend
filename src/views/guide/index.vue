@@ -14,7 +14,7 @@ const userStore = useUserStore()
 const loading = ref(true)
 const expertData = ref([])
 const questionData = ref([])
-const searchData = ref({})
+const searchData = ref({ title: "" })
 onBeforeMount(() => {
   getExpertData()
   getQuestionData()
