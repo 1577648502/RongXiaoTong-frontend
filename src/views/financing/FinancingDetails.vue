@@ -54,7 +54,7 @@
           </el-upload>
         </el-form-item>
       </el-form>
-      <span  class="dialog-footer">
+      <span class="dialog-footer">
         <el-button @click="closeIndividual">取 消</el-button>
         <el-button type="success" @click="handleApplyOne">申请</el-button>
       </span>
@@ -129,7 +129,7 @@
           </el-upload>
         </el-form-item>
       </el-form>
-      <span  class="dialog-footer">
+      <span class="dialog-footer">
         <el-button @click="closeCombination">取 消</el-button>
         <el-button type="success" @click="handleApplyMulti">申请</el-button>
       </span>
@@ -216,7 +216,6 @@ const individual = () => {
     showIndividual.value = true
     showCombination.value = false
     if (res.code == 200) {
-
     } else {
       ElMessage.error(res.data)
     }
@@ -227,7 +226,7 @@ const select = () => {
     if (res.code == 200) {
       FinaceUserDetails.value = res.data
       console.log(res.data)
-      if (res.data!=null) {
+      if (res.data != null) {
         Already.value = true
       }
       FinaceUserDetails.value = { ...res.data, ...BankInfoData.value }
@@ -244,7 +243,6 @@ const combination = () => {
     showCombination.value = true
     showIndividual.value = false
     if (res.code == 200) {
-
     } else {
       ElMessage.error(res.data)
     }

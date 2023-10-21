@@ -6,7 +6,7 @@ import { CirclePlus, Delete, Download, Plus, Refresh, RefreshRight, Search } fro
 import { usePagination } from "@/hooks/usePagination"
 import { createOrderDataApi, deleteOrderDataApi, getOrderDataApi, updateOrderDataApi } from "@/api/order"
 import { uploadApi } from "@/api/user"
-import * as Order from "@/api/order/types/table";
+import * as Order from "@/api/order/types/table"
 
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()

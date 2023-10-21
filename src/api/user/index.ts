@@ -16,7 +16,6 @@ export function uploadApi(params: any) {
   })
 }
 
-
 //
 // /** 查 */
 // export function getUserDataApi(data,params: Login.LoginResponseData) {

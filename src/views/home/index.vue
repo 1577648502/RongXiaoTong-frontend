@@ -63,7 +63,7 @@ import { Search } from "@element-plus/icons-vue"
 import { getOrderDataApi } from "@/api/order"
 import { usePagination } from "@/hooks/usePagination"
 import router from "@/router"
-import * as Order from "@/api/order/types/table";
+import * as Order from "@/api/order/types/table"
 
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const loading = ref<boolean>(false)

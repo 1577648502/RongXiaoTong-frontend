@@ -1,6 +1,5 @@
 import { request } from "@/utils/service"
 import type * as Question from "./types/table"
-import {CreateQuestionRequestData} from "./types/table";
 
 /** 增 */
 export function createQuestionDataApi(data: Question.CreateQuestionRequestData) {

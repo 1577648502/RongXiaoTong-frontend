@@ -30,7 +30,6 @@
     "axios": "1.5.0",
     "dayjs": "1.11.10",
     "element-plus": "2.3.14",
-    "esbuild-darwin-arm64": "^0.15.18",
     "js-cookie": "3.0.5",
     "lodash-es": "4.17.21",
     "mitt": "3.0.1",

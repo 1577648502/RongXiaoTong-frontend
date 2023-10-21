@@ -1,6 +1,3 @@
-import { n } from "vitest/dist/reporters-cb94c88b"
-import * as timers from "timers";
-
 export interface CreateOrderRequestData {
   username: string
   password: string

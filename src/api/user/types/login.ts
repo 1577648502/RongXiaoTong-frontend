@@ -1,5 +1,3 @@
-import { n } from "vitest/dist/reporters-cb94c88b"
-
 export interface LoginRequestData {
   /** admin 或 editor */
   userName: "admin" | "editor"

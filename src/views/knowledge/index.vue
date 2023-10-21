@@ -68,7 +68,7 @@ import { Search } from "@element-plus/icons-vue"
 import { getKnowledgeDataApi } from "@/api/knowledge"
 import { usePagination } from "@/hooks/usePagination"
 import router from "@/router"
-import * as Knowledge from "@/api/knowledge/types/table";
+import * as Knowledge from "@/api/knowledge/types/table"
 
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const loading = ref<boolean>(false)

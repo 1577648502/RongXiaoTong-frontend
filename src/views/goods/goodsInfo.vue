@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {onBeforeMount, ref} from "vue"
-import {getOrderInfoApi} from "@/api/order"
+import { onBeforeMount, ref } from "vue"
+import { getOrderInfoApi } from "@/api/order"
 import router from "@/router"
-import {createShoppingCartDataApi} from "@/api/shopCart"
-import {ElMessage} from "element-plus"
-import {useUserStore} from "@/store/modules/user"
+import { createShoppingCartDataApi } from "@/api/shopCart"
+import { ElMessage } from "element-plus"
+import { useUserStore } from "@/store/modules/user"
 
 const loading = ref<boolean>(false)
 const orderId = router.currentRoute.value.params.orderId
@@ -70,7 +70,7 @@ const changeInfo = (item) => {
   <div class="details-box">
     <el-row v-loading="loading">
       <el-col :span="8" :offset="4">
-        <img :src="data.picture" alt=""/>
+        <img :src="data.picture" alt="" />
       </el-col>
       <el-col :span="8" :offset="4">
         <div class="info">
@@ -79,19 +79,19 @@ const changeInfo = (item) => {
           <span class="price">￥{{ data.price }}</span>
           <div class="time">
             <span style="margin-right: 30px"
-            >发布时间：{{ new Date(data.createTime).toLocaleString("zh-CN", {timeZone: "Asia/Shanghai"}) }}</span
+              >发布时间：{{ new Date(data.createTime).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }) }}</span
             >
             <span
-            >最近修改时间：{{
-                new Date(data.updateTime).toLocaleString("zh-CN", {timeZone: "Asia/Shanghai"})
+              >最近修改时间：{{
+                new Date(data.updateTime).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })
               }}</span
             >
           </div>
           <div class="item-style">
             <div class="operation">
-              <div class="operation-item"><img src="@/assets/img/good.png" class="operation-img" alt=""/> 点赞</div>
-              <div class="operation-item"><img src="@/assets/img/no-star.png" class="operation-img" alt=""/> 收藏</div>
-              <div class="operation-item"><img src="@/assets/img/fill-in.png" class="operation-img" alt=""/>评论</div>
+              <div class="operation-item"><img src="@/assets/img/good.png" class="operation-img" alt="" /> 点赞</div>
+              <div class="operation-item"><img src="@/assets/img/no-star.png" class="operation-img" alt="" /> 收藏</div>
+              <div class="operation-item"><img src="@/assets/img/fill-in.png" class="operation-img" alt="" />评论</div>
             </div>
             <div class="btn-content">
               <el-button type="danger" @click="addShopcartClick" v-show="data.type === '1'">加入购物车</el-button>
@@ -109,15 +109,14 @@ const changeInfo = (item) => {
                   </div>
                   <div class="item-sales">
                     更新时间：<span class="sales-text">{{
-                      new Date(data.updateTime).toLocaleString("zh-CN", {timeZone: "Asia/Shanghai"})
+                      new Date(data.updateTime).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })
                     }}</span>
                   </div>
                 </div>
                 <template #reference>
                   <el-button type="danger" @click="changeInfo(item.orderId)" v-show="data.type === '2'"
-                  >联系买家
-                  </el-button
-                  >
+                    >联系买家
+                  </el-button>
                 </template>
               </el-popover>
             </div>

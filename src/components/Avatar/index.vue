@@ -3,17 +3,18 @@ import { Plus } from "@element-plus/icons-vue"
 import { uploadApi } from "@/api/user"
 import { ElMessage, UploadProps } from "element-plus"
 import { ref } from "vue"
+
 const imageUrl = ref("")
 
-const props = defineProps()
+const props = defineProps<{ name: string }>()
 imageUrl.value = props.name
 
-const handleHttpRequest = (params) => {
+const handleHttpRequest = (params: any) => {
   uploadApi(params)
-    .then((res) => {
+    .then((res: any) => {
       ElMessage({ type: "success", message: "上传成功" })
       // userinfo.avatar.value = res.data
-      params.onSuccess(res.data.url)
+      params.onSuccess(res?.data.url)
     })
     .catch(() => {
       ElMessage({ type: "error", message: "上传失败" })
