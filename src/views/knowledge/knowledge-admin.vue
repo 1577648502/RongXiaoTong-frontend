@@ -111,7 +111,7 @@ const handleUpdate = (row: any) => {
 //#region 查
 const tableData = ref<any>([])
 const searchFormRef = ref<any>()
-const searchData = ref<any>([])
+const searchData = ref<any>({ ownName: "", title: "", content: "" })
 const getTableData = () => {
   loading.value = true
   getKnowledgeDataApi(searchData.value, {

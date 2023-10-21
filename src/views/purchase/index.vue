@@ -68,7 +68,7 @@ import * as Order from "@/api/order/types/table"
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const loading = ref<boolean>(false)
 const orderData = ref<Order.GetOrderData>([])
-const searchData = ref<Order.GetOrderData>({})
+const searchData = ref<Order.GetOrderData>({ ownName: "" })
 const getOrderData = () => {
   loading.value = true
   getOrderDataApi(searchData.value, {

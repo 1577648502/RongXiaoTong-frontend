@@ -78,7 +78,7 @@ import * as Knowledge from "@/api/knowledge/types/table"
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const loading = ref<boolean>(false)
 const knowledgeData = ref([])
-const searchData = ref<Knowledge.GetKnowledgeData>({})
+const searchData = ref<Knowledge.GetKnowledgeData>({ ownName: "", title: "", content: "" })
 const getKnowledgeData = () => {
   loading.value = true
   getKnowledgeDataApi(searchData.value, {

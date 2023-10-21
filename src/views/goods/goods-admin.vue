@@ -108,10 +108,10 @@ const handleUpdate = (row: GetTableData) => {
 //#region 查
 const tableData = ref<Order.GetOrderData>([])
 const searchFormRef = ref<FormInstance | null>(null)
-const searchData = reactive<Order.GetOrderData>({})
+const searchData = ref<any>({ ownName: "" })
 const getTableData = () => {
   loading.value = true
-  getOrderDataApi(searchData, {
+  getOrderDataApi(searchData.value, {
     size: paginationData.pageSize,
     current: paginationData.currentPage
   })
@@ -130,7 +130,7 @@ const handleSearch = () => {
   paginationData.currentPage === 1 ? getTableData() : (paginationData.currentPage = 1)
 }
 const resetSearch = () => {
-  searchFormRef.value?.resetFields()
+  searchData.value = { ownName: "" }
   handleSearch()
 }
 const addOrder = () => {
@@ -173,8 +173,8 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   <div class="app-container">
     <el-card v-loading="loading" shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="userName" label="用户名">
-          <el-input v-model="searchData.userName" placeholder="请输入" />
+        <el-form-item prop="ownName" label="用户名">
+          <el-input v-model="searchData.ownName" placeholder="请输入" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
