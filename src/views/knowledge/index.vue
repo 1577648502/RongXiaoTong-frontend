@@ -11,9 +11,9 @@
       </el-form>
       <div style="color: #696969; font-size: 12px; margin-top: 10px">
         热门搜索：
-        <a class="tag-item" @click="handleTopicDetail('苹果')">苹果</a>
-        <a class="tag-item" @click="handleTopicDetail('新疆哈密瓜')">新疆哈密瓜</a>
-        <a class="tag-item" @click="handleTopicDetail('樱桃')">樱桃</a>
+        <a class="tag-item">苹果</a>
+        <a class="tag-item">新疆哈密瓜</a>
+        <a class="tag-item">樱桃</a>
       </div>
       <el-row :gutter="20">
         <el-col v-for="knowledge in knowledgeData" :span="12" @click="toKnowledgeInfo(knowledge.knowledgeId)">
@@ -73,12 +73,10 @@ import * as Knowledge from "@/api/knowledge/types/table"
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const loading = ref<boolean>(false)
 const knowledgeData = ref([])
-const searchData = ref<Knowledge.GetKnowledgeData>({
-  ownName: ""
-})
+const searchData = ref<Knowledge.GetKnowledgeData>({})
 const getKnowledgeData = () => {
   loading.value = true
-  getKnowledgeDataApi(searchData, {
+  getKnowledgeDataApi(searchData.value, {
     size: paginationData.pageSize,
     current: paginationData.currentPage
   })
@@ -88,7 +86,7 @@ const getKnowledgeData = () => {
       loading.value = false
     })
     .catch(() => {
-      tableData.value = []
+      knowledgeData.value = []
     })
     .finally(() => {
       loading.value = false
