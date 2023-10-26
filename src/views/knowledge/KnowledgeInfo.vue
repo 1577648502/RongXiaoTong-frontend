@@ -68,7 +68,7 @@ onBeforeMount(() => {
 })
 const getKnowledgeData = () => {
   loading.value = true
-  getKnowledgeInfoApi(knowledgeId)
+  getKnowledgeInfoApi(knowledgeId.value)
     .then((res) => {
       knowledgeInfo.value = res.data
       loading.value = false
@@ -83,7 +83,7 @@ const getKnowledgeData = () => {
 // 查询评论
 const getCommentData = () => {
   getDiscussDataApi(
-    { knowledgeId: knowledgeId },
+    { knowledgeId: knowledgeId.value },
     {
       size: paginationData.pageSize,
       current: paginationData.currentPage
@@ -108,7 +108,7 @@ const handleComment = () => {
     ElMessage.error("评论内容不能为空！")
     return
   }
-  createDiscussDataApi({ content: content.value, knowledgeId: knowledgeId })
+  createDiscussDataApi({ content: content.value, knowledgeId: knowledgeId.value })
     .then(() => {
       content.value = ""
       ElMessage.success("评论成功！")

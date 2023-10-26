@@ -159,7 +159,7 @@ const handleHttpRequest = (params: any): any => {
     })
 }
 const handleAvatarSuccess: UploadProps["onSuccess"] = (response, uploadFile) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+  imageUrl.value = response
   knowledgeData.value.picPath = response
 }
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {

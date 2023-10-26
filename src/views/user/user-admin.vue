@@ -155,8 +155,8 @@ const handleHttpRequest = (params) => {
     })
 }
 const handleAvatarSuccess: UploadProps["onSuccess"] = (response, uploadFile) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-  userData.value.picture = response
+  imageUrl.value = response
+  userData.value.avatar = response
 }
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   if (rawFile.size / 1024 / 1024 > 2) {
